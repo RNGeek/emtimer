@@ -1,8 +1,16 @@
 <template>
-  <time-view :value="remainingTime" />
+  <div>
+    <div><input v-model.number="inputDuration_s" /></div>
+    <div>
+      <button v-if="!started" @click="start">開始</button>
+      <button v-else @click="stop">停止</button>
+    </div>
+    <time-view :value="remainingDuration_ms" />
+  </div>
 </template>
 
 <script>
+/* eslint-disable camelcase */
 import TimeView from './TimeView';
 
 const raf = window.requestAnimationFrame;
@@ -14,24 +22,43 @@ export default {
   },
   data() {
     return {
-      start: window.performance.now(),
-      now: 0,
-      time: 10 * 1000,
+      startTime_ms: 0,
+      nowTime_ms: 0,
+      duration_ms: 0,
+      started: false,
+      inputDuration_s: 10,
     };
   },
   computed: {
-    remainingTime() { return Math.max(this.time - (this.now - this.start), 0); },
+    remainingDuration_ms() { return Math.max(this.duration_ms - (this.nowTime_ms - this.startTime_ms), 0); },
   },
-  mounted: function () {
-    const cb = (timestamp) => {
-      if (this.remainingTime === 0) {
-        console.log('canceled!');
-        return;
-      }
-      this.now = timestamp;
-      raf(cb);
-    };
-    raf(cb);
+  methods: {
+    start() {
+      const initProps = () => {
+        this.startTime_ms = window.performance.now();
+        this.nowTime_ms = this.startTime_ms;
+        this.duration_ms = this.inputDuration_s * 1000;
+        this.started = true;
+      };
+      const startRAF = () => {
+        const cb = (timestamp_ms) => {
+          if (this.remainingDuration_ms === 0 || !this.started) {
+            this.started = false;
+            return;
+          }
+          this.nowTime_ms = timestamp_ms;
+          raf(cb);
+        };
+        raf(cb);
+      };
+
+      initProps();
+      startRAF();
+    },
+    stop() {
+      this.duration_ms = 0; // Clear props
+      this.started = false; // Stop RAF (Asynchronous)
+    },
   },
 };
 </script>
