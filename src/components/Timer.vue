@@ -9,6 +9,8 @@
 </template>
 
 <script>
+const raf = window.requestAnimationFrame;
+
 export default {
   name: 'timer',
   data() {
@@ -16,7 +18,6 @@ export default {
       start: window.performance.now(),
       now: 0,
       time: 10 * 1000,
-      rafId: 0,
     };
   },
   computed: {
@@ -34,9 +35,9 @@ export default {
         return;
       }
       this.now = timestamp;
-      this.rafId = window.requestAnimationFrame(cb);
+      raf(cb);
     };
-    this.rafId = window.requestAnimationFrame(cb);
+    raf(cb);
   },
   filters: {
     normalize(value) { return Math.max(value, 0); },
