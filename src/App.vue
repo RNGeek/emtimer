@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <timer />
+    <emtimer />
   </div>
 </template>
 
 <script>
-import Timer from './components/Timer';
+import Emtimer from './components/Emtimer';
 
 export default {
   name: 'app',
   components: {
-    Timer,
+    Emtimer,
   },
 };
 </script>

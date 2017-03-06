@@ -1,5 +1,5 @@
 <template>
-  <time-view :value="remain" />
+  <time-view :value="remainingTime" />
 </template>
 
 <script>
@@ -8,7 +8,7 @@ import TimeView from './TimeView';
 const raf = window.requestAnimationFrame;
 
 export default {
-  name: 'timer',
+  name: 'emtimer',
   components: {
     TimeView,
   },
@@ -20,11 +20,11 @@ export default {
     };
   },
   computed: {
-    remain() { return Math.max(this.time - (this.now - this.start), 0); },
+    remainingTime() { return Math.max(this.time - (this.now - this.start), 0); },
   },
   mounted: function () {
     const cb = (timestamp) => {
-      if (this.remain === 0) {
+      if (this.remainingTime === 0) {
         console.log('canceled!');
         return;
       }
