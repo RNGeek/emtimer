@@ -63,6 +63,9 @@ export default {
       this.duration_ms = 0; // Clear props
     },
   },
+  deactivated() {
+    this.stop();
+  },
 };
 </script>
 
