@@ -2,7 +2,7 @@
   <div @keyup.space.prevent="start" @keydown.space.prevent="stop">
     <div><input v-model.number="inputDuration_s" /></div>
     <div>
-      <button v-if="!started" @click="start">開始</button>
+      <button v-if="state !== 'started'" @click="start">開始</button>
       <button v-else @click="stop">停止</button>
       <button @click="resume">再開</button>
       <button @click="pause">一時停止</button>
@@ -25,29 +25,34 @@ export default {
   data() {
     return {
       remainingDuration_ms: 0,
-      started: false,
+      state: 'stopped',
       inputDuration_s: 10,
     };
   },
   methods: {
     startRAFLoop() {
       const cb = (newTimestamp_ms, oldTimestamp_ms) => {
-        if (this.remainingDuration_ms === 0 || !this.started) {
-          this.started = false;
-          return;
+        if (this.remainingDuration_ms === 0) {
+          this.stop();
+        } else if (this.state !== 'started') {
+          // Nothing
+        } else { // this.state === 'started'
+          this.remainingDuration_ms = Math.max(this.remainingDuration_ms - (newTimestamp_ms - oldTimestamp_ms), 0);
+          raf(timestamp_ms => cb(timestamp_ms, newTimestamp_ms));
         }
-        this.remainingDuration_ms = Math.max(this.remainingDuration_ms - (newTimestamp_ms - oldTimestamp_ms), 0);
-        raf(timestamp_ms => cb(timestamp_ms, newTimestamp_ms));
       };
-      this.started = true;
+      this.state = 'started';
       raf(timestamp_ms => cb(timestamp_ms, window.performance.now()));
     },
-    stopRADLoop() {
-      this.started = false;
+    stopRAFLoop() {
+      this.state = 'stopped';
+    },
+    pauseRAFLoop() {
+      this.state = 'paused';
     },
     start() {
       // 既に RAF loop が起動している場合は RAF loop を停止せずにパラメータのみを変更する
-      if (this.started) {
+      if (this.state === 'started') {
         this.duration_ms = this.inputDuration_s * 1000;
         this.remainingDuration_ms = this.duration_ms;
       } else {
@@ -59,13 +64,13 @@ export default {
     stop() {
       this.duration_ms = 0;
       this.remainingDuration_ms = 0;
-      this.stopRADLoop();
+      this.stopRAFLoop();
     },
     resume() {
       this.startRAFLoop();
     },
     pause() {
-      this.stopRADLoop();
+      this.pauseRAFLoop();
     },
   },
   deactivated() {
