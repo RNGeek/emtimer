@@ -4,9 +4,9 @@
     <div>時間: <input v-model.number="inputDuration_s" @input="inputDuration_f = inputDuration_s * 60" /></div>
     <div>
       <button @click="stop">停止</button>
-      <button v-if="state === 'stopped'" @click="start">開始</button>
-      <button v-else-if="state === 'paused'" @click="resume">再開</button>
-      <button v-else-if="state === 'started'" @click="pause">一時停止</button>
+      <button v-show="state === 'stopped'" @click="start">開始</button>
+      <button v-show="state === 'paused'" @click="resume">再開</button>
+      <button v-show="state === 'started'" @click="pause">一時停止</button>
     </div>
     <duration-view :value="remainingDuration_ms" />
   </div>
