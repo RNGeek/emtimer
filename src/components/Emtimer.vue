@@ -51,15 +51,12 @@ export default {
       this.state = 'paused';
     },
     start() {
-      // 既に RAF loop が起動している場合は RAF loop を停止せずにパラメータのみを変更する
-      if (this.state === 'started') {
-        this.duration_ms = this.inputDuration_s * 1000;
-        this.remainingDuration_ms = this.duration_ms;
-      } else {
-        this.duration_ms = this.inputDuration_s * 1000;
-        this.remainingDuration_ms = this.duration_ms;
-        this.startRAFLoop();
+      if (this.state !== 'stopped') {
+        throw new Error('The state of timer must be stopped to start.');
       }
+      this.duration_ms = this.inputDuration_s * 1000;
+      this.remainingDuration_ms = this.duration_ms;
+      this.startRAFLoop();
     },
     stop() {
       this.duration_ms = 0;
@@ -67,9 +64,11 @@ export default {
       this.stopRAFLoop();
     },
     resume() {
+      if (this.state !== 'paused') throw new Error('The state of timer must be paused to resume.');
       this.startRAFLoop();
     },
     pause() {
+      if (this.state !== 'started') throw new Error('The state of timer must be started to resume.');
       this.pauseRAFLoop();
     },
   },
