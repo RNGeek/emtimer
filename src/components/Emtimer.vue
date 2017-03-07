@@ -2,10 +2,10 @@
   <div @keyup.space.prevent="start" @keydown.space.prevent="stop">
     <div><input v-model.number="inputDuration_s" /></div>
     <div>
-      <button v-if="state !== 'started'" @click="start">開始</button>
-      <button v-else @click="stop">停止</button>
-      <button @click="resume">再開</button>
-      <button @click="pause">一時停止</button>
+      <button @click="stop">停止</button>
+      <button v-if="state === 'stopped'" @click="start">開始</button>
+      <button v-else-if="state === 'paused'" @click="resume">再開</button>
+      <button v-else-if="state === 'started'" @click="pause">一時停止</button>
     </div>
     <time-view :value="remainingDuration_ms" />
   </div>
