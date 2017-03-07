@@ -1,32 +1,34 @@
 <template>
   <div @keyup.space.prevent="start" @keydown.space.prevent="stop">
-    <div><input v-model.number="inputDuration_s" /></div>
+    <div>フレーム: <input v-model.number="inputDuration_f" @input="inputDuration_s = inputDuration_f / 60" /></div>
+    <div>時間: <input v-model.number="inputDuration_s" @input="inputDuration_f = inputDuration_s * 60" /></div>
     <div>
       <button @click="stop">停止</button>
       <button v-if="state === 'stopped'" @click="start">開始</button>
       <button v-else-if="state === 'paused'" @click="resume">再開</button>
       <button v-else-if="state === 'started'" @click="pause">一時停止</button>
     </div>
-    <time-view :value="remainingDuration_ms" />
+    <duration-view :value="remainingDuration_ms" />
   </div>
 </template>
 
 <script>
 /* eslint-disable camelcase */
-import TimeView from './TimeView';
+import DurationView from './DurationView';
 
 const raf = window.requestAnimationFrame;
 
 export default {
   name: 'emtimer',
   components: {
-    TimeView,
+    DurationView,
   },
   data() {
     return {
       remainingDuration_ms: 0,
       state: 'stopped',
       inputDuration_s: 10,
+      inputDuration_f: 600,
     };
   },
   methods: {

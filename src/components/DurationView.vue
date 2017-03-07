@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'time-view',
+  name: 'duration-view',
   props: ['value'], // 0以上の数値
   computed: {
     days() { return Math.trunc(this.value / 1000 / 60 / 60 / 24); },
