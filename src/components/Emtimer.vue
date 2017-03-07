@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @keyup.space.prevent="start" @keydown.space.prevent="stop">
     <div><input v-model.number="inputDuration_s" /></div>
     <div>
       <button v-if="!started" @click="start">開始</button>
@@ -52,12 +52,15 @@ export default {
         raf(cb);
       };
 
-      initProps();
-      startRAF();
+      if (this.started) {
+        initProps();
+      } else {
+        initProps();
+        startRAF();
+      }
     },
     stop() {
       this.duration_ms = 0; // Clear props
-      this.started = false; // Stop RAF (Asynchronous)
     },
   },
 };
