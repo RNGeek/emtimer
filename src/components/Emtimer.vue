@@ -69,7 +69,7 @@ export default {
     },
   },
   deactivated() {
-    this.stop();
+    this.pause();
   },
 };
 </script>
