@@ -1,25 +1,17 @@
 <template>
   <div @keyup.space.prevent="start" @keydown.space.prevent="stop">
     <div>
-      フレーム:
-      <input
-        v-model.number="inputDuration_f"
-        @input="syncInputDuration_s"
-      />
-      <div v-show="!$v.inputDuration_f.required">フレームは必須です</div>
-      <div v-show="!$v.inputDuration_f.between">
-        フレームは 0 から {{ Number.MAX_SAFE_INTEGER }} の範囲でなければなりません
-      </div>
-    </div>
-    <div>
       時間:
       <input
-        v-model.number="inputDuration_s"
-        @input="syncInputDuration_f"
+        v-model.number="inputDuration"
       />
-      <div v-show="!$v.inputDuration_s.required">時間は必須です</div>
-      <div v-show="!$v.inputDuration_s.between">
-        時間は 0 から {{ Number.MAX_SAFE_INTEGER }} の範囲でなければなりません
+      <select v-model="inputDurationUnit">
+        <option value="s">秒</option>
+        <option value="f">フレーム</option>
+      </select>
+      <div v-show="!$v.inputDuration.required">時間は必須です</div>
+      <div v-show="!$v.inputDuration.between">
+        時間は 0 から 10,000,000,000 の範囲でなければなりません
       </div>
     </div>
     <div>
@@ -48,29 +40,20 @@ export default {
   },
   data() {
     return {
+      duration_ms: 0,
       remainingDuration_ms: 0,
       state: 'stopped',
-      inputDuration_s: 10,
-      inputDuration_f: 600,
+      inputDuration: 10,
+      inputDurationUnit: 's',
     };
   },
   validations: {
-    inputDuration_f: {
+    inputDuration: {
       required,
-      between: between(0, Number.MAX_SAFE_INTEGER),
-    },
-    inputDuration_s: {
-      required,
-      between: between(0, Number.MAX_SAFE_INTEGER),
+      between: between(0, 10000000000),
     },
   },
   methods: {
-    syncInputDuration_s() {
-      this.inputDuration_s = this.inputDuration_f / 60;
-    },
-    syncInputDuration_f() {
-      this.inputDuration_f = this.inputDuration_s * 60;
-    },
     startRAFLoop() {
       const cb = (newTimestamp_ms, oldTimestamp_ms) => {
         if (this.remainingDuration_ms === 0) {
@@ -97,7 +80,9 @@ export default {
       } else if (this.$v.$invalid) {
         return;
       }
-      this.duration_ms = this.inputDuration_s * 1000;
+      this.duration_ms = (this.inputDurationUnit === 's')
+        ? (this.inputDuration * 1000)
+        : ((this.inputDuration / 60) * 1000);
       this.remainingDuration_ms = this.duration_ms;
       this.startRAFLoop();
     },
