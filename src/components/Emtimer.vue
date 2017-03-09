@@ -1,5 +1,5 @@
 <template>
-  <div @keyup.space.prevent="start" @keydown.space.prevent="stop">
+  <div @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
     <div>
       時間:
       <input
@@ -15,12 +15,12 @@
       </div>
     </div>
     <div>
-      <button @click="stop">停止</button>
-      <button v-show="state === 'stopped'" @click="start" :disabled="$v.$invalid">開始</button>
-      <button v-show="state === 'paused'" @click="resume">再開</button>
-      <button v-show="state === 'started'" @click="pause">一時停止</button>
+      <button @click="stop()">停止</button>
+      <button v-show="ended" @click="start()" :disabled="$v.$invalid">開始</button>
+      <button v-show="paused && !ended" @click="resume()">再開</button>
+      <button v-show="!paused" @click="pause()">一時停止</button>
     </div>
-    <duration-view :value="remainingDuration_ms" />
+    <countdown-timer ref="timer" @start="updateState()" @pause="updateState()" @ended="updateState()" />
   </div>
 </template>
 
@@ -28,21 +28,18 @@
 /* eslint-disable camelcase */
 import { validationMixin } from 'vuelidate';
 import { required, between } from 'vuelidate/lib/validators';
-import DurationView from './DurationView';
-
-const raf = window.requestAnimationFrame;
+import CountdownTimer from './CountdownTimer';
 
 export default {
   name: 'emtimer',
   mixins: [validationMixin],
   components: {
-    DurationView,
+    CountdownTimer,
   },
   data() {
     return {
-      duration_ms: 0,
-      remainingDuration_ms: 0,
-      state: 'stopped',
+      paused: true,
+      ended: true,
       inputDuration: 10,
       inputDurationUnit: 's',
     };
@@ -54,54 +51,26 @@ export default {
     },
   },
   methods: {
-    startRAFLoop() {
-      const cb = (newTimestamp_ms, oldTimestamp_ms) => {
-        if (this.remainingDuration_ms === 0) {
-          this.stop();
-        } else if (this.state !== 'started') {
-          // Nothing
-        } else { // this.state === 'started'
-          this.remainingDuration_ms = Math.max(this.remainingDuration_ms - (newTimestamp_ms - oldTimestamp_ms), 0);
-          raf(timestamp_ms => cb(timestamp_ms, newTimestamp_ms));
-        }
-      };
-      this.state = 'started';
-      raf(timestamp_ms => cb(timestamp_ms, window.performance.now()));
-    },
-    stopRAFLoop() {
-      this.state = 'stopped';
-    },
-    pauseRAFLoop() {
-      this.state = 'paused';
-    },
     start() {
-      if (this.state !== 'stopped') {
-        throw new Error('The state of timer must be stopped to start.');
-      } else if (this.$v.$invalid) {
-        return;
-      }
-      this.duration_ms = (this.inputDurationUnit === 's')
+      if (this.$v.$invalid) return;
+
+      const duration_ms = (this.inputDurationUnit === 's')
         ? (this.inputDuration * 1000)
         : ((this.inputDuration / 60) * 1000);
-      this.remainingDuration_ms = this.duration_ms;
-      this.startRAFLoop();
+      this.$refs.timer.start(duration_ms);
     },
     stop() {
-      this.duration_ms = 0;
-      this.remainingDuration_ms = 0;
-      this.stopRAFLoop();
+      this.$refs.timer.stop();
     },
     resume() {
-      if (this.state !== 'paused') {
-        throw new Error('The state of timer must be paused to resume.');
-      }
-      this.startRAFLoop();
+      this.$refs.timer.start();
     },
     pause() {
-      if (this.state !== 'started') {
-        throw new Error('The state of timer must be started to resume.');
-      }
-      this.pauseRAFLoop();
+      this.$refs.timer.pause();
+    },
+    updateState() {
+      this.paused = this.$refs.timer.paused;
+      this.ended = this.$refs.timer.ended;
     },
   },
   deactivated() {
