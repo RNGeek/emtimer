@@ -1,20 +1,26 @@
 <template>
-  <div @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
-    <div>
-      時間:
-      <input v-model.number="durations.main.value" />
-      <unit-select v-model="durations.main.unit" />
-      <div v-show="!$v.durations.main.value.required">時間は必須です</div>
-      <div v-show="!$v.durations.main.value.between">
-        時間は 0 から 10,000,000,000 の範囲でなければなりません
-      </div>
-    </div>
-    <div>
-      <mu-raised-button @click="stop()" label="停止" />
-      <mu-raised-button v-show="ended" @click="start()" :disabled="$v.$invalid" label="開始" />
-      <mu-raised-button v-show="paused && !ended" @click="resume()" label="再開" />
-      <mu-raised-button v-show="!paused" @click="pause()" label="一時停止" />
-    </div>
+  <div class="container" @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
+    <h2 class="header">エメタイマー</h2>
+    <mu-card :zDepth="1">
+      <mu-card-title class="config-header" title="設定" />
+      <mu-card-text class="config-body">
+        <mu-flexbox class="duration-group" align="flex-end">
+          <mu-flexbox-item>
+            <mu-text-field fullWidth v-model.number="durations.main.value" :errorText="getErrorText('main')" label="時間" hintText="10" />
+          </mu-flexbox-item>
+          <mu-flexbox-item>
+            <unit-select class="unit-select" v-model="durations.main.unit" />
+          </mu-flexbox-item>
+        </mu-flexbox>
+      </mu-card-text>
+      <mu-card-actions>
+        <mu-flat-button @click="stop()" label="停止" icon="stop" color="#e36209" />
+        <mu-flat-button v-if="ended" @click="start()" :disabled="$v.$invalid" label="開始" icon="play_circle_outline" color="blue" />
+        <mu-flat-button v-else-if="paused && !ended" @click="resume()" label="再開" icon="play_circle_outline" color="green" />
+        <mu-flat-button v-else-if="!paused" @click="pause()" label="一時停止" icon="pause_circle_outline" color="gray" />
+      </mu-card-actions>
+    </mu-card>
+
     <countdown-timer ref="timer" @start="updateState()" @pause="updateState()" @ended="updateState()" />
   </div>
 </template>
@@ -23,7 +29,10 @@
 /* eslint-disable camelcase */
 import { validationMixin } from 'vuelidate';
 import { required, between } from 'vuelidate/lib/validators';
-import raisedButton from 'muse-ui/src/raisedButton';
+import { card, cardTitle, cardText, cardActions } from 'muse-ui/src/card';
+import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
+import textField from 'muse-ui/src/textField';
+import flatButton from 'muse-ui/src/flatButton';
 import CountdownTimer from './CountdownTimer';
 import UnitSelect from './UnitSelect';
 import { parseDuration } from '../lib/math';
@@ -34,7 +43,14 @@ export default {
   components: {
     CountdownTimer,
     UnitSelect,
-    raisedButton,
+    card,
+    cardTitle,
+    cardText,
+    cardActions,
+    flexbox,
+    flexboxItem,
+    textField,
+    flatButton,
   },
   data() {
     return {
@@ -76,6 +92,17 @@ export default {
       this.paused = this.$refs.timer.paused;
       this.ended = this.$refs.timer.ended;
     },
+    getErrorText(durationName) {
+      const valid = this.$v.durations[durationName];
+      let text = '';
+      if (!valid.value.required) {
+        text += '時間は必須です. ';
+      }
+      if (!valid.value.between) {
+        text += '時間は 0 以上 10,000,000,000 以下の数値でなければなりません. ';
+      }
+      return text;
+    },
   },
   deactivated() {
     this.pause();
@@ -84,4 +111,39 @@ export default {
 </script>
 
 <style scoped>
+
+/**
+ * --- start ---
+ * The MIT License (MIT)
+ * Copyright (c) 2011-2017 Twitter, Inc.
+ * Copyright (c) 2011-2017 The Bootstrap Authors
+ * https://github.com/twbs/bootstrap/blob/v4-dev/LICENSE
+ */
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+/* --- end --- */
+
+.header {
+  border-bottom: 1px solid #eee;
+}
+.config-header {
+  background-color: #e8e8e8;
+  color: #555;
+  font-weight: normal;
+  margin: 0;
+  padding: 10px 20px;
+}
+.config-body {
+  padding: 10px 20px;
+}
 </style>
