@@ -10,10 +10,10 @@
       </div>
     </div>
     <div>
-      <button @click="stop()">停止</button>
-      <button v-show="ended" @click="start()" :disabled="$v.$invalid">開始</button>
-      <button v-show="paused && !ended" @click="resume()">再開</button>
-      <button v-show="!paused" @click="pause()">一時停止</button>
+      <mu-raised-button @click="stop()" label="停止" />
+      <mu-raised-button v-show="ended" @click="start()" :disabled="$v.$invalid" label="開始" />
+      <mu-raised-button v-show="paused && !ended" @click="resume()" label="再開" />
+      <mu-raised-button v-show="!paused" @click="pause()" label="一時停止" />
     </div>
     <countdown-timer ref="timer" @start="updateState()" @pause="updateState()" @ended="updateState()" />
   </div>
@@ -23,6 +23,7 @@
 /* eslint-disable camelcase */
 import { validationMixin } from 'vuelidate';
 import { required, between } from 'vuelidate/lib/validators';
+import raisedButton from 'muse-ui/src/raisedButton';
 import CountdownTimer from './CountdownTimer';
 import UnitSelect from './UnitSelect';
 import { parseDuration } from '../lib/math';
@@ -33,6 +34,7 @@ export default {
   components: {
     CountdownTimer,
     UnitSelect,
+    raisedButton,
   },
   data() {
     return {
