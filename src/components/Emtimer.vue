@@ -2,15 +2,10 @@
   <div @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
     <div>
       時間:
-      <input
-        v-model.number="inputDuration"
-      />
-      <select v-model="inputDurationUnit">
-        <option value="s">秒</option>
-        <option value="f">フレーム</option>
-      </select>
-      <div v-show="!$v.inputDuration.required">時間は必須です</div>
-      <div v-show="!$v.inputDuration.between">
+      <input v-model.number="durations.main.value" />
+      <unit-select v-model="durations.main.unit" />
+      <div v-show="!$v.durations.main.value.required">時間は必須です</div>
+      <div v-show="!$v.durations.main.value.between">
         時間は 0 から 10,000,000,000 の範囲でなければなりません
       </div>
     </div>
@@ -29,34 +24,41 @@
 import { validationMixin } from 'vuelidate';
 import { required, between } from 'vuelidate/lib/validators';
 import CountdownTimer from './CountdownTimer';
+import UnitSelect from './UnitSelect';
+import { parseDuration } from '../lib/math';
 
 export default {
   name: 'emtimer',
   mixins: [validationMixin],
   components: {
     CountdownTimer,
+    UnitSelect,
   },
   data() {
     return {
       paused: true,
       ended: true,
-      inputDuration: 10,
-      inputDurationUnit: 's',
+      durations: {
+        main: { value: 10, unit: 's' },
+      },
     };
   },
   validations: {
-    inputDuration: {
-      required,
-      between: between(0, 10000000000),
+    durations: {
+      main: {
+        value: {
+          required,
+          between: between(0, 10000000000),
+        },
+      },
     },
   },
   methods: {
     start() {
       if (this.$v.$invalid) return;
 
-      const duration_ms = (this.inputDurationUnit === 's')
-        ? (this.inputDuration * 1000)
-        : ((this.inputDuration / 60) * 1000);
+      const { value, unit } = this.durations.main;
+      const duration_ms = parseDuration(value, unit);
       this.$refs.timer.start(duration_ms);
     },
     stop() {
