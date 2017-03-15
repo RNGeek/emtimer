@@ -1,9 +1,9 @@
 <template>
   <div class="container" @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
     <h2 class="header">エメタイマー</h2>
-    <mu-card :zDepth="1">
-      <mu-card-title class="config-header" title="設定" />
-      <mu-card-text class="config-body">
+    <mu-card class="config-card" :zDepth="1">
+      <mu-card-title class="config-title" title="設定" />
+      <mu-card-text>
         <mu-flexbox class="duration-group" align="flex-end">
           <mu-flexbox-item>
             <mu-text-field fullWidth v-model.number="durations.main.value" :errorText="getErrorText('main')" label="時間" hintText="10" />
@@ -21,7 +21,7 @@
       </mu-card-actions>
     </mu-card>
 
-    <countdown-timer ref="timer" @start="updateState()" @pause="updateState()" @ended="updateState()" />
+    <countdown-timer class="timer" ref="timer" @start="updateState()" @pause="updateState()" @ended="updateState()" />
   </div>
 </template>
 
@@ -124,10 +124,7 @@ export default {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-}
-
-@media (min-width: 768px) {
-  .container {
+  @media (min-width: 768px) {
     width: 750px;
   }
 }
@@ -136,14 +133,12 @@ export default {
 .header {
   border-bottom: 1px solid #eee;
 }
-.config-header {
-  background-color: #e8e8e8;
-  color: #555;
-  font-weight: normal;
-  margin: 0;
-  padding: 10px 20px;
-}
-.config-body {
-  padding: 10px 20px;
+
+.timer {
+  margin: 30px;
+  font-size: 8vw;
+  @media (min-width: 768px) {
+    font-size: 60px;
+  }
 }
 </style>
