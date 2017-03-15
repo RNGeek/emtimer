@@ -57,7 +57,7 @@ export default {
       const valid = this.$v.mutableNumber;
       let text = '';
       if (!valid.between) {
-        text += '時間は 0 以上 10,000,000,000 以下の数値でなければなりません. ';
+        text += '不正な値です.';
       }
       return text;
     },
