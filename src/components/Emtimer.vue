@@ -5,6 +5,16 @@
       <mu-card-title class="config-title" title="設定" />
       <mu-card-text>
         <duration-input label="時間" hintText="0" @input="value => mainDuration = value" />
+
+        <mu-flexbox align="baseline">
+          <mu-flexbox-item grow="1">
+            <duration-input hintText="0" @input="value => mainDuration = value" />
+          </mu-flexbox-item>
+          <mu-flexbox-item class="leftLabel" grow="0">
+            前からカウント開始
+          </mu-flexbox-item>
+        </mu-flexbox>
+        <duration-input label="時間" hintText="0" @input="value => mainDuration = value" />
       </mu-card-text>
       <mu-card-actions>
         <mu-flat-button @click="stop()" label="停止" icon="stop" color="#e36209" />
@@ -22,6 +32,7 @@
 /* eslint-disable camelcase */
 import { validationMixin } from 'vuelidate';
 import { card, cardTitle, cardText, cardActions } from 'muse-ui/src/card';
+import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
 import flatButton from 'muse-ui/src/flatButton';
 import CountdownTimer from './CountdownTimer';
 import UnitSelect from './UnitSelect';
@@ -39,6 +50,8 @@ export default {
     cardActions,
     DurationInput,
     flatButton,
+    flexbox,
+    flexboxItem,
   },
   data() {
     return {
@@ -110,5 +123,10 @@ export default {
   @media (min-width: 768px) {
     font-size: 60px;
   }
+}
+
+.leftLabel {
+  white-space: nowrap;
+  min-width: 140px !important;
 }
 </style>
