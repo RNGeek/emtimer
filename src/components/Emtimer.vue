@@ -32,6 +32,16 @@
           </mu-col>
         </mu-row>
 
+        <label class="label">ループ回数</label>
+        <mu-row gutter>
+          <mu-col width="100" tablet="50" desktop="50">
+            <mu-text-field v-model="loopCount" fullWidth hintText="0" />
+          </mu-col>
+          <mu-col width="100" tablet="50" desktop="50">
+            回ループする
+          </mu-col>
+        </mu-row>
+
       </mu-card-text>
       <mu-card-actions>
         <mu-raised-button @click="stop()" label="停止" icon="stop" backgroundColor="#f57c00" />
@@ -83,6 +93,7 @@ export default {
       delayDuration: 0,
       durationToCutShort: 0,
       currentDuration: 'delay',
+      loopCount: 0,
     };
   },
   validations: {
