@@ -1,7 +1,7 @@
 <template>
   <div class="container" @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
     <h2 class="header">エメタイマー</h2>
-    <mu-card class="config-card" :zDepth="1">
+    <mu-card class="config-card">
       <mu-card-title class="config-title" title="設定" />
       <mu-card-text>
 
