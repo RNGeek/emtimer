@@ -55,7 +55,15 @@
       </mu-card-actions>
     </mu-card>
 
-    <countdown-timer class="timer" ref="timer" @ended="onended()" />
+    <div class="output">
+      <div class="loop-view">ループ回数: {{ loopCounter }} / {{ loopCount }}</div>
+      <div class="current-duration-view">
+        <span v-if="currentDuration === 'delay'">開始まで</span>
+        <span v-else>終了まで</span>
+      </div>
+      <countdown-timer class="timer" ref="timer" @ended="onended()" />
+    </div>
+
   </div>
 </template>
 
@@ -189,7 +197,7 @@ export default {
 }
 
 .timer {
-  margin: 30px;
+  margin: 10px;
   font-size: 8vw;
   @media (min-width: 768px) {
     font-size: 60px;
@@ -216,5 +224,14 @@ export default {
     cursor: not-allowed;
     background-color: #e6e6e6 !important;
     box-shadow: none;
+}
+
+.output {
+  margin-top: 30px;
+}
+
+.loop-view, .current-duration-view {
+  margin-left: 10vw;
+  margin-bottom: 5px;
 }
 </style>
