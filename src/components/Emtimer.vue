@@ -35,7 +35,11 @@
         <label class="label">ループ回数</label>
         <mu-row gutter>
           <mu-col width="100" tablet="50" desktop="50">
-            <mu-text-field v-model="loopCount" fullWidth hintText="0" />
+            <mu-text-field
+              v-model.number="loopCount"
+              fullWidth
+              :errorText="$v.loopCount.$invalid ? '不正な値です.' : ''"
+            />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             回ループする
@@ -58,6 +62,7 @@
 <script>
 /* eslint-disable camelcase */
 import { validationMixin } from 'vuelidate';
+import { required, between } from 'vuelidate/lib/validators';
 import { card, cardTitle, cardText, cardActions } from 'muse-ui/src/card';
 import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
 import { row, col } from 'muse-ui/src/grid';
@@ -94,6 +99,7 @@ export default {
       durationToCutShort: 0,
       currentDuration: 'delay',
       loopCount: 0,
+      loopCounter: 0,
     };
   },
   validations: {
@@ -106,16 +112,23 @@ export default {
     durationToCutShort: {
       notNaN,
     },
+    loopCount: {
+      required,
+      between: between(0, 10000000000),
+    },
   },
   methods: {
     start() {
       if (this.$v.$invalid) return;
 
+      this.loopCounter = 0;
       this.currentDuration = 'delay';
       this.$refs.timer.start(this.delayDuration);
       this.updateState();
     },
     stop() {
+      this.loopCounter = this.loopCount;
+      this.currentDuration = 'main';
       this.$refs.timer.stop();
       this.updateState();
     },
@@ -136,6 +149,11 @@ export default {
       if (this.currentDuration === 'delay') {
         this.currentDuration = 'main';
         this.$refs.timer.start(this.mainDuration - this.durationToCutShort);
+        this.updateState();
+      } else if (this.loopCounter < this.loopCount) {
+        this.loopCounter = this.loopCounter + 1;
+        this.currentDuration = 'delay';
+        this.$refs.timer.start(this.delayDuration);
         this.updateState();
       }
     },
