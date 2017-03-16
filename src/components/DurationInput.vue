@@ -3,6 +3,8 @@
     <mu-flexbox align="flex-end">
       <mu-flexbox-item>
         <mu-text-field
+          basis="120px"
+          grow="1"
           fullWidth
           v-model="mutableNumber"
           :errorText="errorText"
@@ -11,7 +13,7 @@
           @input="emitInput"
         />
       </mu-flexbox-item>
-      <mu-flexbox-item>
+      <mu-flexbox-item basis="120px" grow="0">
         <unit-select v-model="mutableUnit" @input="emitInput" />
       </mu-flexbox-item>
     </mu-flexbox>
