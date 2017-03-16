@@ -15,7 +15,7 @@
         <label class="label">開始までの猶予</label>
         <mu-row gutter>
           <mu-col width="100" tablet="50" desktop="50">
-            <duration-input hintText="0" @input="value => mainDuration = value" />
+            <duration-input hintText="0" @input="value => delayDuration = value" />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             前からカウント開始
@@ -25,7 +25,7 @@
         <label class="label">切り上げ</label>
         <mu-row gutter>
           <mu-col width="100" tablet="50" desktop="50">
-            <duration-input hintText="0" @input="value => mainDuration = value" />
+            <duration-input hintText="0" @input="value => durationToCutShort = value" />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             早くカウント終了
@@ -41,7 +41,7 @@
       </mu-card-actions>
     </mu-card>
 
-    <countdown-timer class="timer" ref="timer" @start="updateState()" @pause="updateState()" @ended="updateState()" />
+    <countdown-timer class="timer" ref="timer" @start="updateState('start')" @pause="updateState('pause')" @ended="updateState('ended')" />
   </div>
 </template>
 
@@ -55,6 +55,8 @@ import flatButton from 'muse-ui/src/flatButton';
 import CountdownTimer from './CountdownTimer';
 import UnitSelect from './UnitSelect';
 import DurationInput from './DurationInput';
+
+const notNaN = value => !Number.isNaN(value);
 
 export default {
   name: 'emtimer',
@@ -78,20 +80,28 @@ export default {
       paused: true,
       ended: true,
       mainDuration: 0,
+      delayDuration: 0,
+      durationToCutShort: 0,
+      currentDuration: 'delay',
     };
   },
   validations: {
     mainDuration: {
-      notNaN(value) {
-        return !Number.isNaN(value);
-      },
+      notNaN,
+    },
+    delayDuration: {
+      notNaN,
+    },
+    durationToCutShort: {
+      notNaN,
     },
   },
   methods: {
     start() {
       if (this.$v.$invalid) return;
 
-      this.$refs.timer.start(this.mainDuration);
+      this.currentDuration = 'delay';
+      this.$refs.timer.start(this.delayDuration);
     },
     stop() {
       this.$refs.timer.stop();
@@ -102,9 +112,14 @@ export default {
     pause() {
       this.$refs.timer.pause();
     },
-    updateState() {
+    updateState(type) {
       this.paused = this.$refs.timer.paused;
       this.ended = this.$refs.timer.ended;
+
+      if (type === 'ended' && this.currentDuration === 'delay') {
+        this.currentDuration = 'main';
+        this.$refs.timer.start(this.mainDuration - this.durationToCutShort);
+      }
     },
   },
   deactivated() {
