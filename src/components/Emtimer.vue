@@ -34,10 +34,10 @@
 
       </mu-card-text>
       <mu-card-actions>
-        <mu-flat-button @click="stop()" label="停止" icon="stop" color="#e36209" />
-        <mu-flat-button v-if="ended" @click="start()" :disabled="$v.$invalid" label="開始" icon="play_circle_outline" color="blue" />
-        <mu-flat-button v-else-if="paused && !ended" @click="resume()" label="再開" icon="play_circle_outline" color="green" />
-        <mu-flat-button v-else-if="!paused" @click="pause()" label="一時停止" icon="pause_circle_outline" color="gray" />
+        <mu-raised-button @click="stop()" label="停止" icon="stop" backgroundColor="#f57c00" />
+        <mu-raised-button v-if="ended" @click="start()" :disabled="$v.$invalid" label="開始" icon="play_circle_outline" backgroundColor="#42a5f5" />
+        <mu-raised-button v-else-if="paused && !ended" @click="resume()" label="再開" icon="play_circle_outline" backgroundColor="#66bb6a" />
+        <mu-raised-button v-else-if="!paused" @click="pause()" label="一時停止" icon="pause_circle_outline" backgroundColor="#90a4ae" />
       </mu-card-actions>
     </mu-card>
 
@@ -51,7 +51,7 @@ import { validationMixin } from 'vuelidate';
 import { card, cardTitle, cardText, cardActions } from 'muse-ui/src/card';
 import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
 import { row, col } from 'muse-ui/src/grid';
-import flatButton from 'muse-ui/src/flatButton';
+import raisedButton from 'muse-ui/src/raisedButton';
 import CountdownTimer from './CountdownTimer';
 import UnitSelect from './UnitSelect';
 import DurationInput from './DurationInput';
@@ -69,7 +69,7 @@ export default {
     cardText,
     cardActions,
     DurationInput,
-    flatButton,
+    raisedButton,
     flexbox,
     flexboxItem,
     row,
@@ -180,5 +180,12 @@ export default {
   &:first-child {
     margin: 0;
   }
+}
+
+.mu-raised-button.disabled {
+    color: rgba(0, 0, 0, 0.3) !important;
+    cursor: not-allowed;
+    background-color: #e6e6e6 !important;
+    box-shadow: none;
 }
 </style>
