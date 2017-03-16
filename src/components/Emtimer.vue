@@ -32,6 +32,20 @@
           </mu-col>
         </mu-row>
 
+        <label class="label">ループ回数</label>
+        <mu-row gutter>
+          <mu-col width="100" tablet="50" desktop="50">
+            <mu-text-field
+              v-model.number="loopCount"
+              fullWidth
+              :errorText="$v.loopCount.$invalid ? '不正な値です.' : ''"
+            />
+          </mu-col>
+          <mu-col width="100" tablet="50" desktop="50">
+            回ループする
+          </mu-col>
+        </mu-row>
+
       </mu-card-text>
       <mu-card-actions>
         <mu-raised-button @click="stop()" label="停止" icon="stop" backgroundColor="#f57c00" />
@@ -41,13 +55,22 @@
       </mu-card-actions>
     </mu-card>
 
-    <countdown-timer class="timer" ref="timer" @ended="onended()" />
+    <div class="output">
+      <div class="loop-view">ループ回数: {{ loopCounter }} / {{ loopCount }}</div>
+      <div class="current-duration-view">
+        <span v-if="currentDuration === 'delay'">開始まで</span>
+        <span v-else>終了まで</span>
+      </div>
+      <countdown-timer class="timer" ref="timer" @ended="onended()" />
+    </div>
+
   </div>
 </template>
 
 <script>
 /* eslint-disable camelcase */
 import { validationMixin } from 'vuelidate';
+import { required, between } from 'vuelidate/lib/validators';
 import { card, cardTitle, cardText, cardActions } from 'muse-ui/src/card';
 import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
 import { row, col } from 'muse-ui/src/grid';
@@ -83,6 +106,8 @@ export default {
       delayDuration: 0,
       durationToCutShort: 0,
       currentDuration: 'delay',
+      loopCount: 0,
+      loopCounter: 0,
     };
   },
   validations: {
@@ -95,16 +120,23 @@ export default {
     durationToCutShort: {
       notNaN,
     },
+    loopCount: {
+      required,
+      between: between(0, 10000000000),
+    },
   },
   methods: {
     start() {
       if (this.$v.$invalid) return;
 
+      this.loopCounter = 0;
       this.currentDuration = 'delay';
       this.$refs.timer.start(this.delayDuration);
       this.updateState();
     },
     stop() {
+      this.loopCounter = this.loopCount;
+      this.currentDuration = 'main';
       this.$refs.timer.stop();
       this.updateState();
     },
@@ -125,6 +157,11 @@ export default {
       if (this.currentDuration === 'delay') {
         this.currentDuration = 'main';
         this.$refs.timer.start(this.mainDuration - this.durationToCutShort);
+        this.updateState();
+      } else if (this.loopCounter < this.loopCount) {
+        this.loopCounter = this.loopCounter + 1;
+        this.currentDuration = 'delay';
+        this.$refs.timer.start(this.delayDuration);
         this.updateState();
       }
     },
@@ -160,7 +197,7 @@ export default {
 }
 
 .timer {
-  margin: 30px;
+  margin: 10px;
   font-size: 8vw;
   @media (min-width: 768px) {
     font-size: 60px;
@@ -187,5 +224,14 @@ export default {
     cursor: not-allowed;
     background-color: #e6e6e6 !important;
     box-shadow: none;
+}
+
+.output {
+  margin-top: 30px;
+}
+
+.loop-view, .current-duration-view {
+  margin-left: 10vw;
+  margin-bottom: 5px;
 }
 </style>
