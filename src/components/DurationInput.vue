@@ -3,8 +3,6 @@
     <mu-flexbox align="flex-end">
       <mu-flexbox-item>
         <mu-text-field
-          basis="120px"
-          grow="1"
           fullWidth
           v-model="mutableNumber"
           :errorText="errorText"
