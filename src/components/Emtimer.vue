@@ -41,7 +41,7 @@
       </mu-card-actions>
     </mu-card>
 
-    <countdown-timer class="timer" ref="timer" @start="updateState('start')" @pause="updateState('pause')" @ended="updateState('ended')" />
+    <countdown-timer class="timer" ref="timer" @ended="onended()" />
   </div>
 </template>
 
@@ -102,23 +102,30 @@ export default {
 
       this.currentDuration = 'delay';
       this.$refs.timer.start(this.delayDuration);
+      this.updateState();
     },
     stop() {
       this.$refs.timer.stop();
+      this.updateState();
     },
     resume() {
       this.$refs.timer.start();
+      this.updateState();
     },
     pause() {
       this.$refs.timer.pause();
+      this.updateState();
     },
-    updateState(type) {
+    updateState() {
       this.paused = this.$refs.timer.paused;
       this.ended = this.$refs.timer.ended;
-
-      if (type === 'ended' && this.currentDuration === 'delay') {
+    },
+    onended() {
+      this.updateState();
+      if (this.currentDuration === 'delay') {
         this.currentDuration = 'main';
         this.$refs.timer.start(this.mainDuration - this.durationToCutShort);
+        this.updateState();
       }
     },
   },
