@@ -1,11 +1,13 @@
-emtimer:
-  build: .
+version: '3'
+services:
+  emtimer:
+    build: .
     command: yarn run dev
-  environment:
-    NODE_ENV: development
-    PORT: 8080
-  ports:
-    - '8080:8080'
-  volumes:
-    - .:/home/app/emtimer
-    - /home/app/emtimer/node_modules
+    environment:
+      NODE_ENV: development
+      PORT: 8080
+    ports:
+      - '8080:8080'
+    volumes:
+      - .:/home/app/emtimer
+      - /home/app/emtimer/node_modules

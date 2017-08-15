@@ -1,7 +1,9 @@
-emtimer:
-  build: .
-  environment:
-    NODE_ENV: production
-    PORT: 8080
-  ports:
-    - '8080:8080'
+version: '3'
+services:
+  emtimer:
+    build: .
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+    ports:
+      - '8080:8080'
