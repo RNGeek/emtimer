@@ -1,6 +1,5 @@
-# vue-test
-
-> A Vue.js project
+# emtimer
+The timer for Pokemon.
 
 ## Build Setup
 
