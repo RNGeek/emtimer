@@ -6,13 +6,17 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "prod:build": "node build/build.js",
+    "prod:serve": "http-server dist/",
+    "prod:start": "run-s prod:build prod:serve"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "http-server": "^0.10.0",
     "keycode": "^2.1.8",
     "muse-ui": "^2.0.0-rc.5",
+    "npm-run-all": "^4.0.2",
     "vue": "^2.2.1",
     "vuelidate": "^0.2.0"
   },
