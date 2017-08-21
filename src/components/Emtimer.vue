@@ -95,8 +95,8 @@ export default {
     raisedButton,
     flexbox,
     flexboxItem,
-    row,
-    col,
+    museRow: row,
+    museCol: col,
   },
   data() {
     return {

@@ -11,7 +11,7 @@ import menuItem from 'muse-ui/src/menu/menuItem';
 
 export default {
   name: 'unit-select',
-  components: { selectField, menuItem },
+  components: { selectField, museMenuItem: menuItem },
   props: {
     value: { default: 's' },
   },
