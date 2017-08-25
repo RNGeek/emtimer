@@ -43,7 +43,7 @@
         </mu-col>
         <mu-col width="100" tablet="50" desktop="50">
           回ループする
-          <mu-checkbox v-model="infiniteLoop" label="無限ループ" />
+          <mu-checkbox v-model="infiniteLoop"  @input="onInput" label="無限ループ" />
         </mu-col>
       </mu-row>
 
