@@ -4,6 +4,9 @@
     <mu-card class="config-card">
       <config v-model="config" />
 
+      <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
+      <audio ref="ended" src="../audio/ended.mp3"></audio>
+
       <mu-card-actions>
         <mu-raised-button @click="stop()" label="停止" icon="stop" backgroundColor="#f57c00" />
         <mu-raised-button v-if="state.ended" @click="start()" :disabled="config.invalid" label="開始" icon="play_circle_outline" backgroundColor="#42a5f5" />
@@ -24,7 +27,11 @@
         <span v-if="state.mode === 'waiting'">開始まで</span>
         <span v-else>終了まで</span>
       </div>
-      <countdown-timer class="timer" ref="timer" @ended="onended()" />
+      <countdown-timer
+        class="timer"
+        ref="timer"
+        @ended="onended()"
+        @durationupdate="durationupdate" />
     </div>
 
   </div>
@@ -63,6 +70,7 @@ export default {
         ended: true,
         mode: 'waiting',
         loopCounter: 0,
+        beforeDuration: 0,
       },
     };
   },
@@ -105,12 +113,21 @@ export default {
         this.state.mode = 'main';
         this.$refs.timer.start(this.state.duration - this.state.cuttedDuration);
         this.updateState();
-      } else if (this.state.infiniteLoop || this.state.loopCounter < this.state.loop) {
-        this.state.loopCounter = this.state.loopCounter + 1;
-        this.state.mode = 'waiting';
-        this.$refs.timer.start(this.state.waitingDuration);
-        this.updateState();
+      } else {
+        if (this.state.infiniteLoop || this.state.loopCounter < this.state.loop) {
+          this.state.loopCounter = this.state.loopCounter + 1;
+          this.state.mode = 'waiting';
+          this.$refs.timer.start(this.state.waitingDuration);
+          this.updateState();
+        }
+        this.$refs.ended.play();
       }
+    },
+    durationupdate(duration) {
+      const duration_s = Math.floor(duration / 1000);
+      const beforeDuration_s = Math.floor(this.beforeDuration / 1000);
+      if (duration_s !== beforeDuration_s) this.$refs.ticktack.play();
+      this.beforeDuration = duration;
     },
   },
   deactivated() {
