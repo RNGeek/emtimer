@@ -13,7 +13,13 @@
     </mu-card>
 
     <div class="output">
-      <div class="loop-view">ループ回数: {{ state.loopCounter }} / {{ state.loopCount }}</div>
+
+      <div class="loop-view">
+        ループ回数:
+        <template v-if="state.infiniteLoop">{{ state.loopCounter }} / ∞</template>
+        <template v-else>{{ state.loopCounter }} / {{ state.loopCount }}</template>
+        </div>
+
       <div class="current-duration-view">
         <span v-if="state.currentDuration === 'delay'">開始まで</span>
         <span v-else>終了まで</span>
@@ -73,6 +79,7 @@ export default {
     },
     stop() {
       this.state.loopCounter = this.state.loopCount;
+      this.state.infiniteLoop = false;
       this.state.currentDuration = 'main';
       this.$refs.timer.stop();
       this.updateState();
@@ -98,7 +105,7 @@ export default {
         this.state.currentDuration = 'main';
         this.$refs.timer.start(this.state.mainDuration - this.state.durationToCutShort);
         this.updateState();
-      } else if (this.state.loopCounter < this.state.loopCount) {
+      } else if (this.state.infiniteLoop || this.state.loopCounter < this.state.loopCount) {
         this.state.loopCounter = this.state.loopCounter + 1;
         this.state.currentDuration = 'delay';
         this.$refs.timer.start(this.state.delayDuration);
