@@ -2,51 +2,8 @@
   <div class="container" @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
     <h2 class="header">エメタイマー</h2>
     <mu-card class="config-card">
-      <mu-card-title class="config-title" title="設定" />
-      <mu-card-text>
+      <config v-model="config" />
 
-        <label class="label">待機時間</label>
-        <mu-row gutter>
-          <mu-col width="100" tablet="50" desktop="50">
-            <duration-input hintText="0" @input="value => mainDuration = value" />
-          </mu-col>
-        </mu-row>
-
-        <label class="label">開始までの猶予</label>
-        <mu-row gutter>
-          <mu-col width="100" tablet="50" desktop="50">
-            <duration-input hintText="0" @input="value => delayDuration = value" />
-          </mu-col>
-          <mu-col width="100" tablet="50" desktop="50">
-            前からカウント開始
-          </mu-col>
-        </mu-row>
-
-        <label class="label">切り上げ</label>
-        <mu-row gutter>
-          <mu-col width="100" tablet="50" desktop="50">
-            <duration-input hintText="0" @input="value => durationToCutShort = value" />
-          </mu-col>
-          <mu-col width="100" tablet="50" desktop="50">
-            早くカウント終了
-          </mu-col>
-        </mu-row>
-
-        <label class="label">ループ回数</label>
-        <mu-row gutter>
-          <mu-col width="100" tablet="50" desktop="50">
-            <mu-text-field
-              v-model.number="loopCount"
-              fullWidth
-              :errorText="$v.loopCount.$invalid ? '不正な値です.' : ''"
-            />
-          </mu-col>
-          <mu-col width="100" tablet="50" desktop="50">
-            回ループする
-          </mu-col>
-        </mu-row>
-
-      </mu-card-text>
       <mu-card-actions>
         <mu-raised-button @click="stop()" label="停止" icon="stop" backgroundColor="#f57c00" />
         <mu-raised-button v-if="ended" @click="start()" :disabled="$v.$invalid" label="開始" icon="play_circle_outline" backgroundColor="#42a5f5" />
@@ -78,6 +35,7 @@ import raisedButton from 'muse-ui/src/raisedButton';
 import CountdownTimer from './CountdownTimer';
 import UnitSelect from './UnitSelect';
 import DurationInput from './DurationInput';
+import Config from './Config';
 
 const notNaN = value => !Number.isNaN(value);
 
@@ -85,6 +43,7 @@ export default {
   name: 'emtimer',
   mixins: [validationMixin],
   components: {
+    Config,
     CountdownTimer,
     UnitSelect,
     card,
@@ -99,6 +58,13 @@ export default {
     museCol: col,
   },
   data() {
+    const dafaultConfig = {
+      mainDuration: 0,
+      delayDuration: 0,
+      durationToCutShort: 0,
+      loopCount: 0,
+      infiniteLoop: false,
+    };
     return {
       paused: true,
       ended: true,
@@ -108,6 +74,7 @@ export default {
       currentDuration: 'delay',
       loopCount: 0,
       loopCounter: 0,
+      config: dafaultConfig,
     };
   },
   validations: {
