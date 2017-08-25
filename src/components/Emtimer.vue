@@ -6,16 +6,16 @@
 
       <mu-card-actions>
         <mu-raised-button @click="stop()" label="停止" icon="stop" backgroundColor="#f57c00" />
-        <mu-raised-button v-if="ended" @click="start()" :disabled="$v.$invalid" label="開始" icon="play_circle_outline" backgroundColor="#42a5f5" />
-        <mu-raised-button v-else-if="paused && !ended" @click="resume()" label="再開" icon="play_circle_outline" backgroundColor="#66bb6a" />
-        <mu-raised-button v-else-if="!paused" @click="pause()" label="一時停止" icon="pause_circle_outline" backgroundColor="#90a4ae" />
+        <mu-raised-button v-if="state.ended" @click="start()" :disabled="config.invalid" label="開始" icon="play_circle_outline" backgroundColor="#42a5f5" />
+        <mu-raised-button v-else-if="state.paused && !state.ended" @click="resume()" label="再開" icon="play_circle_outline" backgroundColor="#66bb6a" />
+        <mu-raised-button v-else-if="!state.paused" @click="pause()" label="一時停止" icon="pause_circle_outline" backgroundColor="#90a4ae" />
       </mu-card-actions>
     </mu-card>
 
     <div class="output">
-      <div class="loop-view">ループ回数: {{ loopCounter }} / {{ loopCount }}</div>
+      <div class="loop-view">ループ回数: {{ state.loopCounter }} / {{ state.loopCount }}</div>
       <div class="current-duration-view">
-        <span v-if="currentDuration === 'delay'">開始まで</span>
+        <span v-if="state.currentDuration === 'delay'">開始まで</span>
         <span v-else>終了まで</span>
       </div>
       <countdown-timer class="timer" ref="timer" @ended="onended()" />
@@ -26,36 +26,19 @@
 
 <script>
 /* eslint-disable camelcase */
-import { validationMixin } from 'vuelidate';
-import { required, between } from 'vuelidate/lib/validators';
-import { card, cardTitle, cardText, cardActions } from 'muse-ui/src/card';
-import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
-import { row, col } from 'muse-ui/src/grid';
+import { card, cardActions } from 'muse-ui/src/card';
 import raisedButton from 'muse-ui/src/raisedButton';
 import CountdownTimer from './CountdownTimer';
-import UnitSelect from './UnitSelect';
-import DurationInput from './DurationInput';
 import Config from './Config';
-
-const notNaN = value => !Number.isNaN(value);
 
 export default {
   name: 'emtimer',
-  mixins: [validationMixin],
   components: {
     Config,
     CountdownTimer,
-    UnitSelect,
     card,
-    cardTitle,
-    cardText,
     cardActions,
-    DurationInput,
     raisedButton,
-    flexbox,
-    flexboxItem,
-    museRow: row,
-    museCol: col,
   },
   data() {
     const dafaultConfig = {
@@ -64,46 +47,33 @@ export default {
       durationToCutShort: 0,
       loopCount: 0,
       infiniteLoop: false,
+      invalid: false,
     };
     return {
-      paused: true,
-      ended: true,
-      mainDuration: 0,
-      delayDuration: 0,
-      durationToCutShort: 0,
-      currentDuration: 'delay',
-      loopCount: 0,
-      loopCounter: 0,
       config: dafaultConfig,
+      state: {
+        ...dafaultConfig,
+        paused: true,
+        ended: true,
+        currentDuration: 'delay',
+        loopCounter: 0,
+      },
     };
-  },
-  validations: {
-    mainDuration: {
-      notNaN,
-    },
-    delayDuration: {
-      notNaN,
-    },
-    durationToCutShort: {
-      notNaN,
-    },
-    loopCount: {
-      required,
-      between: between(0, 10000000000),
-    },
   },
   methods: {
     start() {
-      if (this.$v.$invalid) return;
-
-      this.loopCounter = 0;
-      this.currentDuration = 'delay';
-      this.$refs.timer.start(this.delayDuration);
+      if (this.config.invalid) return;
+      this.state = {
+        ...this.config,
+        loopCounter: 0,
+        currentDuration: 'delay',
+      };
+      this.$refs.timer.start(this.state.delayDuration);
       this.updateState();
     },
     stop() {
-      this.loopCounter = this.loopCount;
-      this.currentDuration = 'main';
+      this.state.loopCounter = this.state.loopCount;
+      this.state.currentDuration = 'main';
       this.$refs.timer.stop();
       this.updateState();
     },
@@ -116,19 +86,22 @@ export default {
       this.updateState();
     },
     updateState() {
-      this.paused = this.$refs.timer.paused;
-      this.ended = this.$refs.timer.ended;
+      this.state = {
+        ...this.state,
+        paused: this.$refs.timer.paused,
+        ended: this.$refs.timer.ended,
+      };
     },
     onended() {
       this.updateState();
-      if (this.currentDuration === 'delay') {
-        this.currentDuration = 'main';
-        this.$refs.timer.start(this.mainDuration - this.durationToCutShort);
+      if (this.state.currentDuration === 'delay') {
+        this.state.currentDuration = 'main';
+        this.$refs.timer.start(this.state.mainDuration - this.state.durationToCutShort);
         this.updateState();
-      } else if (this.loopCounter < this.loopCount) {
-        this.loopCounter = this.loopCounter + 1;
-        this.currentDuration = 'delay';
-        this.$refs.timer.start(this.delayDuration);
+      } else if (this.state.loopCounter < this.state.loopCount) {
+        this.state.loopCounter = this.state.loopCounter + 1;
+        this.state.currentDuration = 'delay';
+        this.$refs.timer.start(this.state.delayDuration);
         this.updateState();
       }
     },

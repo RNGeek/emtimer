@@ -102,7 +102,10 @@ export default {
   methods: {
     onInput() {
       // copy $data and fire input event
-      this.$emit('input', Object.assign({}, this.$data));
+      this.$emit('input', {
+        ...this.$data,
+        invalid: this.$v.$invalid,
+      });
     },
   },
 };
