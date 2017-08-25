@@ -47,6 +47,15 @@
         </mu-col>
       </mu-row>
 
+      <label>サウンド</label>
+      <mu-row gutter>
+        <mu-col width="100">
+          <mu-checkbox v-model="sound" @input="onInput" />
+          <duration-input v-model="soundDuration" @input="onInput" :disabled="!sound" />
+          前から音を鳴らす
+        </mu-col>
+      </mu-row>
+
     </mu-card-text>
   </div>
 </template>
@@ -78,6 +87,8 @@ export default {
       cuttedDuration: { type: Number },
       loop: { type: Number },
       infiniteLoop: { type: Boolean },
+      sound: { type: Boolean },
+      soundDuration: { type: Number },
     },
   },
   data() {
@@ -97,6 +108,9 @@ export default {
     loop: {
       required,
       between: between(0, 10000000000),
+    },
+    soundDuration: {
+      notNaN,
     },
   },
   methods: {

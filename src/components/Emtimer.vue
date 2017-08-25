@@ -31,7 +31,7 @@
         class="timer"
         ref="timer"
         @ended="onended()"
-        @durationupdate="durationupdate" />
+        @durationupdate="soundTicktack" />
     </div>
 
   </div>
@@ -61,6 +61,8 @@ export default {
       loop: 0,
       infiniteLoop: false,
       invalid: false,
+      sound: false,
+      soundDuration: 10 * 1000,
     };
     return {
       config: dafaultConfig,
@@ -120,14 +122,23 @@ export default {
           this.$refs.timer.start(this.state.waitingDuration);
           this.updateState();
         }
-        this.$refs.ended.play();
+        this.soundEnded();
       }
     },
-    durationupdate(duration) {
-      const duration_s = Math.floor(duration / 1000);
-      const beforeDuration_s = Math.floor(this.beforeDuration / 1000);
-      if (duration_s !== beforeDuration_s) this.$refs.ticktack.play();
+    soundTicktack(duration) {
+      if (this.state.sound && duration <= this.state.soundDuration) {
+        // サウンド機能が有効かつ残り時間が指定時間以内の場合, 音を鳴らす
+        const duration_s = Math.floor(duration / 1000);
+        const beforeDuration_s = Math.floor(this.beforeDuration / 1000);
+
+        // タイムスタンプの秒の桁が以前のものから変わっていれば音を鳴らす
+        if (duration_s !== beforeDuration_s) this.$refs.ticktack.play();
+      }
       this.beforeDuration = duration;
+    },
+    soundEnded() {
+      // サウンド機能が有効なら音を鳴らす
+      if (this.state.sound) this.$refs.ended.play();
     },
   },
   deactivated() {
