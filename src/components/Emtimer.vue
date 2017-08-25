@@ -17,11 +17,11 @@
       <div class="loop-view">
         ループ回数:
         <template v-if="state.infiniteLoop">{{ state.loopCounter }} / ∞</template>
-        <template v-else>{{ state.loopCounter }} / {{ state.loopCount }}</template>
+        <template v-else>{{ state.loopCounter }} / {{ state.loop }}</template>
         </div>
 
       <div class="current-duration-view">
-        <span v-if="state.currentDuration === 'delay'">開始まで</span>
+        <span v-if="state.mode === 'waiting'">開始まで</span>
         <span v-else>終了まで</span>
       </div>
       <countdown-timer class="timer" ref="timer" @ended="onended()" />
@@ -48,10 +48,10 @@ export default {
   },
   data() {
     const dafaultConfig = {
-      mainDuration: 0,
-      delayDuration: 0,
-      durationToCutShort: 0,
-      loopCount: 0,
+      duration: 0,
+      waitingDuration: 0,
+      cuttedDuration: 0,
+      loop: 0,
       infiniteLoop: false,
       invalid: false,
     };
@@ -61,7 +61,7 @@ export default {
         ...dafaultConfig,
         paused: true,
         ended: true,
-        currentDuration: 'delay',
+        mode: 'waiting',
         loopCounter: 0,
       },
     };
@@ -72,15 +72,15 @@ export default {
       this.state = {
         ...this.config,
         loopCounter: 0,
-        currentDuration: 'delay',
+        mode: 'waiting',
       };
-      this.$refs.timer.start(this.state.delayDuration);
+      this.$refs.timer.start(this.state.waitingDuration);
       this.updateState();
     },
     stop() {
-      this.state.loopCounter = this.state.loopCount;
+      this.state.loopCounter = this.state.loop;
       this.state.infiniteLoop = false;
-      this.state.currentDuration = 'main';
+      this.state.mode = 'main';
       this.$refs.timer.stop();
       this.updateState();
     },
@@ -101,14 +101,14 @@ export default {
     },
     onended() {
       this.updateState();
-      if (this.state.currentDuration === 'delay') {
-        this.state.currentDuration = 'main';
-        this.$refs.timer.start(this.state.mainDuration - this.state.durationToCutShort);
+      if (this.state.mode === 'waiting') {
+        this.state.mode = 'main';
+        this.$refs.timer.start(this.state.duration - this.state.cuttedDuration);
         this.updateState();
-      } else if (this.state.infiniteLoop || this.state.loopCounter < this.state.loopCount) {
+      } else if (this.state.infiniteLoop || this.state.loopCounter < this.state.loop) {
         this.state.loopCounter = this.state.loopCounter + 1;
-        this.state.currentDuration = 'delay';
-        this.$refs.timer.start(this.state.delayDuration);
+        this.state.mode = 'waiting';
+        this.$refs.timer.start(this.state.waitingDuration);
         this.updateState();
       }
     },

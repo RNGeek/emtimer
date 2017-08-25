@@ -3,42 +3,42 @@
     <mu-card-title class="config-title" title="設定" />
     <mu-card-text>
 
-      <label class="label">待機時間</label>
+      <label>待機時間</label>
       <mu-row gutter>
         <mu-col width="100" tablet="50" desktop="50">
-          <duration-input v-model="mainDuration" @input="onInput" />
+          <duration-input v-model="duration" @input="onInput" />
         </mu-col>
       </mu-row>
 
-      <label class="label">開始までの猶予</label>
+      <label>開始までの猶予</label>
       <mu-row gutter>
         <mu-col width="100" tablet="50" desktop="50">
-          <duration-input v-model="delayDuration" @input="onInput" />
+          <duration-input v-model="waitingDuration" @input="onInput" />
         </mu-col>
         <mu-col width="100" tablet="50" desktop="50">
           前からカウント開始
         </mu-col>
       </mu-row>
 
-      <label class="label">切り上げ</label>
+      <label>切り上げ</label>
       <mu-row gutter>
         <mu-col width="100" tablet="50" desktop="50">
-          <duration-input v-model="durationToCutShort" @input="onInput" />
+          <duration-input v-model="cuttedDuration" @input="onInput" />
         </mu-col>
         <mu-col width="100" tablet="50" desktop="50">
           早くカウント終了
         </mu-col>
       </mu-row>
 
-      <label class="label">ループ回数</label>
+      <label>ループ回数</label>
       <mu-row gutter>
         <mu-col width="100" tablet="50" desktop="50">
           <mu-text-field
-            v-model.number="loopCount"
+            v-model.number="loop"
             @input="onInput"
             :disabled="infiniteLoop"
             fullWidth
-            :errorText="this.$v.loopCount.$invalid ? '不正な値です.' : ''"
+            :errorText="this.$v.loop.$invalid ? '不正な値です.' : ''"
           />
         </mu-col>
         <mu-col width="100" tablet="50" desktop="50">
@@ -73,10 +73,10 @@ export default {
   },
   props: {
     value: {
-      mainDuration: { type: Number },
-      delayDuration: { type: Number },
-      durationToCutShort: { type: Number },
-      loopCount: { type: Number },
+      duration: { type: Number },
+      waitingDuration: { type: Number },
+      cuttedDuration: { type: Number },
+      loop: { type: Number },
       infiniteLoop: { type: Boolean },
     },
   },
@@ -85,16 +85,16 @@ export default {
     return Object.assign({}, this.value);
   },
   validations: {
-    mainDuration: {
+    duration: {
       notNaN,
     },
-    delayDuration: {
+    waitingDuration: {
       notNaN,
     },
-    durationToCutShort: {
+    cuttedDuration: {
       notNaN,
     },
-    loopCount: {
+    loop: {
       required,
       between: between(0, 10000000000),
     },
