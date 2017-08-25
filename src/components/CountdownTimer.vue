@@ -1,10 +1,14 @@
 <template>
-  <duration-view :value="duration" />
+  <div>
+    <big-duration-view :value="duration" />
+    <duration-view :value="duration" />
+  </div>
 </template>
 
 <script>
 /* eslint-disable camelcase */
 import DurationView from './DurationView';
+import BigDurationView from './BigDurationView';
 
 const raf = window.requestAnimationFrame;
 
@@ -12,6 +16,7 @@ export default {
   name: 'countdown-timer',
   components: {
     DurationView,
+    BigDurationView,
   },
   data: function () {
     return {
