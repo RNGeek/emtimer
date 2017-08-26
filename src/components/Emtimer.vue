@@ -1,5 +1,5 @@
 <template>
-  <div class="container" @keyup.space.prevent="start()" @keydown.space.prevent="stop()">
+  <div class="container">
     <h2 class="header">エメタイマー</h2>
     <mu-card class="config-card">
       <config v-model="config" />
@@ -44,6 +44,13 @@ import raisedButton from 'muse-ui/src/raisedButton';
 import CountdownTimer from './CountdownTimer';
 import Config from './Config';
 
+const genListener = fn => (e) => {
+  if (e.key === ' ') { // スペースが入力された場合
+    fn();
+    e.preventDefault(); // イベントをキャンセル
+  }
+};
+
 export default {
   name: 'emtimer',
   components: {
@@ -74,6 +81,8 @@ export default {
         loopCounter: 0,
         beforeDuration: 0,
       },
+      keyupListener: genListener(this.start),
+      keydownListener: genListener(this.stop),
     };
   },
   methods: {
@@ -143,6 +152,16 @@ export default {
   },
   deactivated() {
     this.pause();
+  },
+  mounted() {
+    // add event listener
+    document.addEventListener('keyup', this.keyupListener);
+    document.addEventListener('keydown', this.keydownListener);
+  },
+  destroyed() {
+    // remote event listener
+    document.removeEventListener('keyup', this.keyupListener);
+    document.removeEventListener('keydown', this.keydownListener);
   },
 };
 </script>
