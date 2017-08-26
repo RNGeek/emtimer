@@ -4,7 +4,7 @@
       <mu-flexbox-item>
         <mu-text-field
           fullWidth
-          v-model="mutableNumber"
+          v-model.number="mutableNumber"
           :errorText="errorText"
           :label="label"
           :hintText="hintText"
@@ -25,7 +25,12 @@ import { between } from 'vuelidate/lib/validators';
 import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
 import textField from 'muse-ui/src/textField';
 import UnitSelect from './UnitSelect';
-import { parseDuration } from '../lib/math';
+
+const parseNumber = (duration, unit) => duration * (unit === 's' ? (1 / 1000) : (1 / 60 / 1000));
+const parseDuration = (number, unit) => number * (unit === 's' ? 1000 : 60 * 1000);
+
+// duration(単位はms)をvalueプロパティとして受け取り,
+// 値に変更がある度に変更後のdurationと共にinputイベントを発火する
 
 export default {
   name: 'duration-input',
@@ -37,20 +42,19 @@ export default {
     UnitSelect,
   },
   props: {
-    number: { default: 0 },
+    value: { default: 0 },
     unit: { default: 's' },
     label: {},
     hintText: {},
   },
   data() {
     return {
-      mutableNumber: this.number,
+      mutableNumber: parseNumber(this.value, this.unit),
       mutableUnit: this.unit,
     };
   },
   computed: {
     duration() {
-      if (this.mutableNumber === '') return 0;
       return parseDuration(this.mutableNumber, this.mutableUnit);
     },
     errorText() {

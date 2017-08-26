@@ -62,7 +62,7 @@ export default {
   },
   data() {
     const dafaultConfig = {
-      duration: 0,
+      duration: 10 * 1000,
       waitingDuration: 0,
       cuttedDuration: 0,
       loop: 0,
