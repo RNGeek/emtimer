@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2 class="header">エメタイマー</h2>
+    <h2 class="header">シンプルタイマー</h2>
     <mu-card class="config-card">
       <config v-model="config" />
 
@@ -50,7 +50,7 @@ const genListener = fn => (e) => {
 };
 
 export default {
-  name: 'emtimer',
+  name: 'simple-timer',
   components: {
     Config,
     CountdownTimer,

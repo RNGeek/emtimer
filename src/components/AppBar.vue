@@ -4,7 +4,9 @@
       <mu-icon-button icon="menu" slot="left" @click="toggleDrawer" />
     </mu-appbar>
     <mu-drawer :open="open" :docked="docked" @close="toggleDrawer">
-      <mu-appbar title="メニュー" />
+      <mu-appbar title="メニュー">
+        <mu-icon-button icon="menu" slot="left" @click="toggleDrawer" />
+      </mu-appbar>
       <mu-list @itemClick="toggleDrawer">
         <mu-sub-header>Tools</mu-sub-header>
         <mu-list-item
