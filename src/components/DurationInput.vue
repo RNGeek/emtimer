@@ -6,8 +6,7 @@
           fullWidth
           v-model.number="mutableNumber"
           :errorText="errorText"
-          :label="label"
-          :hintText="hintText"
+          v-bind="$attrs"
           @input="emitInput"
         />
       </mu-flexbox-item>
@@ -39,13 +38,11 @@ export default {
   props: {
     value: { default: 0 },
     unit: { default: 's' },
-    label: {},
-    hintText: {},
   },
   data() {
     return {
-      mutableNumber: parseNumber(this.value, this.unit),
-      mutableUnit: this.unit,
+      mutableNumber: parseNumber(this.value, this.unit), // 表示用の数値
+      mutableUnit: this.unit, // 表示用の単位
     };
   },
   computed: {
