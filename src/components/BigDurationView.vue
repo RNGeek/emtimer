@@ -45,7 +45,7 @@ export default {
   width: var(--circle-size);
   height: var(--circle-size);
   border-radius: 50% 50%;
-  background-color: red;
+  background-color: #f44336;
   position: absolute;
   top: calc(var(--circle-size) / 2);
   margin-right: calc(var(--circle-size) / 2 * -1);
