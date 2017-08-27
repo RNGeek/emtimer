@@ -195,28 +195,6 @@ export default {
   }
 }
 
-.leftLabel {
-  white-space: nowrap;
-  min-width: 140px !important;
-}
-
-.label {
-  display: inline-block;
-  font-weight: bold;
-  margin: 20px 0 0;
-
-  &:first-child {
-    margin: 0;
-  }
-}
-
-.mu-raised-button.disabled {
-    color: rgba(0, 0, 0, 0.3) !important;
-    cursor: not-allowed;
-    background-color: #e6e6e6 !important;
-    box-shadow: none;
-}
-
 .output {
   margin-top: 30px;
 }
@@ -224,5 +202,12 @@ export default {
 .loop-view, .current-duration-view {
   margin-left: 10vw;
   margin-bottom: 5px;
+}
+
+</style>
+
+<style>
+body {
+  margin-bottom: 56px;
 }
 </style>
