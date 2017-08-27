@@ -39,8 +39,6 @@
 
 <script>
 /* eslint-disable camelcase */
-import { card, cardActions } from 'muse-ui/src/card';
-import raisedButton from 'muse-ui/src/raisedButton';
 import CountdownTimer from './CountdownTimer';
 import Config from './Config';
 
@@ -56,9 +54,6 @@ export default {
   components: {
     Config,
     CountdownTimer,
-    card,
-    cardActions,
-    raisedButton,
   },
   data() {
     const dafaultConfig = {

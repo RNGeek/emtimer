@@ -64,8 +64,6 @@
 <script>
 import { validationMixin } from 'vuelidate';
 import { required, between } from 'vuelidate/lib/validators';
-import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
-import { row, col } from 'muse-ui/src/grid';
 import DurationInput from './DurationInput';
 
 const notNaN = value => !Number.isNaN(value);
@@ -75,10 +73,6 @@ export default {
   mixins: [validationMixin],
   components: {
     DurationInput,
-    flexbox,
-    flexboxItem,
-    museRow: row,
-    museCol: col,
   },
   props: {
     value: {

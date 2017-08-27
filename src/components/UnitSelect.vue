@@ -6,12 +6,8 @@
 </template>
 
 <script>
-import selectField from 'muse-ui/src/selectField';
-import menuItem from 'muse-ui/src/menu/menuItem';
-
 export default {
   name: 'unit-select',
-  components: { selectField, museMenuItem: menuItem },
   props: {
     value: { default: 's' },
   },

@@ -22,8 +22,6 @@
 /* eslint-disable camelcase */
 import { validationMixin } from 'vuelidate';
 import { between } from 'vuelidate/lib/validators';
-import { flexbox, flexboxItem } from 'muse-ui/src/flexbox';
-import textField from 'muse-ui/src/textField';
 import UnitSelect from './UnitSelect';
 
 const parseNumber = (duration, unit) => duration * (unit === 's' ? (1 / 1000) : (1 / 60 / 1000));
@@ -36,9 +34,6 @@ export default {
   name: 'duration-input',
   mixins: [validationMixin],
   components: {
-    flexbox,
-    flexboxItem,
-    textField,
     UnitSelect,
   },
   props: {
