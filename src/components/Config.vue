@@ -3,58 +3,69 @@
     <mu-card-title class="config-title" title="設定" />
     <mu-card-text>
 
-      <label>待機時間</label>
-      <mu-row gutter>
-        <mu-col width="100" tablet="50" desktop="50">
-          <duration-input v-model="duration" @input="onInput" />
-        </mu-col>
-      </mu-row>
+      <fieldset>
+        <legend>待機時間</legend>
+        <mu-row>
+          <mu-col width="100" tablet="50" desktop="50">
+            <duration-input v-model="duration" @input="onInput" />
+          </mu-col>
+        </mu-row>
+      </fieldset>
 
-      <label>開始までの猶予</label>
-      <mu-row gutter>
-        <mu-col width="100" tablet="50" desktop="50">
-          <duration-input v-model="waitingDuration" @input="onInput" />
-        </mu-col>
-        <mu-col width="100" tablet="50" desktop="50">
-          前からカウント開始
-        </mu-col>
-      </mu-row>
+      <fieldset>
+        <legend>開始までの猶予</legend>
+        <mu-row>
+          <mu-col width="100" tablet="50" desktop="50">
+            <duration-input v-model="waitingDuration" @input="onInput" />
+          </mu-col>
+          <mu-col width="100" tablet="50" desktop="50">
+            前からカウント開始
+          </mu-col>
+        </mu-row>
+      </fieldset>
 
-      <label>切り上げ</label>
-      <mu-row gutter>
-        <mu-col width="100" tablet="50" desktop="50">
-          <duration-input v-model="cuttedDuration" @input="onInput" />
-        </mu-col>
-        <mu-col width="100" tablet="50" desktop="50">
-          早くカウント終了
-        </mu-col>
-      </mu-row>
+      <fieldset>
+        <legend>切り上げ</legend>
+        <mu-row>
+          <mu-col width="100" tablet="50" desktop="50">
+            <duration-input v-model="cuttedDuration" @input="onInput" />
+          </mu-col>
+          <mu-col width="100" tablet="50" desktop="50">
+            早くカウント終了
+          </mu-col>
+        </mu-row>
+      </fieldset>
 
-      <label>ループ回数</label>
-      <mu-row gutter>
-        <mu-col width="100" tablet="50" desktop="50">
-          <mu-text-field
-            v-model.number="loop"
-            @input="onInput"
-            :disabled="infiniteLoop"
-            fullWidth
-            :errorText="this.$v.loop.$invalid ? '不正な値です.' : ''"
-          />
-        </mu-col>
-        <mu-col width="100" tablet="50" desktop="50">
-          回ループする
-          <mu-checkbox v-model="infiniteLoop"  @input="onInput" label="無限ループ" />
-        </mu-col>
-      </mu-row>
+      <fieldset>
+        <legend>ループ回数</legend>
+        <mu-row><mu-switch label="無限ループ" v-model="infiniteLoop"  @input="onInput" /></mu-row>
+        <mu-row v-if="!infiniteLoop">
+          <mu-col width="100" tablet="50" desktop="50">
+            <mu-text-field
+              v-model.number="loop"
+              @input="onInput"
+              fullWidth
+              :errorText="this.$v.loop.$invalid ? '不正な値です.' : ''"
+            />
+          </mu-col>
+          <mu-col width="100" tablet="50" desktop="50">
+            回ループする
+          </mu-col>
+        </mu-row>
+      </fieldset>
 
-      <label>サウンド</label>
-      <mu-row gutter>
-        <mu-col width="100">
-          <mu-checkbox v-model="sound" @input="onInput" />
-          <duration-input v-model="soundDuration" @input="onInput" :disabled="!sound" />
-          前から音を鳴らす
-        </mu-col>
-      </mu-row>
+      <fieldset>
+        <legend>サウンド</legend>
+        <mu-row><mu-switch label="サウンドを有効化" v-model="sound" @input="onInput" /></mu-row>
+        <mu-row v-if="sound">
+          <mu-col width="100" tablet="50" desktop="50">
+            <duration-input v-model="soundDuration" @input="onInput" />
+          </mu-col>
+          <mu-col width="100" tablet="50" desktop="50">
+            前から音を鳴らす
+          </mu-col>
+        </mu-row>
+      </fieldset>
 
     </mu-card-text>
   </div>
@@ -118,3 +129,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+fieldset {
+  border: none;
+}
+
+legend {
+  font-weight: bold;
+}
+</style>

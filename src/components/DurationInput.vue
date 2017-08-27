@@ -1,17 +1,17 @@
 <template>
   <div>
-    <mu-flexbox align="flex-end">
+    <mu-flexbox>
       <mu-flexbox-item>
         <mu-text-field
-          fullWidth
           v-model.number="mutableNumber"
           :errorText="errorText"
           v-bind="$attrs"
           @input="emitInput"
+          fullWidth
         />
       </mu-flexbox-item>
-      <mu-flexbox-item basis="120px" grow="0">
-        <unit-select v-model="mutableUnit" @input="emitInput" />
+      <mu-flexbox-item basis="5em" grow="0">
+        <unit-select v-model="mutableUnit" @input="emitInput" fullWidth />
       </mu-flexbox-item>
     </mu-flexbox>
   </div>

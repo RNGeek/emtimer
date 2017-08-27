@@ -29,6 +29,7 @@ export default {
   width: 100%;
   position: relative;
   height: calc(var(--circle-size) * 2);
+  overflow-x: hidden;
 }
 
 .line {
