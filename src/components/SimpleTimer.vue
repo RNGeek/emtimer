@@ -3,20 +3,9 @@
     <h2 class="header">シンプルタイマー</h2>
     <mu-card class="config-card">
       <config v-model="config" />
-
-      <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
-      <audio ref="ended" src="../audio/ended.mp3"></audio>
-
-      <mu-card-actions>
-        <mu-raised-button @click="stop()" label="停止" icon="stop" backgroundColor="#f57c00" />
-        <mu-raised-button v-if="state.ended" @click="start()" :disabled="config.invalid" label="開始" icon="play_circle_outline" backgroundColor="#42a5f5" />
-        <mu-raised-button v-else-if="state.paused && !state.ended" @click="resume()" label="再開" icon="play_circle_outline" backgroundColor="#66bb6a" />
-        <mu-raised-button v-else-if="!state.paused" @click="pause()" label="一時停止" icon="pause_circle_outline" backgroundColor="#90a4ae" />
-      </mu-card-actions>
     </mu-card>
 
     <div class="output">
-
       <div class="loop-view">
         ループ回数:
         <template v-if="state.infiniteLoop">{{ state.loopCounter }} / ∞</template>
@@ -34,6 +23,17 @@
         @durationupdate="soundTicktack" />
     </div>
 
+    <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
+    <audio ref="ended" src="../audio/ended.mp3"></audio>
+
+    <mobile-controller
+      v-bind="state"
+      @stop="stop"
+      @start="start"
+      @resume="resume"
+      @pause="pause"
+    />
+
   </div>
 </template>
 
@@ -41,6 +41,7 @@
 /* eslint-disable camelcase */
 import CountdownTimer from './CountdownTimer';
 import Config from './Config';
+import MobileController from './MobileController';
 
 const genListener = fn => (e) => {
   if (e.key === ' ') { // スペースが入力された場合
@@ -54,6 +55,7 @@ export default {
   components: {
     Config,
     CountdownTimer,
+    MobileController,
   },
   data() {
     const dafaultConfig = {
