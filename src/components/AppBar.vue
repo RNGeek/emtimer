@@ -43,3 +43,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.mu-appbar {
+  background-color: #009688;
+}
+</style>
+
