@@ -17,8 +17,7 @@ const router = new VueRouter({
     },
     {
       path: '/',
-      component: SimpleTimer,
-      meta: { title: 'シンプルタイマー · エメタイマー' },
+      redirect: '/SimpleTimer',
     },
   ],
 });
