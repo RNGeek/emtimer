@@ -1,14 +1,13 @@
 # emtimer
 The timer for Pokemon.
 
-## For Development
+## For Developers
 ```bash
-$ docker-compose -f docker-compose.yml up
-```
-
-## For Production
-```bash
-$ docker-compose -f docker-compose.prod.yml up
+$ git clone https://github.com/mizdra/emtimer.git
+$ cd emtimer
+$ docker-compose build
+$ docker-compose up
+$ open http://localhost:8080
 ```
 
 ## Build Setup
@@ -18,16 +17,14 @@ $ docker-compose -f docker-compose.prod.yml up
 $ docker-compose -f docker-compose.yml run emtimer bash
 
 # install dependencies
-app@XXXX:~/emtimer$ npm install
+app@XXXX:~/emtimer$ yarn install
 
 # serve with hot reload at localhost:8080
-app@XXXX:~/emtimer$ npm run dev
+app@XXXX:~/emtimer$ yarn run dev
 
 # build for production with minification
-app@XXXX:~/emtimer$ npm run build
+app@XXXX:~/emtimer$ yarn run build
 
 # build for production and view the bundle analyzer report
-app@XXXX:~/emtimer$ npm run build --report
+app@XXXX:~/emtimer$ yarn run build --report
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
