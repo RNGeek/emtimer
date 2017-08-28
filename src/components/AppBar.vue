@@ -8,6 +8,10 @@
         <mu-icon-button icon="menu" slot="left" @click="toggleDrawer" />
       </mu-appbar>
       <mu-list @itemClick="toggleDrawer">
+        <mu-list-item to="/" title="トップ" />
+
+        <mu-divider />
+
         <mu-sub-header>Tools</mu-sub-header>
         <mu-list-item
           to="/SimpleTimer"
@@ -16,7 +20,9 @@
         />
         <mu-list-item title="工事中" />
         <mu-list-item title="工事中" />
+
         <mu-divider />
+
         <mu-sub-header>Information</mu-sub-header>
         <mu-list-item href="https://github.com/mizdra/emtimer" target="_blank" title="GitHub">
           <mu-icon value="open_in_new" slot="right"/>

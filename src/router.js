@@ -1,4 +1,5 @@
 import VueRouter from 'vue-router';
+import Home from './pages/Home';
 import SimpleTimer from './pages/SimpleTimer';
 import About from './pages/About';
 
@@ -17,7 +18,8 @@ const router = new VueRouter({
     },
     {
       path: '/',
-      redirect: '/SimpleTimer',
+      component: Home,
+      meta: { title: 'エメタイマー' },
     },
   ],
 });
