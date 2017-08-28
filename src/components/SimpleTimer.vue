@@ -42,6 +42,7 @@
 import CountdownTimer from './CountdownTimer';
 import Config from './Config';
 import MobileController from './MobileController';
+import { canTicktack } from '../lib/util';
 
 const genListener = fn => (e) => {
   if (e.key === ' ') { // スペースが入力された場合
@@ -132,13 +133,15 @@ export default {
       }
     },
     soundTicktack(duration) {
-      if (this.state.sound && duration <= this.state.soundDuration) {
-        // サウンド機能が有効かつ残り時間が指定時間以内の場合, 音を鳴らす
-        const duration_s = Math.floor(duration / 1000);
-        const beforeDuration_s = Math.floor(this.beforeDuration / 1000);
-
-        // タイムスタンプの秒の桁が以前のものから変わっていれば音を鳴らす
-        if (duration_s !== beforeDuration_s) this.$refs.ticktack.play();
+      // サウンド機能が有効で, 残り時間が指定時間以内,
+      // かつ秒の桁が切り替わる時, 音を鳴らす
+      if (
+        this.state.sound &&
+        duration <= this.state.soundDuration &&
+        duration !== 0 &&
+        canTicktack(duration, this.beforeDuration)
+      ) {
+        this.$refs.ticktack.play();
       }
       this.beforeDuration = duration;
     },
