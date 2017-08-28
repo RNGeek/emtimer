@@ -1,7 +1,5 @@
 <template>
-  <div class="container">
-    <h2 class="header">About</h2>
-
+  <container title="About">
     <h2>Author</h2>
     <ul>
       <li>Name: mizdra</li>
@@ -29,31 +27,14 @@
       <li><a href="https://github.com/museui/muse-ui" target="_blank">museui/muse-ui</a></li>
       <li><a href="https://github.com/monterail/vuelidate" target="_blank">vuelidate</a></li>
     </ul>
-  </div>
+  </container>
 </template>
 
+<script>
+import Container from '../components/Container';
 
-<style scoped>
-
-/**
- * --- start ---
- * The MIT License (MIT)
- * Copyright (c) 2011-2017 Twitter, Inc.
- * Copyright (c) 2011-2017 The Bootstrap Authors
- * https://github.com/twbs/bootstrap/blob/v4-dev/LICENSE
- */
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  @media (min-width: 768px) {
-    width: 750px;
-  }
-}
-/* --- end --- */
-
-.header {
-  border-bottom: 1px solid #eee;
-}
-</style>
+export default {
+  name: 'about',
+  components: { Container },
+};
+</script>

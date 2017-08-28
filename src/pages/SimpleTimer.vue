@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <h2 class="header">シンプルタイマー</h2>
+  <container title="シンプルタイマー">
+
     <mu-card class="config-card">
       <config v-model="config" />
     </mu-card>
@@ -34,11 +34,12 @@
       @pause="pause"
     />
 
-  </div>
+  </container>
 </template>
 
 <script>
 /* eslint-disable camelcase */
+import Container from '../components/Container';
 import CountdownTimer from '../components/CountdownTimer';
 import Config from '../components/Config';
 import MobileController from '../components/MobileController';
@@ -54,6 +55,7 @@ const genListener = fn => (e) => {
 export default {
   name: 'simple-timer',
   components: {
+    Container,
     Config,
     CountdownTimer,
     MobileController,
@@ -167,29 +169,6 @@ export default {
 </script>
 
 <style scoped>
-
-/**
- * --- start ---
- * The MIT License (MIT)
- * Copyright (c) 2011-2017 Twitter, Inc.
- * Copyright (c) 2011-2017 The Bootstrap Authors
- * https://github.com/twbs/bootstrap/blob/v4-dev/LICENSE
- */
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  @media (min-width: 768px) {
-    width: 750px;
-  }
-}
-/* --- end --- */
-
-.header {
-  border-bottom: 1px solid #eee;
-}
-
 .timer {
   margin: 10px;
   font-size: 8vw;
@@ -206,7 +185,6 @@ export default {
   margin-left: 10vw;
   margin-bottom: 5px;
 }
-
 </style>
 
 <style>
