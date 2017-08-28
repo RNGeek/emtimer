@@ -10,6 +10,7 @@
       <mu-list @itemClick="toggleDrawer">
         <mu-sub-header>Tools</mu-sub-header>
         <mu-list-item
+          to="/SimpleTimer"
           title="シンプルタイマー"
           describeText="ポケモンの館のエメタイマーの移植版"
         />
@@ -20,7 +21,7 @@
         <mu-list-item href="https://github.com/mizdra/emtimer" target="_blank" title="GitHub">
           <mu-icon value="open_in_new" slot="right"/>
         </mu-list-item>
-        <mu-list-item title="About" />
+        <mu-list-item to="/About" title="About" />
       </mu-list>
     </mu-drawer>
   </div>

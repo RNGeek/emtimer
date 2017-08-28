@@ -39,9 +39,9 @@
 
 <script>
 /* eslint-disable camelcase */
-import CountdownTimer from './CountdownTimer';
-import Config from './Config';
-import MobileController from './MobileController';
+import CountdownTimer from '../components/CountdownTimer';
+import Config from '../components/Config';
+import MobileController from '../components/MobileController';
 import { canTicktack } from '../lib/util';
 
 const genListener = fn => (e) => {

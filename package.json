@@ -18,6 +18,7 @@
     "muse-ui": "2.0.3",
     "npm-run-all": "^4.1.0",
     "vue": "^2.4.2",
+    "vue-router": "^2.7.0",
     "vuelidate": "^0.5.0"
   },
   "devDependencies": {
