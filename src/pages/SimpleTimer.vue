@@ -26,7 +26,7 @@
     <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
     <audio ref="ended" src="../audio/ended.mp3"></audio>
 
-    <mobile-controller
+    <footer-controller
       v-bind="state"
       @stop="stop"
       @start="start"
@@ -42,7 +42,7 @@
 import Container from '../components/Container';
 import CountdownTimer from '../components/CountdownTimer';
 import Config from '../components/Config';
-import MobileController from '../components/MobileController';
+import FooterController from '../components/FooterController';
 import { canTicktack } from '../lib/util';
 
 const genListener = fn => (e) => {
@@ -58,7 +58,7 @@ export default {
     Container,
     Config,
     CountdownTimer,
-    MobileController,
+    FooterController,
   },
   data() {
     const dafaultConfig = {

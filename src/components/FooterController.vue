@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'mobile-controller',
+  name: 'footer-controller',
   props: {
     paused: { type: Boolean },
     ended: { type: Boolean },

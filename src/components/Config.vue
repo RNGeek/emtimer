@@ -37,7 +37,7 @@
       </fieldset>
 
       <fieldset>
-        <legend>ループ回数</legend>
+        <legend>ループ</legend>
         <mu-row><mu-switch label="無限ループ" v-model="infiniteLoop"  @input="onInput" /></mu-row>
         <mu-row v-if="!infiniteLoop">
           <mu-col width="100" tablet="50" desktop="50">
