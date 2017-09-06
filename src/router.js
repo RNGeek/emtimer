@@ -2,6 +2,7 @@ import VueRouter from 'vue-router';
 import Home from './pages/Home';
 import SimpleTimer from './pages/SimpleTimer';
 import About from './pages/About';
+import NotFound from './pages/NotFound';
 
 const router = new VueRouter({
   mode: 'history',
@@ -20,6 +21,11 @@ const router = new VueRouter({
       path: '/',
       component: Home,
       meta: { title: 'エメタイマー' },
+    },
+    {
+      path: '*',
+      component: NotFound,
+      meta: { title: '404 Not Found' },
     },
   ],
 });
