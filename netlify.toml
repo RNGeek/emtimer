@@ -1,5 +1,5 @@
 [build]
-  command = "npm i -g npm@5.1.0 && yarn run prod:build"
+  command = "yarn run prod:build"
   publish = "dist"
   [build.environment]
     NODE_ENV = "production"
