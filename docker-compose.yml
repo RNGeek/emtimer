@@ -2,12 +2,13 @@ version: '3'
 services:
   emtimer:
     build: .
-    command: yarn run dev
+    command: build yarn run dev
     environment:
-      NODE_ENV: development
+      NODE_VERSION: 6.11.3
+      NPM_VERSION: 5.4.1
+      YARN_VERSION: 0.28.4
       PORT: 8080
     ports:
       - '8080:8080'
     volumes:
-      - .:/home/app/emtimer
-      - /home/app/emtimer/node_modules
+      - .:/opt/repo

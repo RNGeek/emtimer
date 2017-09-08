@@ -2,6 +2,6 @@
   command = "yarn run prod:build"
   publish = "dist"
   [build.environment]
-    NODE_ENV = "production"
-    NODE_VERSION = "6.11.2"
-    YARN_VERSION = "0.27.5"
+    NODE_VERSION = "6.11.3"
+    NPM_VERSION = "5.4.1"
+    YARN_VERSION = "0.28.4"
