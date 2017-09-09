@@ -13,7 +13,42 @@
       </container>
     </div>
 
-    <container title="はじめる">
+    <container>
+      <h1>⚡️特徴️⚡️</h1>
+
+      <mu-row>
+        <mu-col class="feature" width="100" tablet="100" desktop="33">
+          <section>
+            <h2>HTML製</h2>
+            <p>
+              アプリケーションはWebの技術 (HTML/JavaScript/CSS) で作られており,
+              Adobe Flashを使っておりません. Adobe Flashサポート終了後も安心してお使い頂けます.
+            </p>
+          </section>
+
+        </mu-col>
+        <mu-col class="feature" width="100" tablet="100" desktop="33">
+          <section>
+            <h2>モバイルフレンドリー</h2>
+            <p>
+              全てのコンテンツはモバイル対応しております. お使いのパソコン,
+              タブレット, スマートフォンなどから快適にツールを利用することができます.
+            </p>
+          </section>
+        </mu-col>
+        <mu-col class="feature" width="100" tablet="100" desktop="33">
+          <section>
+            <h2>オープンソース</h2>
+            <p>
+              このツールのソースコードは <a href="https://github.com/mizdra/emtimer" target="_blank">
+              Github上で公開</a>されており, どなたでもコードを読んだり, 機能追加やバグ修正の要望を送ることができます.
+              また, ユーザ自身が新機能を追加するコードを書き, それを本ツールに取り込むよう申請することもできます.
+            </p>
+          </section>
+        </mu-col>
+      </mu-row>
+
+      <h1>🚀はじめる🚀</h1>
       <mu-row>
         <mu-col class="tool-link" width="100" tablet="33" desktop="33">
           <mu-raised-button to="/SimpleTimer" label="シンプルタイマー" icon="alarm" backgroundColor="#7986cb" fullWidth />
@@ -45,6 +80,20 @@ export default {
 </script>
 
 <style scoped>
+h1, h2 {
+  text-align: center;
+}
+
+h1 {
+  border-bottom: 4px dotted #ddd;
+  padding: 5px;
+}
+
+h2 {
+  padding: 2px;
+  font-weight: normal;
+}
+
 .header {
   background-color: #e5ffe5;
   text-align: center;
@@ -71,6 +120,10 @@ export default {
   @media (min-width: 600px) {
     font-size: 30px;
   }
+}
+
+.feature {
+  padding: 6px;
 }
 
 .tool-link {
