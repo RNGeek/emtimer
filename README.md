@@ -22,6 +22,7 @@ $ yarn run dev
 ### Production Build
 ```bash
 # Setup netlify container
-$ docker-compose -f docker-compose.prod.yml up --build
+$ docker-compose build
+$ docker-compose up
 $ open http://localhost:8080
 ```

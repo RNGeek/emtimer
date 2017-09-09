@@ -2,7 +2,7 @@ version: '3'
 services:
   emtimer:
     build: .
-    command: build yarn run dev
+    command: build yarn run start
     environment:
       NODE_VERSION: 6.11.3
       NPM_VERSION: 5.4.1
