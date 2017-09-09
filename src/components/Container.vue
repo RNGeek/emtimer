@@ -6,6 +6,11 @@
 </template>
 
 <script>
+/**
+ * コンテンツを掲載するためのコンテナ.
+ * slotで渡されたコンポーネントを左右に余白を取り中央に表示する.
+ * titleプロパティでコンテナのタイトルを指定できる.
+ */
 
 export default {
   name: 'container',

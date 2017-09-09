@@ -9,6 +9,12 @@
 </template>
 
 <script>
+/**
+ * 残り時間の表示部.
+ * value(単位はms)プロパティで残り時間を渡すと
+ * `days:hours:minutes:seconds:cs`の形式で残り時間を表示する.
+ */
+
 export default {
   name: 'duration-view',
   props: ['value'], // 0以上の数値

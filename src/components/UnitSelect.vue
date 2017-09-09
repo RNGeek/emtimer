@@ -10,6 +10,10 @@
 </template>
 
 <script>
+/**
+ * 単位の入力欄.
+ */
+
 export default {
   name: 'unit-select',
   props: {

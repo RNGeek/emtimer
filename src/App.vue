@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import AppBar from './components/AppBar';
-import AppFooter from './components/AppFooter';
+import AppBar from './pages/AppBar';
+import AppFooter from './pages/AppFooter';
 
 export default {
   name: 'app',

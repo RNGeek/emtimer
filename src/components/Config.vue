@@ -88,6 +88,13 @@
 
 
 <script>
+/**
+ * 設定フォーム.
+ * valueプロパティで初期設定を渡し, 値が変更されると
+ * inputイベントを発火して変更後の設定を返す.
+ * 変更後の設定にはバリデーションの結果も含まれる.
+ */
+
 import { validationMixin } from 'vuelidate';
 import DurationInput from './DurationInput';
 import { nonBigNumber, integer } from '../lib/rules';
@@ -125,7 +132,7 @@ export default {
       // copy $data and fire input event
       this.$emit('input', {
         ...this.$data,
-        invalid: this.$v.$invalid,
+        invalid: this.$v.$invalid, // バリデーションの結果を加える
       });
     },
   },

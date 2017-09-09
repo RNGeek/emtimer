@@ -10,6 +10,11 @@
 </template>
 
 <script>
+/**
+ * 画面下部に固定されるタイマーコントローラー.
+ * 押されたボタンに応じてイベント(start/stop/pause/resume)を発火する.
+ */
+
 export default {
   name: 'footer-controller',
   props: {

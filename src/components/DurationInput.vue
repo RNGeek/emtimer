@@ -18,6 +18,12 @@
 </template>
 
 <script>
+/**
+ * 時間の入力欄.
+ * value(単位はms)プロパティとunitプロパティで時間と単位の初期値を渡すことができ,
+ * 値が変更されるとinputイベントを発火して変更後の時間(単位はms)を返す.
+ */
+
 /* eslint-disable camelcase */
 import UnitSelect from './UnitSelect';
 

@@ -6,6 +6,11 @@
 </template>
 
 <script>
+/**
+ * カウントダウンタイマー.
+ * start/stop/pauseメソッドで操作する.
+ */
+
 /* eslint-disable camelcase */
 import DurationView from './DurationView';
 import BigDurationView from './BigDurationView';
