@@ -3,6 +3,7 @@
     <mu-flexbox>
       <mu-flexbox-item>
         <mu-text-field
+          hintText="0"
           v-model.number="mutableNumber"
           :errorText="errorText"
           v-bind="$attrs"
