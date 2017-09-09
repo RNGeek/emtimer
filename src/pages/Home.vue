@@ -6,9 +6,9 @@
           <img class="logo" alt="エメタイマーのロゴ" src="../img/logo.png" />
         </div>
         <div class="description">
-          乱数勢の,<br />
-          乱数勢による,<br />
-          乱数勢のためのタイマー
+          乱数勢のための<br/>
+          シンプルで扱いやすい<br/>
+          高機能なタイマー
         </div>
       </container>
     </div>
