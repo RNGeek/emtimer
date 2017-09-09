@@ -27,12 +27,12 @@
     <audio ref="ended" src="../audio/ended.mp3"></audio>
 
     <footer-controller
+      :start-disabled="config.invalid"
       v-bind="state"
       @stop="stop"
       @start="start"
       @resume="resume"
-      @pause="pause"
-    />
+      @pause="pause" />
 
   </container>
 </template>

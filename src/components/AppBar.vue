@@ -19,8 +19,7 @@
         <mu-list-item
           to="/SimpleTimer"
           title="シンプルタイマー"
-          describeText="エメタイマーのHTML移植版"
-        />
+          describeText="エメタイマーのHTML移植版" />
         <mu-list-item title="工事中" />
         <mu-list-item title="工事中" />
 

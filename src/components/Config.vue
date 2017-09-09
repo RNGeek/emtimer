@@ -7,7 +7,11 @@
         <legend>待機時間</legend>
         <mu-row>
           <mu-col width="100" tablet="50" desktop="50">
-            <duration-input v-model="duration" @input="onInput" />
+            <duration-input
+              v-model="duration"
+              :invalid="$v.duration.$invalid"
+              @input="onInput"
+              errorText="0から10000000000の数値で指定して下さい." />
           </mu-col>
         </mu-row>
       </fieldset>
@@ -16,7 +20,11 @@
         <legend>開始までの猶予</legend>
         <mu-row>
           <mu-col width="100" tablet="50" desktop="50">
-            <duration-input v-model="waitingDuration" @input="onInput" />
+            <duration-input
+              v-model="waitingDuration"
+              :invalid="$v.waitingDuration.$invalid"
+              @input="onInput"
+              errorText="0から10000000000の数値で指定して下さい." />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             前からカウント開始
@@ -28,7 +36,11 @@
         <legend>切り上げ</legend>
         <mu-row>
           <mu-col width="100" tablet="50" desktop="50">
-            <duration-input v-model="cuttedDuration" @input="onInput" />
+            <duration-input
+              v-model="cuttedDuration"
+              :invalid="$v.cuttedDuration.$invalid"
+              @input="onInput"
+              errorText="0から10000000000の数値で指定して下さい." />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             早くカウント終了
@@ -45,8 +57,7 @@
               v-model.number="loop"
               @input="onInput"
               fullWidth
-              :errorText="this.$v.loop.$invalid ? '不正な値です.' : ''"
-            />
+              :errorText="this.$v.loop.$invalid ? '0から10000000000の整数で指定して下さい.' : ''" />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             回ループする
@@ -59,7 +70,11 @@
         <mu-row><mu-switch label="サウンドを有効化" v-model="sound" @input="onInput" /></mu-row>
         <mu-row v-if="sound">
           <mu-col width="100" tablet="50" desktop="50">
-            <duration-input v-model="soundDuration" @input="onInput" />
+            <duration-input
+              v-model="soundDuration"
+              :invalid="$v.soundDuration.$invalid"
+              @input="onInput"
+              errorText="0から10000000000の数値で指定して下さい." />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             前から音を鳴らす
@@ -74,10 +89,8 @@
 
 <script>
 import { validationMixin } from 'vuelidate';
-import { required, between } from 'vuelidate/lib/validators';
 import DurationInput from './DurationInput';
-
-const notNaN = value => !Number.isNaN(value);
+import { nonBigNumber, integer } from '../lib/rules';
 
 export default {
   name: 'config',
@@ -101,22 +114,11 @@ export default {
     return Object.assign({}, this.value);
   },
   validations: {
-    duration: {
-      notNaN,
-    },
-    waitingDuration: {
-      notNaN,
-    },
-    cuttedDuration: {
-      notNaN,
-    },
-    loop: {
-      required,
-      between: between(0, 10000000000),
-    },
-    soundDuration: {
-      notNaN,
-    },
+    duration: { nonBigNumber },
+    waitingDuration: { nonBigNumber },
+    cuttedDuration: { nonBigNumber },
+    loop: { nonBigNumber, integer },
+    soundDuration: { nonBigNumber },
   },
   methods: {
     onInput() {
