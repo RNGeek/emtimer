@@ -2,29 +2,26 @@
 The timer for Pokemon.
 
 ## For Developers
+
+### Requirements
+- Node.js
+- npm
+- yarn
+
+### How to Build
 ```bash
+# Setup
 $ git clone https://github.com/mizdra/emtimer.git
 $ cd emtimer
-$ docker-compose build
-$ docker-compose up
-$ open http://localhost:8080
+$ yarn install
+
+# Start webpack-dev-server
+$ yarn run dev
 ```
 
-## Build Setup
-
-``` bash
-# exec shell in emtimer container
-$ docker-compose -f docker-compose.yml run emtimer bash
-
-# install dependencies
-app@XXXX:~/emtimer$ yarn install
-
-# serve with hot reload at localhost:8080
-app@XXXX:~/emtimer$ yarn run dev
-
-# build for production with minification
-app@XXXX:~/emtimer$ yarn run build
-
-# build for production and view the bundle analyzer report
-app@XXXX:~/emtimer$ yarn run build --report
+### Production Build
+```bash
+# Setup netlify container
+$ docker-compose -f docker-compose.prod.yml up --build
+$ open http://localhost:8080
 ```
