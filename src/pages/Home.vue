@@ -4,6 +4,7 @@
       <container v-scroll-reveal="{ duration: 700 }">
         <div>
           <img class="logo" alt="Emtimerのロゴ" src="../img/logo.png" />
+          <div class="title">Emtimer</div>
         </div>
         <div class="description">
           乱数勢のための<br/>
@@ -100,28 +101,40 @@ h2 {
   text-align: center;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
-}
 
-.logo {
-  width: 60vw;
+  & .logo {
+    width: 60vw;
 
-  @media (min-width: 600px) {
-    width: auto;
+    @media (min-width: 600px) {
+      width: auto;
+    }
   }
-}
 
-.description {
-  font-family: "SF Pro JP", "SF Pro Text", "SF Pro Icons", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 6vw;
-  padding-top: 20px;
-  padding-left: 20px;
-  font-weight: 550;
-  line-height: 1.8em;
-
-  @media (min-width: 600px) {
+  & .title {
     font-size: 30px;
+    font-weight: bold;
+    font-size: 12vw;
+
+    @media (min-width: 600px) {
+      font-size: 60px;
+    }
+  }
+
+  & .description {
+    font-family: "SF Pro JP", "SF Pro Text", "SF Pro Icons", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 6vw;
+    padding-top: 20px;
+    padding-left: 20px;
+    font-weight: 550;
+    line-height: 1.8em;
+
+    @media (min-width: 600px) {
+      font-size: 30px;
+    }
   }
 }
+
+
 
 .feature {
   padding: 6px;
