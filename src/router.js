@@ -10,17 +10,17 @@ const router = new VueRouter({
     {
       path: '/SimpleTimer',
       component: SimpleTimer,
-      meta: { title: 'シンプルタイマー · エメタイマー' },
+      meta: { title: 'シンプルタイマー · Emtimer' },
     },
     {
       path: '/About',
       component: About,
-      meta: { title: 'About · エメタイマー' },
+      meta: { title: 'About · Emtimer' },
     },
     {
       path: '/',
       component: Home,
-      meta: { title: 'エメタイマー' },
+      meta: { title: 'Emtimer' },
     },
     {
       path: '*',

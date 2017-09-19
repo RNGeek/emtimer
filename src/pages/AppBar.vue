@@ -1,6 +1,6 @@
 <template>
   <div>
-    <mu-appbar title="エメタイマー">
+    <mu-appbar title="Emtimer">
       <mu-icon-button icon="menu" slot="left" @click="toggleDrawer" />
       <mu-flat-button color="white" label="Twitter" href="https://twitter.com/mizdra" target="_blank" slot="right"/>
       <mu-flat-button color="white" label="GitHub" href="https://github.com/mizdra/emtimer" target="_blank" slot="right"/>

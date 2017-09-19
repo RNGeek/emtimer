@@ -3,7 +3,7 @@
     <div class="header">
       <container v-scroll-reveal="{ duration: 700 }">
         <div>
-          <img class="logo" alt="エメタイマーのロゴ" src="../img/logo.png" />
+          <img class="logo" alt="Emtimerのロゴ" src="../img/logo.png" />
         </div>
         <div class="description">
           乱数勢のための<br/>
