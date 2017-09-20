@@ -4,6 +4,7 @@
   "description": "A Vue.js project",
   "author": "mizdra <pp.mizdra@gmail.com>",
   "private": true,
+  "repository": "RNGeek/emtimer",
   "scripts": {
     "dev": "node build/dev-server.js",
     "lint": "eslint --ext .js,.vue src",
