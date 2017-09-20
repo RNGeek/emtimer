@@ -1,5 +1,5 @@
 # emtimer
-The timer for Pokemon.
+Emtimer is a cowntdown timer, which is simple and high functional.
 
 ## For Developers
 
