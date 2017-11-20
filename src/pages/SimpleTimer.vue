@@ -1,44 +1,47 @@
 <template>
-  <container title="シンプルタイマー">
+  <div>
+    <ad />
+    <container title="シンプルタイマー">
+      <mu-card class="config-card">
+        <config v-model="config" />
+      </mu-card>
 
-    <mu-card class="config-card">
-      <config v-model="config" />
-    </mu-card>
+      <div class="output">
+        <div class="loop-view">
+          ループ回数:
+          <template v-if="state.infiniteLoop">{{ state.loopCounter }} / ∞</template>
+          <template v-else>{{ state.loopCounter }} / {{ state.loop }}</template>
+          </div>
 
-    <div class="output">
-      <div class="loop-view">
-        ループ回数:
-        <template v-if="state.infiniteLoop">{{ state.loopCounter }} / ∞</template>
-        <template v-else>{{ state.loopCounter }} / {{ state.loop }}</template>
+        <div class="current-duration-view">
+          <span v-if="state.mode === 'waiting'">開始まで</span>
+          <span v-else>終了まで</span>
         </div>
-
-      <div class="current-duration-view">
-        <span v-if="state.mode === 'waiting'">開始まで</span>
-        <span v-else>終了まで</span>
+        <countdown-timer
+          class="timer"
+          ref="timer"
+          @ended="onended()"
+          @durationupdate="soundTicktack" />
       </div>
-      <countdown-timer
-        class="timer"
-        ref="timer"
-        @ended="onended()"
-        @durationupdate="soundTicktack" />
-    </div>
 
-    <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
-    <audio ref="ended" src="../audio/ended.mp3"></audio>
+      <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
+      <audio ref="ended" src="../audio/ended.mp3"></audio>
 
-    <footer-controller
-      :start-disabled="config.invalid"
-      v-bind="state"
-      @stop="stop"
-      @start="start"
-      @resume="resume"
-      @pause="pause" />
+      <footer-controller
+        :start-disabled="config.invalid"
+        v-bind="state"
+        @stop="stop"
+        @start="start"
+        @resume="resume"
+        @pause="pause" />
 
-  </container>
+    </container>
+  </div>
 </template>
 
 <script>
 /* eslint-disable camelcase */
+import Ad from './Ad';
 import Container from '../components/Container';
 import CountdownTimer from '../components/CountdownTimer';
 import Config from '../components/Config';
@@ -56,6 +59,7 @@ export default {
   name: 'simple-timer',
   components: {
     Container,
+    Ad,
     Config,
     CountdownTimer,
     FooterController,

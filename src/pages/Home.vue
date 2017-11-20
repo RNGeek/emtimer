@@ -14,9 +14,9 @@
       </container>
     </div>
 
+    <ad />
     <container>
       <h1>⚡️特徴️⚡️</h1>
-
       <mu-row>
         <mu-col class="feature" width="100" tablet="100" desktop="33">
           <section>
@@ -70,6 +70,7 @@
 import Vue from 'vue';
 import VueScrollReveal from 'vue-scroll-reveal';
 import Container from '../components/Container';
+import Ad from './Ad';
 
 Vue.use(VueScrollReveal);
 
@@ -77,6 +78,7 @@ export default {
   name: 'home',
   components: {
     Container,
+    Ad,
   },
 };
 </script>
