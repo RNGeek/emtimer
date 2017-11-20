@@ -27,8 +27,8 @@
 /* eslint-disable camelcase */
 import UnitSelect from './UnitSelect';
 
-const parseNumber = (duration, unit) => duration * (unit === 's' ? (1 / 1000) : (1 / 60 / 1000));
-const parseDuration = (number, unit) => number * (unit === 's' ? 1000 : 60 * 1000);
+const parseNumber = (duration, unit) => duration * (unit === 's' ? (1 / 1000) : (60 / 1000));
+const parseDuration = (number, unit) => number * (unit === 's' ? 1000 : 1000 / 60);
 
 // duration(単位はms)をvalueプロパティとして受け取り,
 // 値に変更がある度に変更後のdurationと共にinputイベントを発火する
