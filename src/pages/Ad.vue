@@ -7,7 +7,10 @@
       </mu-sub-header>
       <mu-content-block class="content">
         <p>12/1 から 12/25 まで, ポケモン or 乱数に関することについて1日1本記事を書くAdvent Calendarというイベントを開催します.</p>
-        <p><a href="https://adventar.org/calendars/2170">Pokémon RNG Advent Calendar 2017</a></p>
+        <p>
+          <a href="https://adventar.org/calendars/2170" target="_blank">Pokémon RNG Advent Calendar 2017</a>
+          <mu-icon value="open_in_new" size="14"/>
+        </p>
       </mu-content-block>
     </mu-paper>
   </container>
