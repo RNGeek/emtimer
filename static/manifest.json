@@ -1,0 +1,14 @@
+{
+  "short_name": "Emtimer",
+  "name": "Emtimer",
+  "icons": [
+    {
+      "src": "./favicon.ico",
+      "sizes": "16x16 24x24 32x32 48x48 64x64 128x128 256x256"
+    }
+  ],
+  "start_url": "/?utm_source=homescreen",
+  "background_color": "#e5ffe5",
+  "theme_color": "#009688",
+  "display": "standalone"
+}
