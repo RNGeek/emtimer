@@ -3,7 +3,7 @@
     <div class="header">
       <container v-scroll-reveal="{ duration: 700 }">
         <div>
-          <img class="logo" alt="Emtimerのロゴ" src="../img/logo.png" />
+          <img class="logo" alt="Emtimerのロゴ" width="256px" height="256px" src="../img/logo.svg" />
           <div class="title">Emtimer</div>
         </div>
         <div class="description">
