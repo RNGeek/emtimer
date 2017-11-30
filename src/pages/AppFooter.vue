@@ -1,6 +1,7 @@
 <template>
   <div class="footer">
-    &copy; 2017 <a href="https://twitter.com/mizdra" target="_blank">mizdra</a>.
+    &copy; 2017 <a href="https://twitter.com/mizdra" target="_blank">mizdra</a>. <br>
+    The app logo is "Hour Glass" by Stephen Plaster from the Noun Project.
   </div>
 </template>
 
