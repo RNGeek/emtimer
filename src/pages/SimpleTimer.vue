@@ -3,7 +3,7 @@
     <ad />
     <container title="シンプルタイマー">
       <mu-card class="config-card">
-        <config v-model="config" />
+        <config v-model="config" @soundenable="onSoundenable" />
       </mu-card>
 
       <div class="output">
@@ -24,8 +24,8 @@
           @durationupdate="soundTicktack" />
       </div>
 
-      <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
-      <audio ref="ended" src="../audio/ended.mp3"></audio>
+      <audio muted ref="ticktack" src="../audio/ticktack.mp3"></audio>
+      <audio muted ref="ended" src="../audio/ended.mp3"></audio>
 
       <footer-controller
         :start-disabled="config.invalid"
@@ -72,7 +72,6 @@ export default {
       loop: 0,
       infiniteLoop: false,
       invalid: false,
-      sound: false,
       soundDuration: 10 * 1000,
     };
     return {
@@ -142,18 +141,37 @@ export default {
       // サウンド機能が有効で, 残り時間が指定時間以内,
       // かつ秒の桁が切り替わる時, 音を鳴らす
       if (
-        this.state.sound &&
         duration <= this.state.soundDuration &&
         duration !== 0 &&
         canTicktack(duration, this.beforeDuration)
       ) {
-        this.$refs.ticktack.play();
+        this.$refs.ticktack.play()
+          .then(() => {
+            console.log('fulfilled');
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
       this.beforeDuration = duration;
     },
     soundEnded() {
-      // サウンド機能が有効なら音を鳴らす
-      if (this.state.sound) this.$refs.ended.play();
+      this.$refs.ended.play()
+        .then(() => {
+          console.log('fulfilled');
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    onSoundenable(isSoundEnabled) {
+      /*
+       * 非同期APIを複数回経由するとユーザ操作を契機とするミュートの切り替えと
+       * 判定されないので直接DOM APIを操作している.
+       * @see https://github.com/RNGeek/emtimer/issues/8#issuecomment-351261926
+       */
+      this.$refs.ticktack.muted = !isSoundEnabled;
+      this.$refs.ended.muted = !isSoundEnabled;
     },
   },
   deactivated() {
