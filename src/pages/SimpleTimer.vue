@@ -2,6 +2,12 @@
   <div>
     <ad />
     <container title="シンプルタイマー">
+      <mu-popup position="top" :overlay="false" popupClass="error-popup" :open="errorPopup">
+        <mu-paper class="paper" :zDepth="3">
+          {{ errorMessage }}
+        </mu-paper>
+      </mu-popup>
+
       <mu-card class="config-card">
         <config v-model="config" @soundenable="onSoundenable" />
       </mu-card>
@@ -84,6 +90,8 @@ export default {
         loopCounter: 0,
         beforeDuration: 0,
       },
+      errorPopup: false,
+      errorMessage: '',
       keyupListener: genListener(this.start),
       keydownListener: genListener(this.stop),
     };
@@ -145,24 +153,16 @@ export default {
         duration !== 0 &&
         canTicktack(duration, this.beforeDuration)
       ) {
-        this.$refs.ticktack.play()
-          .then(() => {
-            console.log('fulfilled');
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+        this.$refs.ticktack.play().catch(() => {
+          this.popupError('エラー: 秒針の音の再生に失敗しました.');
+        });
       }
       this.beforeDuration = duration;
     },
     soundEnded() {
-      this.$refs.ended.play()
-        .then(() => {
-          console.log('fulfilled');
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      this.$refs.ended.play().catch(() => {
+        this.popupError('エラー: 停止音の再生に失敗しました.');
+      });
     },
     onSoundenable(isSoundEnabled) {
       /*
@@ -172,6 +172,12 @@ export default {
        */
       this.$refs.ticktack.muted = !isSoundEnabled;
       this.$refs.ended.muted = !isSoundEnabled;
+    },
+    popupError(errorMessage) {
+      if (this.errorPopup) return; // 既にポップアップが出ていたら何もしない
+      this.errorMessage = errorMessage;
+      this.errorPopup = true;
+      setTimeout(() => { this.errorPopup = false; }, 3000);
     },
   },
   deactivated() {
@@ -213,4 +219,19 @@ export default {
 body {
   margin-bottom: 56px;
 }
+
+.error-popup {
+  background-color: transparent !important;
+
+  & .paper {
+    color: #880e4f;
+    text-shadow: 0px 0px 2px #fff;
+    font-weight: bold;
+    border: 1px #ccc solid;
+    background-color: #f8bbd0;
+    padding: 8px;
+    margin: 10px;
+  }
+}
+
 </style>
