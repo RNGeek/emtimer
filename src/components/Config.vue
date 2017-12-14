@@ -67,7 +67,7 @@
 
       <fieldset>
         <legend>サウンド</legend>
-        <mu-row><mu-switch label="サウンドを有効化" v-model="sound" @input="onInput" /></mu-row>
+        <mu-row><mu-switch label="サウンドを有効化" v-model="sound" @input="onSoundenable" /></mu-row>
         <mu-row v-if="sound">
           <mu-col width="100" tablet="50" desktop="50">
             <duration-input
@@ -112,13 +112,14 @@ export default {
       cuttedDuration: { type: Number },
       loop: { type: Number },
       infiniteLoop: { type: Boolean },
-      sound: { type: Boolean },
       soundDuration: { type: Number },
     },
   },
   data() {
-    // copy value
-    return Object.assign({}, this.value);
+    return {
+      sound: false,
+      ...this.value,
+    };
   },
   validations: {
     duration: { nonBigNumber },
@@ -134,6 +135,9 @@ export default {
         ...this.$data,
         invalid: this.$v.$invalid, // バリデーションの結果を加える
       });
+    },
+    onSoundenable() {
+      this.$emit('soundenable', this.sound);
     },
   },
 };

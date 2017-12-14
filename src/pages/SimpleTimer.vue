@@ -2,8 +2,14 @@
   <div>
     <ad />
     <container title="シンプルタイマー">
+      <mu-popup position="top" :overlay="false" popupClass="error-popup" :open="errorPopup">
+        <mu-paper class="paper" :zDepth="3">
+          {{ errorMessage }}
+        </mu-paper>
+      </mu-popup>
+
       <mu-card class="config-card">
-        <config v-model="config" />
+        <config v-model="config" @soundenable="onSoundenable" />
       </mu-card>
 
       <div class="output">
@@ -24,8 +30,8 @@
           @durationupdate="soundTicktack" />
       </div>
 
-      <audio ref="ticktack" src="../audio/ticktack.mp3"></audio>
-      <audio ref="ended" src="../audio/ended.mp3"></audio>
+      <audio muted ref="ticktack" src="../audio/ticktack.mp3"></audio>
+      <audio muted ref="ended" src="../audio/ended.mp3"></audio>
 
       <footer-controller
         :start-disabled="config.invalid"
@@ -72,7 +78,6 @@ export default {
       loop: 0,
       infiniteLoop: false,
       invalid: false,
-      sound: false,
       soundDuration: 10 * 1000,
     };
     return {
@@ -85,6 +90,8 @@ export default {
         loopCounter: 0,
         beforeDuration: 0,
       },
+      errorPopup: false,
+      errorMessage: '',
       keyupListener: genListener(this.start),
       keydownListener: genListener(this.stop),
     };
@@ -142,18 +149,35 @@ export default {
       // サウンド機能が有効で, 残り時間が指定時間以内,
       // かつ秒の桁が切り替わる時, 音を鳴らす
       if (
-        this.state.sound &&
         duration <= this.state.soundDuration &&
         duration !== 0 &&
         canTicktack(duration, this.beforeDuration)
       ) {
-        this.$refs.ticktack.play();
+        this.$refs.ticktack.play().catch(() => {
+          this.popupError('エラー: 秒針の音の再生に失敗しました.');
+        });
       }
       this.beforeDuration = duration;
     },
     soundEnded() {
-      // サウンド機能が有効なら音を鳴らす
-      if (this.state.sound) this.$refs.ended.play();
+      this.$refs.ended.play().catch(() => {
+        this.popupError('エラー: 停止音の再生に失敗しました.');
+      });
+    },
+    onSoundenable(isSoundEnabled) {
+      /*
+       * 非同期APIを複数回経由するとユーザ操作を契機とするミュートの切り替えと
+       * 判定されないので直接DOM APIを操作している.
+       * @see https://github.com/RNGeek/emtimer/issues/8#issuecomment-351261926
+       */
+      this.$refs.ticktack.muted = !isSoundEnabled;
+      this.$refs.ended.muted = !isSoundEnabled;
+    },
+    popupError(errorMessage) {
+      if (this.errorPopup) return; // 既にポップアップが出ていたら何もしない
+      this.errorMessage = errorMessage;
+      this.errorPopup = true;
+      setTimeout(() => { this.errorPopup = false; }, 3000);
     },
   },
   deactivated() {
@@ -195,4 +219,19 @@ export default {
 body {
   margin-bottom: 56px;
 }
+
+.error-popup {
+  background-color: transparent !important;
+
+  & .paper {
+    color: #880e4f;
+    text-shadow: 0px 0px 2px #fff;
+    font-weight: bold;
+    border: 1px #ccc solid;
+    background-color: #f8bbd0;
+    padding: 8px;
+    margin: 10px;
+  }
+}
+
 </style>
