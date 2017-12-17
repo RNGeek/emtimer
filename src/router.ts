@@ -1,8 +1,8 @@
-import VueRouter from 'vue-router';
-import Home from './pages/Home.vue';
-import SimpleTimer from './pages/SimpleTimer.vue';
-import About from './pages/About.vue';
-import { Component } from 'vue-router/types/router';
+import VueRouter from 'vue-router'
+import Home from './pages/Home.vue'
+import SimpleTimer from './pages/SimpleTimer.vue'
+import About from './pages/About.vue'
+import { Component } from 'vue-router/types/router'
 
 const router = new VueRouter({
   mode: 'history',
@@ -10,25 +10,25 @@ const router = new VueRouter({
     {
       path: '/SimpleTimer',
       component: (SimpleTimer as Component),
-      meta: { title: 'シンプルタイマー · Emtimer' },
+      meta: { title: 'シンプルタイマー · Emtimer' }
     },
     {
       path: '/About',
       component: (About as Component),
-      meta: { title: 'About · Emtimer' },
+      meta: { title: 'About · Emtimer' }
     },
     {
       path: '/',
       component: (Home as Component),
-      meta: { title: 'Emtimer' },
+      meta: { title: 'Emtimer' }
     },
-    { path: '*', redirect: '/404' },
-  ],
-});
+    { path: '*', redirect: '/404' }
+  ]
+})
 
 router.beforeEach((to, _from, next) => {
-  document.title = to.meta.title;
-  next();
-});
+  document.title = to.meta.title
+  next()
+})
 
-export default router;
+export default router
