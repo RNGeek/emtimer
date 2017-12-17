@@ -16,7 +16,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       './lib/google-analysis.js',
       './lib/service-worker.js',
       'babel-polyfill',
-      './src/main.js'
+      './src/main.ts'
     ]
   },
   devtool: false,

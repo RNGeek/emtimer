@@ -8,7 +8,7 @@ module.exports = {
     filename: 'js/[name].[hash].js',
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json']
+    extensions: ['.js', '.ts', '.vue', '.json']
   },
   module: {
     rules: [
@@ -20,6 +20,12 @@ module.exports = {
         options: {
           formatter: require('eslint-friendly-formatter')
         }
+      },
+      {
+          test: /\.ts$/,
+          loader: 'tslint-loader',
+          enforce: 'pre',
+          include: [config.srcPath, config.testPath],
       },
       {
         test: /\.vue$/,
@@ -44,9 +50,13 @@ module.exports = {
         })
       },
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: [config.srcPath, config.testPath]
+        test: /\.(js|ts)$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        },
+        include: [config.srcPath, config.testPath],
+        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
