@@ -1,5 +1,5 @@
 [build]
-  command = "yarn run prod:build"
+  command = "yarn run build"
   publish = "dist"
   [build.environment]
     NODE_VERSION = "6.11.3"
