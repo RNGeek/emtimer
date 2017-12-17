@@ -6,7 +6,7 @@ import VueRouter from 'vue-router';
 import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
 import router from './router';
-import App from './App';
+import App from './App.vue';
 
 Vue.use(VueRouter);
 Vue.use(MuseUI);

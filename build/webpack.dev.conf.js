@@ -11,7 +11,7 @@ module.exports = merge(baseWebpackConfig, {
     app: [
       'webpack-hot-middleware/client?noInfo=true&reload=true',
       'babel-polyfill',
-      './src/main.js'
+      './src/main.ts'
     ]
   },
   devtool: '#cheap-module-eval-source-map',
