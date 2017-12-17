@@ -29,34 +29,9 @@
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="Emtimer" />
 
-    <!-- Google Analysis -->
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-44022285-5', 'auto');
-
-      ga('require', 'cleanUrlTracker', {
-        stripQuery: false,
-        indexFilename: 'index.html',
-        trailingSlash: 'remove'
-      });
-      ga('require', 'eventTracker');
-      ga('require', 'outboundLinkTracker');
-      ga('require', 'pageVisibilityTracker');
-      ga('require', 'socialWidgetTracker');
-      ga('require', 'urlChangeTracker');
-
-      ga('send', 'pageview');
-    </script>
     <script async src="https://www.google-analytics.com/analytics.js"></script>
     <script async src="https://unpkg.com/autotrack@2.4.1/autotrack.js"></script>
 
-    <script>
-      (function() {
-        if('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('./service-worker.js');
-        }
-      })();
-    </script>
   </head>
   <body>
     <div id="app"></div>

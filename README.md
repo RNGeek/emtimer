@@ -21,8 +21,11 @@ $ yarn run dev
 
 ### Production Build
 ```bash
-# Setup netlify container
-$ docker-compose build
-$ docker-compose up
-$ open http://localhost:8080
+$ yarn run build
+
+# If necessary, you can serve production following:
+$ yarn run serve
+
+# Following command equals `yarn run build && yarn run serve`:
+$ yarn run start
 ```
