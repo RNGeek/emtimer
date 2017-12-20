@@ -9,7 +9,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: 'airbnb-base',
+  extends: 'standard',
   // required to lint *.vue files
   plugins: [
     'html'
@@ -38,6 +38,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'object-shorthand': ['off', 'properties'],
     'func-names': ["error", "as-needed"],
-    'max-len': ["off"]
+    'max-len': ["off"],
+    'comma-dangle': ["error", "always-multiline"]
   }
 }
