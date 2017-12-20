@@ -44,13 +44,12 @@ module.exports = {
         })
       },
       {
-        test: /\.(js|ts)$/,
+        test: /\.ts$/,
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/]
         },
         include: [config.srcPath, config.testPath],
-        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

@@ -4,11 +4,5 @@
       "modules": false
     }],
     "stage-2"
-  ],
-  "comments": false,
-  "env": {
-    "test": {
-      "presets": ["env", "stage-2"]
-    }
-  }
+  ]
 }
