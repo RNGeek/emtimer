@@ -11,6 +11,7 @@ module.exports = merge(baseWebpackConfig, {
     app: [
       'webpack-hot-middleware/client?noInfo=true&reload=true',
       'babel-polyfill',
+      'tslib',
       './src/main.ts'
     ]
   },

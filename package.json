@@ -19,6 +19,7 @@
     "keycode": "^2.1.9",
     "muse-ui": "^2.1.0",
     "scrollreveal": "^3.3.6",
+    "tslib": "^1.8.1",
     "typescript": "^2.6.2",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
