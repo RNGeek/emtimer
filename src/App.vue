@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-bar />
-    <router-view></router-view>
+    <router-view/>
     <app-footer />
   </div>
 </template>
@@ -11,7 +11,7 @@ import AppBar from './pages/AppBar.vue'
 import AppFooter from './pages/AppFooter.vue'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     AppBar,
     AppFooter,

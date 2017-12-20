@@ -18,7 +18,7 @@ import BigDurationView from './BigDurationView.vue'
 const raf = window.requestAnimationFrame
 
 export default {
-  name: 'countdown-timer',
+  name: 'CountdownTimer',
   components: {
     DurationView,
     BigDurationView,

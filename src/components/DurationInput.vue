@@ -3,15 +3,22 @@
     <mu-flexbox>
       <mu-flexbox-item>
         <mu-text-field
-          hintText="0"
+          hint-text="0"
           v-model.number="stateNumber"
-          :errorText="stateErrorText"
+          :error-text="stateErrorText"
           v-bind="$attrs"
           @input="emitInput"
-          fullWidth />
+          full-width />
       </mu-flexbox-item>
-      <mu-flexbox-item basis="5em" grow="0">
-        <unit-select v-model="stateUnit" @input="emitInput" fullWidth />
+      <mu-flexbox-item
+        basis="5em"
+        grow="0"
+      >
+        <unit-select
+          v-model="stateUnit"
+          @input="emitInput"
+          full-width
+        />
       </mu-flexbox-item>
     </mu-flexbox>
   </div>
@@ -34,13 +41,13 @@ const parseDuration = (number, unit) => number * (unit === 's' ? 1000 : 1000 / 6
 // 値に変更がある度に変更後のdurationと共にinputイベントを発火する
 
 export default {
-  name: 'duration-input',
+  name: 'DurationInput',
   components: {
     UnitSelect,
   },
   props: {
-    value: { default: 0 },
-    unit: { default: 's' },
+    value: { type: Number, default: 0 },
+    unit: { type: String, default: 's' },
     invalid: { type: Boolean, default: false },
     errorText: { type: String, default: '不正な値です.' },
   },
