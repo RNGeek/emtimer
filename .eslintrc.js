@@ -2,7 +2,10 @@
 
 module.exports = {
   root: true,
-  extends: 'standard',
+  extends: [
+    'standard',
+    'plugin:vue/recommended'
+  ],
   parser: 'vue-eslint-parser',
   parserOptions: {
       parser: 'typescript-eslint-parser'
