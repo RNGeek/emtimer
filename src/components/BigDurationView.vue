@@ -12,43 +12,43 @@
  */
 
 /* eslint-disable camelcase */
-import DurationView from './DurationView';
-import { canTicktack } from '../lib/util';
+import DurationView from './DurationView.vue'
+import { canTicktack } from '../lib/util'
 
 export default {
   name: 'big-duration-view',
   extends: DurationView,
-  data() {
+  data () {
     return {
       beforeDuration: 0,
       bgColor: 'transparent',
       duration: '0ms',
-    };
+    }
   },
   computed: {
-    right() {
-      const cs = ((this.value / 10) % 100); // centi seconds
-      return `${(((cs + 37.5) * 2) % 200) - 25}%`;
+    right () {
+      const cs = ((this.value / 10) % 100) // centi seconds
+      return `${(((cs + 37.5) * 2) % 200) - 25}%`
     },
   },
   watch: {
-    value() {
+    value () {
       // 秒の桁が切り替わる時, ハイライトする
       if (canTicktack(this.value, this.beforeDuration)) {
-        this.bgColor = '#ffff00';
-        this.duration = '0ms'; // CSS Transitionを無効化
+        this.bgColor = '#ffff00'
+        this.duration = '0ms' // CSS Transitionを無効化
 
         // 本来はVue#$nextTickを使うべきだが, 上手く動かないのでsetTimeoutで代用
         setTimeout(() => {
           // ハイライトしたらCSS Transitionを有効化しつつすぐに元の状態に戻す
-          this.bgColor = 'transparent';
-          this.duration = '500ms'; // CSS Transitionを有効化
-        }, 0);
+          this.bgColor = 'transparent'
+          this.duration = '500ms' // CSS Transitionを有効化
+        }, 0)
       }
-      this.beforeDuration = this.value;
+      this.beforeDuration = this.value
     },
   },
-};
+}
 </script>
 
 <style scoped>

@@ -16,5 +16,5 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  render: h => h(App)
-}) // tslint:disable-line
+  render: h => h(App),
+})

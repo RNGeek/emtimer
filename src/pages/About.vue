@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import Container from '../components/Container';
-import Ad from './Ad';
+import Container from '../components/Container.vue'
+import Ad from './Ad.vue'
 
 export default {
   name: 'about',
   components: { Container, Ad },
-};
+}
 </script>

@@ -47,19 +47,19 @@
 
 <script>
 /* eslint-disable camelcase */
-import Ad from './Ad';
-import Container from '../components/Container';
-import CountdownTimer from '../components/CountdownTimer';
-import Config from '../components/Config';
-import FooterController from '../components/FooterController';
-import { canTicktack } from '../lib/util';
+import Ad from './Ad.vue'
+import Container from '../components/Container.vue'
+import CountdownTimer from '../components/CountdownTimer.vue'
+import Config from '../components/Config.vue'
+import FooterController from '../components/FooterController.vue'
+import { canTicktack } from '../lib/util'
 
 const genListener = fn => (e) => {
   if (e.key === ' ') { // スペースが入力された場合
-    fn();
-    e.preventDefault(); // イベントをキャンセル
+    fn()
+    e.preventDefault() // イベントをキャンセル
   }
-};
+}
 
 export default {
   name: 'simple-timer',
@@ -70,7 +70,7 @@ export default {
     CountdownTimer,
     FooterController,
   },
-  data() {
+  data () {
     const dafaultConfig = {
       duration: 10 * 1000,
       waitingDuration: 0,
@@ -79,7 +79,7 @@ export default {
       infiniteLoop: false,
       invalid: false,
       soundDuration: 10 * 1000,
-    };
+    }
     return {
       config: dafaultConfig,
       state: {
@@ -94,58 +94,58 @@ export default {
       errorMessage: '',
       keyupListener: genListener(this.start),
       keydownListener: genListener(this.stop),
-    };
+    }
   },
   methods: {
-    start() {
-      if (this.config.invalid) return;
+    start () {
+      if (this.config.invalid) return
       this.state = {
         ...this.config,
         loopCounter: 0,
         mode: 'waiting',
-      };
-      this.$refs.timer.start(this.state.waitingDuration);
-      this.updateState();
+      }
+      this.$refs.timer.start(this.state.waitingDuration)
+      this.updateState()
     },
-    stop() {
-      this.state.loopCounter = this.state.loop;
-      this.state.infiniteLoop = false;
-      this.state.mode = 'main';
-      this.$refs.timer.stop();
-      this.updateState();
+    stop () {
+      this.state.loopCounter = this.state.loop
+      this.state.infiniteLoop = false
+      this.state.mode = 'main'
+      this.$refs.timer.stop()
+      this.updateState()
     },
-    resume() {
-      this.$refs.timer.start();
-      this.updateState();
+    resume () {
+      this.$refs.timer.start()
+      this.updateState()
     },
-    pause() {
-      this.$refs.timer.pause();
-      this.updateState();
+    pause () {
+      this.$refs.timer.pause()
+      this.updateState()
     },
-    updateState() {
+    updateState () {
       this.state = {
         ...this.state,
         paused: this.$refs.timer.paused,
         ended: this.$refs.timer.ended,
-      };
-    },
-    onended() {
-      this.updateState();
-      if (this.state.mode === 'waiting') {
-        this.state.mode = 'main';
-        this.$refs.timer.start(this.state.duration - this.state.cuttedDuration);
-        this.updateState();
-      } else {
-        if (this.state.infiniteLoop || this.state.loopCounter < this.state.loop) {
-          this.state.loopCounter = this.state.loopCounter + 1;
-          this.state.mode = 'waiting';
-          this.$refs.timer.start(this.state.waitingDuration);
-          this.updateState();
-        }
-        this.soundEnded();
       }
     },
-    soundTicktack(duration) {
+    onended () {
+      this.updateState()
+      if (this.state.mode === 'waiting') {
+        this.state.mode = 'main'
+        this.$refs.timer.start(this.state.duration - this.state.cuttedDuration)
+        this.updateState()
+      } else {
+        if (this.state.infiniteLoop || this.state.loopCounter < this.state.loop) {
+          this.state.loopCounter = this.state.loopCounter + 1
+          this.state.mode = 'waiting'
+          this.$refs.timer.start(this.state.waitingDuration)
+          this.updateState()
+        }
+        this.soundEnded()
+      }
+    },
+    soundTicktack (duration) {
       // サウンド機能が有効で, 残り時間が指定時間以内,
       // かつ秒の桁が切り替わる時, 音を鳴らす
       if (
@@ -154,46 +154,46 @@ export default {
         canTicktack(duration, this.beforeDuration)
       ) {
         this.$refs.ticktack.play().catch(() => {
-          this.popupError('エラー: 秒針の音の再生に失敗しました.');
-        });
+          this.popupError('エラー: 秒針の音の再生に失敗しました.')
+        })
       }
-      this.beforeDuration = duration;
+      this.beforeDuration = duration
     },
-    soundEnded() {
+    soundEnded () {
       this.$refs.ended.play().catch(() => {
-        this.popupError('エラー: 停止音の再生に失敗しました.');
-      });
+        this.popupError('エラー: 停止音の再生に失敗しました.')
+      })
     },
-    onSoundenable(isSoundEnabled) {
+    onSoundenable (isSoundEnabled) {
       /*
        * 非同期APIを複数回経由するとユーザ操作を契機とするミュートの切り替えと
        * 判定されないので直接DOM APIを操作している.
        * @see https://github.com/RNGeek/emtimer/issues/8#issuecomment-351261926
        */
-      this.$refs.ticktack.muted = !isSoundEnabled;
-      this.$refs.ended.muted = !isSoundEnabled;
+      this.$refs.ticktack.muted = !isSoundEnabled
+      this.$refs.ended.muted = !isSoundEnabled
     },
-    popupError(errorMessage) {
-      if (this.errorPopup) return; // 既にポップアップが出ていたら何もしない
-      this.errorMessage = errorMessage;
-      this.errorPopup = true;
-      setTimeout(() => { this.errorPopup = false; }, 3000);
+    popupError (errorMessage) {
+      if (this.errorPopup) return // 既にポップアップが出ていたら何もしない
+      this.errorMessage = errorMessage
+      this.errorPopup = true
+      setTimeout(() => { this.errorPopup = false }, 3000)
     },
   },
-  deactivated() {
-    this.pause();
+  deactivated () {
+    this.pause()
   },
-  mounted() {
+  mounted () {
     // add event listener
-    document.addEventListener('keyup', this.keyupListener);
-    document.addEventListener('keydown', this.keydownListener);
+    document.addEventListener('keyup', this.keyupListener)
+    document.addEventListener('keydown', this.keydownListener)
   },
-  destroyed() {
+  destroyed () {
     // remote event listener
-    document.removeEventListener('keyup', this.keyupListener);
-    document.removeEventListener('keydown', this.keydownListener);
+    document.removeEventListener('keyup', this.keyupListener)
+    document.removeEventListener('keydown', this.keydownListener)
   },
-};
+}
 </script>
 
 <style scoped>

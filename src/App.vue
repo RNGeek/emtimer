@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import AppBar from './pages/AppBar';
-import AppFooter from './pages/AppFooter';
+import AppBar from './pages/AppBar.vue'
+import AppFooter from './pages/AppFooter.vue'
 
 export default {
   name: 'app',
@@ -16,5 +16,5 @@ export default {
     AppBar,
     AppFooter,
   },
-};
+}
 </script>

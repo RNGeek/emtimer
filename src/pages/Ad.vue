@@ -17,24 +17,24 @@
 </template>
 
 <script>
-import Container from '../components/Container';
+import Container from '../components/Container.vue'
 
 export default {
   name: 'ad',
   components: {
     Container,
   },
-  data() {
+  data () {
     return {
       visible: true,
-    };
+    }
   },
   methods: {
-    hide() {
-      this.visible = false;
+    hide () {
+      this.visible = false
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -58,4 +58,3 @@ export default {
   display: none;
 }
 </style>
-
