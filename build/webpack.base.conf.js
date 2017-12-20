@@ -22,12 +22,6 @@ module.exports = {
         }
       },
       {
-          test: /\.ts$/,
-          loader: 'tslint-loader',
-          enforce: 'pre',
-          include: [config.srcPath, config.testPath],
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
