@@ -2,14 +2,25 @@
   <div>
     <ad />
     <container title="シンプルタイマー">
-      <mu-popup position="top" :overlay="false" popupClass="error-popup" :open="errorPopup">
-        <mu-paper class="paper" :zDepth="3">
+      <mu-popup
+        position="top"
+        :overlay="false"
+        popup-class="error-popup"
+        :open="errorPopup"
+      >
+        <mu-paper
+          class="paper"
+          :z-depth="3"
+        >
           {{ errorMessage }}
         </mu-paper>
       </mu-popup>
 
       <mu-card class="config-card">
-        <config v-model="config" @soundenable="onSoundenable" />
+        <config
+          v-model="config"
+          @soundenable="onSoundenable"
+        />
       </mu-card>
 
       <div class="output">
@@ -17,7 +28,7 @@
           ループ回数:
           <template v-if="state.infiniteLoop">{{ state.loopCounter }} / ∞</template>
           <template v-else>{{ state.loopCounter }} / {{ state.loop }}</template>
-          </div>
+        </div>
 
         <div class="current-duration-view">
           <span v-if="state.mode === 'waiting'">開始まで</span>
@@ -30,8 +41,16 @@
           @durationupdate="soundTicktack" />
       </div>
 
-      <audio muted ref="ticktack" src="../audio/ticktack.mp3"></audio>
-      <audio muted ref="ended" src="../audio/ended.mp3"></audio>
+      <audio
+        muted
+        ref="ticktack"
+        src="../audio/ticktack.mp3"
+      />
+      <audio
+        muted
+        ref="ended"
+        src="../audio/ended.mp3"
+      />
 
       <footer-controller
         :start-disabled="config.invalid"
@@ -62,7 +81,7 @@ const genListener = fn => (e) => {
 }
 
 export default {
-  name: 'simple-timer',
+  name: 'SimpleTimer',
   components: {
     Container,
     Ad,
@@ -95,6 +114,19 @@ export default {
       keyupListener: genListener(this.start),
       keydownListener: genListener(this.stop),
     }
+  },
+  deactivated () {
+    this.pause()
+  },
+  mounted () {
+    // add event listener
+    document.addEventListener('keyup', this.keyupListener)
+    document.addEventListener('keydown', this.keydownListener)
+  },
+  destroyed () {
+    // remote event listener
+    document.removeEventListener('keyup', this.keyupListener)
+    document.removeEventListener('keydown', this.keydownListener)
   },
   methods: {
     start () {
@@ -179,19 +211,6 @@ export default {
       this.errorPopup = true
       setTimeout(() => { this.errorPopup = false }, 3000)
     },
-  },
-  deactivated () {
-    this.pause()
-  },
-  mounted () {
-    // add event listener
-    document.addEventListener('keyup', this.keyupListener)
-    document.addEventListener('keydown', this.keydownListener)
-  },
-  destroyed () {
-    // remote event listener
-    document.removeEventListener('keyup', this.keyupListener)
-    document.removeEventListener('keydown', this.keydownListener)
   },
 }
 </script>

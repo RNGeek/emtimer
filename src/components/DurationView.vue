@@ -16,19 +16,21 @@
  */
 
 export default {
-  name: 'duration-view',
-  props: ['value'], // 0以上の数値
+  name: 'DurationView',
+  filters: {
+    pad (value) {
+      return value.toString().padStart(2, '0')
+    },
+  },
+  props: {
+    value: { type: Number, required: true }, // 0以上の数値
+  },
   computed: {
     days () { return Math.trunc(this.value / 1000 / 60 / 60 / 24) },
     hours () { return Math.trunc(this.value / 1000 / 60 / 60) % 24 },
     minutes () { return Math.trunc(this.value / 1000 / 60) % 60 },
     seconds () { return Math.trunc(this.value / 1000) % 60 },
     cs () { return Math.trunc(this.value / 10) % 100 },
-  },
-  filters: {
-    pad (value) {
-      return value.toString().padStart(2, '0')
-    },
   },
 }
 </script>

@@ -1,7 +1,13 @@
 <template>
-  <div class="view" :style="{ background: bgColor, transitionDuration: duration }" >
-    <div class="line"></div>
-    <div class="circle" :style="{ right: right }"></div>
+  <div
+    class="view"
+    :style="{ background: bgColor, transitionDuration: duration }"
+  >
+    <div class="line"/>
+    <div
+      class="circle"
+      :style="{ right: right }"
+    />
   </div>
 </template>
 
@@ -16,7 +22,7 @@ import DurationView from './DurationView.vue'
 import { canTicktack } from '../lib/util'
 
 export default {
-  name: 'big-duration-view',
+  name: 'BigDurationView',
   extends: DurationView,
   data () {
     return {
