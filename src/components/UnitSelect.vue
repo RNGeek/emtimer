@@ -19,5 +19,5 @@ export default {
   props: {
     value: { default: 's' },
   },
-};
+}
 </script>

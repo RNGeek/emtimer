@@ -25,10 +25,10 @@
  */
 
 /* eslint-disable camelcase */
-import UnitSelect from './UnitSelect';
+import UnitSelect from './UnitSelect.vue'
 
-const parseNumber = (duration, unit) => duration * (unit === 's' ? (1 / 1000) : (60 / 1000));
-const parseDuration = (number, unit) => number * (unit === 's' ? 1000 : 1000 / 60);
+const parseNumber = (duration, unit) => duration * (unit === 's' ? (1 / 1000) : (60 / 1000))
+const parseDuration = (number, unit) => number * (unit === 's' ? 1000 : 1000 / 60)
 
 // duration(単位はms)をvalueプロパティとして受け取り,
 // 値に変更がある度に変更後のdurationと共にinputイベントを発火する
@@ -44,24 +44,24 @@ export default {
     invalid: { type: Boolean, default: false },
     errorText: { type: String, default: '不正な値です.' },
   },
-  data() {
+  data () {
     return {
       stateNumber: parseNumber(this.value, this.unit), // 表示用の数値
       stateUnit: this.unit, // 表示用の単位
-    };
+    }
   },
   computed: {
-    duration() {
-      return parseDuration(this.stateNumber, this.stateUnit);
+    duration () {
+      return parseDuration(this.stateNumber, this.stateUnit)
     },
-    stateErrorText() {
-      return this.invalid ? this.errorText : '';
+    stateErrorText () {
+      return this.invalid ? this.errorText : ''
     },
   },
   methods: {
-    emitInput() {
-      this.$emit('input', this.duration);
+    emitInput () {
+      this.$emit('input', this.duration)
     },
   },
-};
+}
 </script>

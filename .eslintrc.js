@@ -2,18 +2,14 @@
 
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
+  extends: 'standard',
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    sourceType: 'module'
+      parser: 'typescript-eslint-parser'
   },
   env: {
     browser: true,
   },
-  extends: 'airbnb-base',
-  // required to lint *.vue files
-  plugins: [
-    'html'
-  ],
   // check if imports actually resolve
   'settings': {
     'import/resolver': {
@@ -27,8 +23,7 @@ module.exports = {
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',
-      'ts': 'never',
-      'vue': 'never'
+      'ts': 'never'
     }],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
@@ -37,7 +32,8 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'object-shorthand': ['off', 'properties'],
-    'func-names': ["error", "as-needed"],
-    'max-len': ["off"]
+    'func-names': ['error', 'as-needed'],
+    'max-len': ['off'],
+    'comma-dangle': ['error', 'always-multiline']
   }
 }

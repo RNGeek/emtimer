@@ -1,4 +1,4 @@
-/* tslint:disable: variable-name */
+/* eslint-disable camelcase */
 
 // 秒が切り替わる瞬間であればtrueを返す
 export const canTicktack = (newDuration: number, oldDuration: number) => {

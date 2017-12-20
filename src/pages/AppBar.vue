@@ -41,19 +41,19 @@
 <script>
 export default {
   name: 'app-bar',
-  data() {
+  data () {
     return {
       open: false,
       docked: true,
-    };
+    }
   },
   methods: {
-    toggleDrawer(flag) {
-      this.open = !this.open;
-      this.docked = !flag;
+    toggleDrawer (flag) {
+      this.open = !this.open
+      this.docked = !flag
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -61,4 +61,3 @@ export default {
   background-color: #009688;
 }
 </style>
-

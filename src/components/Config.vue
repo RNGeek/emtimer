@@ -86,7 +86,6 @@
   </div>
 </template>
 
-
 <script>
 /**
  * 設定フォーム.
@@ -95,9 +94,9 @@
  * 変更後の設定にはバリデーションの結果も含まれる.
  */
 
-import { validationMixin } from 'vuelidate';
-import DurationInput from './DurationInput';
-import { nonBigNumber, integer } from '../lib/rules';
+import { validationMixin } from 'vuelidate'
+import DurationInput from './DurationInput.vue'
+import { nonBigNumber, integer } from '../lib/rules'
 
 export default {
   name: 'config',
@@ -115,11 +114,11 @@ export default {
       soundDuration: { type: Number },
     },
   },
-  data() {
+  data () {
     return {
       sound: false,
       ...this.value,
-    };
+    }
   },
   validations: {
     duration: { nonBigNumber },
@@ -129,18 +128,18 @@ export default {
     soundDuration: { nonBigNumber },
   },
   methods: {
-    onInput() {
+    onInput () {
       // copy $data and fire input event
       this.$emit('input', {
         ...this.$data,
         invalid: this.$v.$invalid, // バリデーションの結果を加える
-      });
+      })
     },
-    onSoundenable() {
-      this.$emit('soundenable', this.sound);
+    onSoundenable () {
+      this.$emit('soundenable', this.sound)
     },
   },
-};
+}
 </script>
 
 <style scoped>

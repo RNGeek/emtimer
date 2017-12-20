@@ -17,9 +17,8 @@ export default {
   props: {
     title: { type: String, default: '' },
   },
-};
+}
 </script>
-
 
 <style scoped>
 /**

@@ -23,11 +23,11 @@ export default {
     startDisabled: { type: Boolean },
   },
   methods: {
-    emit(action) {
-      this.$emit(action);
+    emit (action) {
+      this.$emit(action)
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -54,4 +54,3 @@ export default {
   cursor: not-allowed !important;
 }
 </style>
-

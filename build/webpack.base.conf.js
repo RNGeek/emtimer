@@ -22,12 +22,6 @@ module.exports = {
         }
       },
       {
-          test: /\.ts$/,
-          loader: 'tslint-loader',
-          enforce: 'pre',
-          include: [config.srcPath, config.testPath],
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -50,13 +44,12 @@ module.exports = {
         })
       },
       {
-        test: /\.(js|ts)$/,
+        test: /\.ts$/,
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/]
         },
         include: [config.srcPath, config.testPath],
-        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

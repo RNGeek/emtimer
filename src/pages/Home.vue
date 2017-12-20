@@ -67,12 +67,12 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import VueScrollReveal from 'vue-scroll-reveal';
-import Container from '../components/Container';
-import Ad from './Ad';
+import Vue from 'vue'
+import VueScrollReveal from 'vue-scroll-reveal'
+import Container from '../components/Container.vue'
+import Ad from './Ad.vue'
 
-Vue.use(VueScrollReveal);
+Vue.use(VueScrollReveal)
 
 export default {
   name: 'home',
@@ -80,7 +80,7 @@ export default {
     Container,
     Ad,
   },
-};
+}
 </script>
 
 <style scoped>
@@ -136,8 +136,6 @@ h2 {
   }
 }
 
-
-
 .feature {
   padding: 6px;
 }
@@ -146,4 +144,3 @@ h2 {
   padding: 6px 10px;
 }
 </style>
-
