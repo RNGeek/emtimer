@@ -137,7 +137,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * 設定フォーム.
  * valueプロパティで初期設定を渡し, 値が変更されると
@@ -145,11 +145,12 @@
  * 変更後の設定にはバリデーションの結果も含まれる.
  */
 
+import Vue from 'vue'
 import { validationMixin } from 'vuelidate'
 import DurationInput from './DurationInput.vue'
 import { nonBigNumber, integer } from '../lib/rules'
 
-export default {
+export default Vue.extend({
   name: 'Config',
   components: {
     DurationInput,
@@ -181,18 +182,18 @@ export default {
     soundDuration: { nonBigNumber },
   },
   methods: {
-    onInput () {
+    onInput (): void {
       // copy $data and fire input event
       this.$emit('input', {
         ...this.$data,
         invalid: this.$v.$invalid, // バリデーションの結果を加える
       })
     },
-    onSoundenable () {
+    onSoundenable (): void {
       this.$emit('soundenable', this.sound)
     },
   },
-}
+})
 </script>
 
 <style scoped>

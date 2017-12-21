@@ -8,17 +8,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * 残り時間の表示部.
  * value(単位はms)プロパティで残り時間を渡すと
  * `days:hours:minutes:seconds:cs`の形式で残り時間を表示する.
  */
 
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'DurationView',
   filters: {
-    pad (value) {
+    pad (value): string {
       return value.toString().padStart(2, '0')
     },
   },
@@ -26,13 +28,13 @@ export default {
     value: { type: Number, required: true }, // 0以上の数値
   },
   computed: {
-    days () { return Math.trunc(this.value / 1000 / 60 / 60 / 24) },
-    hours () { return Math.trunc(this.value / 1000 / 60 / 60) % 24 },
-    minutes () { return Math.trunc(this.value / 1000 / 60) % 60 },
-    seconds () { return Math.trunc(this.value / 1000) % 60 },
-    cs () { return Math.trunc(this.value / 10) % 100 },
+    days (): number { return Math.trunc(this.value / 1000 / 60 / 60 / 24) },
+    hours (): number { return Math.trunc(this.value / 1000 / 60 / 60) % 24 },
+    minutes (): number { return Math.trunc(this.value / 1000 / 60) % 60 },
+    seconds (): number { return Math.trunc(this.value / 1000) % 60 },
+    cs (): number { return Math.trunc(this.value / 10) % 100 },
   },
-}
+})
 </script>
 
 <style scoped>

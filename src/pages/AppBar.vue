@@ -82,8 +82,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'AppBar',
   data () {
     return {
@@ -92,12 +94,12 @@ export default {
     }
   },
   methods: {
-    toggleDrawer (flag) {
+    toggleDrawer (flag): void {
       this.open = !this.open
       this.docked = !flag
     },
   },
-}
+})
 </script>
 
 <style scoped>

@@ -29,13 +29,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * 画面下部に固定されるタイマーコントローラー.
  * 押されたボタンに応じてイベント(start/stop/pause/resume)を発火する.
  */
 
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'FooterController',
   props: {
     paused: { type: Boolean, required: true },
@@ -43,11 +45,11 @@ export default {
     startDisabled: { type: Boolean, required: true },
   },
   methods: {
-    emit (action) {
+    emit (action): void {
       this.$emit(action)
     },
   },
-}
+})
 </script>
 
 <style scoped>

@@ -5,19 +5,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * カウントダウンタイマー.
  * start/stop/pauseメソッドで操作する.
  */
 
 /* eslint-disable camelcase */
+import Vue from 'vue'
 import DurationView from './DurationView.vue'
 import BigDurationView from './BigDurationView.vue'
 
 const raf = window.requestAnimationFrame
 
-export default {
+export default Vue.extend({
   name: 'CountdownTimer',
   components: {
     DurationView,
@@ -31,7 +32,7 @@ export default {
     }
   },
   methods: {
-    startRAFLoop () {
+    startRAFLoop (): void {
       const cb = (currentTime_ms, prevTime_ms) => {
         if (this.ended) {
           this.$emit('pause')
@@ -46,7 +47,7 @@ export default {
       const initialTime_ms = window.performance.now()
       raf(time_ms => cb(time_ms, initialTime_ms))
     },
-    updateDuration (newDuration) {
+    updateDuration (newDuration): void {
       this.duration = Math.max(newDuration, 0)
       if (this.duration === 0) {
         if (this.paused && !this.ended) {
@@ -60,7 +61,8 @@ export default {
       }
       this.$emit('durationupdate', this.duration)
     },
-    start (duration = this.duration) {
+    start (duration?: number): void {
+      if (duration === undefined) duration = this.duration
       if (this.paused) {
         this.paused = false
         this.ended = false
@@ -71,14 +73,14 @@ export default {
       }
       this.$emit('start')
     },
-    stop () {
+    stop (): void {
       this.updateDuration(0)
     },
-    pause () {
+    pause (): void {
       this.paused = true
     },
   },
-}
+})
 </script>
 
 <style scoped>

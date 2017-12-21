@@ -26,6 +26,7 @@ module.exports = {
     'import/extensions': ['error', 'always', {
       'js': 'never',
       'ts': 'never',
+      'd.ts': 'never',
     }],
     'object-shorthand': ['off', 'properties'],
     'func-names': ['error', 'as-needed'],
