@@ -6,9 +6,9 @@
   "private": true,
   "repository": "RNGeek/emtimer",
   "scripts": {
-    "dev": "node build/dev.js",
+    "dev": "node config/dev.js",
     "lint": "eslint --ext .js,.vue,.ts src",
-    "build": "node build/build.js",
+    "build": "node config/build.js",
     "serve": "http-server dist/ -o",
     "start": "yarn run serve",
     "prestart": "yarn run build"
