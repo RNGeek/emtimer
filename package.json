@@ -1,7 +1,7 @@
 {
   "name": "emtimer",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Emtimer is a cowntdown timer, which is simple and high functional.",
   "author": "mizdra <pp.mizdra@gmail.com>",
   "private": true,
   "repository": "RNGeek/emtimer",
