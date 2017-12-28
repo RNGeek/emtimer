@@ -32,5 +32,6 @@ module.exports = {
     'func-names': ['error', 'as-needed'],
     'max-len': ['off'],
     'comma-dangle': ['error', 'always-multiline'],
+    'vue/max-attributes-per-line': 'off',
   }
 }

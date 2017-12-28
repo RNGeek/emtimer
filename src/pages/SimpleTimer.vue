@@ -2,25 +2,14 @@
   <div>
     <ad />
     <container title="シンプルタイマー">
-      <mu-popup
-        position="top"
-        :overlay="false"
-        popup-class="error-popup"
-        :open="errorPopup"
-      >
-        <mu-paper
-          class="paper"
-          :z-depth="3"
-        >
+      <mu-popup position="top" :overlay="false" popup-class="error-popup" :open="errorPopup">
+        <mu-paper class="paper" :z-depth="3">
           {{ errorMessage }}
         </mu-paper>
       </mu-popup>
 
       <mu-card class="config-card">
-        <config
-          v-model="config"
-          @soundenable="onSoundenable"
-        />
+        <config v-model="config" @soundenable="onSoundenable" />
       </mu-card>
 
       <div class="output">
@@ -41,16 +30,8 @@
           @durationupdate="soundTicktack" />
       </div>
 
-      <audio
-        muted
-        ref="ticktack"
-        src="../audio/ticktack.mp3"
-      />
-      <audio
-        muted
-        ref="ended"
-        src="../audio/ended.mp3"
-      />
+      <audio muted ref="ticktack" src="../audio/ticktack.mp3"/>
+      <audio muted ref="ended" src="../audio/ended.mp3"/>
 
       <footer-controller
         :start-disabled="config.invalid"
