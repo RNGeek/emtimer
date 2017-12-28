@@ -8,6 +8,9 @@ Emtimer is a cowntdown timer, which is simple and high functional.
 - npm
 - yarn
 
+### Recommended
+- VSCode
+
 ### How to Build
 ```bash
 # Setup
