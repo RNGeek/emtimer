@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <container v-scroll-reveal="{ duration: 700 }">
+      <container>
         <div>
           <img class="logo" alt="Emtimerのロゴ" width="256px" height="256px" src="../img/logo.svg" >
           <div class="title">Emtimer</div>
@@ -68,11 +68,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import VueScrollReveal from 'vue-scroll-reveal'
 import Container from '../components/Container.vue'
 import Ad from '../components/Ad.vue'
-
-Vue.use(VueScrollReveal)
 
 export default Vue.extend({
   name: 'Home',
