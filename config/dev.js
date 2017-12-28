@@ -1,6 +1,5 @@
 process.env.NODE_ENV = 'development'
 
-const opn = require('opn')
 const express = require('express')
 const webpack = require('webpack')
 
@@ -45,5 +44,4 @@ devMiddleware.waitUntilValid(() => {
 
 module.exports = app.listen(port, (err) => {
   if (err) throw err
-  opn(uri)
 })
