@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * 時間の入力欄.
  * value(単位はms)プロパティとunitプロパティで時間と単位の初期値を渡すことができ,
@@ -32,6 +32,7 @@
  */
 
 /* eslint-disable camelcase */
+import Vue from 'vue'
 import UnitSelect from './UnitSelect.vue'
 
 const parseNumber = (duration, unit) => duration * (unit === 's' ? (1 / 1000) : (60 / 1000))
@@ -40,7 +41,7 @@ const parseDuration = (number, unit) => number * (unit === 's' ? 1000 : 1000 / 6
 // duration(単位はms)をvalueプロパティとして受け取り,
 // 値に変更がある度に変更後のdurationと共にinputイベントを発火する
 
-export default {
+export default Vue.extend({
   name: 'DurationInput',
   components: {
     UnitSelect,
@@ -58,10 +59,10 @@ export default {
     }
   },
   computed: {
-    duration () {
+    duration (): number {
       return parseDuration(this.stateNumber, this.stateUnit)
     },
-    stateErrorText () {
+    stateErrorText (): string {
       return this.invalid ? this.errorText : ''
     },
   },
@@ -70,5 +71,5 @@ export default {
       this.$emit('input', this.duration)
     },
   },
-}
+})
 </script>

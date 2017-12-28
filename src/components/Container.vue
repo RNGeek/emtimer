@@ -8,19 +8,21 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * コンテンツを掲載するためのコンテナ.
  * slotで渡されたコンポーネントを左右に余白を取り中央に表示する.
  * titleプロパティでコンテナのタイトルを指定できる.
  */
 
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'Container',
   props: {
     title: { type: String, default: '' },
   },
-}
+})
 </script>
 
 <style scoped>

@@ -66,6 +66,7 @@
 
 <script>
 /* eslint-disable camelcase */
+import Vue from 'vue'
 import Ad from './Ad.vue'
 import Container from '../components/Container.vue'
 import CountdownTimer from '../components/CountdownTimer.vue'
@@ -80,7 +81,7 @@ const genListener = fn => (e) => {
   }
 }
 
-export default {
+export default Vue.extend({
   name: 'SimpleTimer',
   components: {
     Container,
@@ -212,7 +213,7 @@ export default {
       setTimeout(() => { this.errorPopup = false }, 3000)
     },
   },
-}
+})
 </script>
 
 <style scoped>

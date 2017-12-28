@@ -11,19 +11,23 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * 赤丸の位置で秒以下の桁を表わす.
  * 秒の桁が変わる瞬間に赤丸が中央を通過し, 通過する際にハイライトする.
  */
 
 /* eslint-disable camelcase */
+import Vue from 'vue'
 import DurationView from './DurationView.vue'
 import { canTicktack } from '../lib/util'
 
-export default {
+export default Vue.extend({
   name: 'BigDurationView',
   extends: DurationView,
+  props: {
+    value: { type: Number, required: true },
+  },
   data () {
     return {
       beforeDuration: 0,
@@ -32,13 +36,13 @@ export default {
     }
   },
   computed: {
-    right () {
+    right (): string {
       const cs = ((this.value / 10) % 100) // centi seconds
       return `${(((cs + 37.5) * 2) % 200) - 25}%`
     },
   },
   watch: {
-    value () {
+    value (): void {
       // 秒の桁が切り替わる時, ハイライトする
       if (canTicktack(this.value, this.beforeDuration)) {
         this.bgColor = '#ffff00'
@@ -54,7 +58,7 @@ export default {
       this.beforeDuration = this.value
     },
   },
-}
+})
 </script>
 
 <style scoped>

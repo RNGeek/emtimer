@@ -30,10 +30,11 @@
   </container>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import Container from '../components/Container.vue'
 
-export default {
+export default Vue.extend({
   name: 'Ad',
   components: {
     Container,
@@ -44,11 +45,11 @@ export default {
     }
   },
   methods: {
-    hide () {
+    hide (): void {
       this.visible = false
     },
   },
-}
+})
 </script>
 
 <style scoped>

@@ -15,15 +15,17 @@
   </mu-select-field>
 </template>
 
-<script>
+<script lang="ts">
 /**
  * 単位の入力欄.
  */
 
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'UnitSelect',
   props: {
     value: { type: String, default: 's' },
   },
-}
+})
 </script>

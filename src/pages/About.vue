@@ -79,12 +79,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import Container from '../components/Container.vue'
 import Ad from './Ad.vue'
 
-export default {
+export default Vue.extend({
   name: 'About',
   components: { Container, Ad },
-}
+})
 </script>

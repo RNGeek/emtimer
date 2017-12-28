@@ -120,7 +120,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import VueScrollReveal from 'vue-scroll-reveal'
 import Container from '../components/Container.vue'
@@ -128,13 +128,13 @@ import Ad from './Ad.vue'
 
 Vue.use(VueScrollReveal)
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     Container,
     Ad,
   },
-}
+})
 </script>
 
 <style scoped>
