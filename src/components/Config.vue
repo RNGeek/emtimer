@@ -1,19 +1,13 @@
+
 <template>
   <div>
-    <mu-card-title
-      class="config-title"
-      title="設定"
-    />
+    <mu-card-title class="config-title" title="設定" />
     <mu-card-text>
 
       <fieldset>
         <legend>待機時間</legend>
         <mu-row>
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             <duration-input
               v-model="duration"
               :invalid="$v.duration.$invalid"
@@ -26,22 +20,14 @@
       <fieldset>
         <legend>開始までの猶予</legend>
         <mu-row>
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             <duration-input
               v-model="waitingDuration"
               :invalid="$v.waitingDuration.$invalid"
               @input="onInput"
               error-text="0から10000000000の数値で指定して下さい." />
           </mu-col>
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             前からカウント開始
           </mu-col>
         </mu-row>
@@ -50,22 +36,14 @@
       <fieldset>
         <legend>切り上げ</legend>
         <mu-row>
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             <duration-input
               v-model="cuttedDuration"
               :invalid="$v.cuttedDuration.$invalid"
               @input="onInput"
               error-text="0から10000000000の数値で指定して下さい." />
           </mu-col>
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             早くカウント終了
           </mu-col>
         </mu-row>
@@ -73,30 +51,16 @@
 
       <fieldset>
         <legend>ループ</legend>
-        <mu-row>
-          <mu-switch
-            label="無限ループ"
-            v-model="infiniteLoop"
-            @input="onInput"
-          />
-        </mu-row>
+        <mu-row><mu-switch label="無限ループ" v-model="infiniteLoop" @input="onInput" /></mu-row>
         <mu-row v-if="!infiniteLoop">
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             <mu-text-field
               v-model.number="loop"
               @input="onInput"
               full-width
               :error-text="this.$v.loop.$invalid ? '0から10000000000の整数で指定して下さい.' : ''" />
           </mu-col>
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             回ループする
           </mu-col>
         </mu-row>
@@ -104,30 +68,16 @@
 
       <fieldset>
         <legend>サウンド</legend>
-        <mu-row>
-          <mu-switch
-            label="サウンドを有効化"
-            v-model="sound"
-            @change="onSoundenable"
-          />
-        </mu-row>
+        <mu-row><mu-switch label="サウンドを有効化" v-model="sound" @change="onSoundenable" /></mu-row>
         <mu-row v-if="sound">
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             <duration-input
               v-model="soundDuration"
               :invalid="$v.soundDuration.$invalid"
               @input="onInput"
               error-text="0から10000000000の数値で指定して下さい." />
           </mu-col>
-          <mu-col
-            width="100"
-            tablet="50"
-            desktop="50"
-          >
+          <mu-col width="100" tablet="50" desktop="50">
             前から音を鳴らす
           </mu-col>
         </mu-row>

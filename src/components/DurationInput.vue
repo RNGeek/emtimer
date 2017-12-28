@@ -10,15 +10,8 @@
           @input="emitInput"
           full-width />
       </mu-flexbox-item>
-      <mu-flexbox-item
-        basis="5em"
-        grow="0"
-      >
-        <unit-select
-          v-model="stateUnit"
-          @input="emitInput"
-          full-width
-        />
+      <mu-flexbox-item basis="5em" grow="0">
+        <unit-select v-model="stateUnit" @input="emitInput" full-width />
       </mu-flexbox-item>
     </mu-flexbox>
   </div>

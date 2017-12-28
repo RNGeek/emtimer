@@ -8,6 +8,9 @@ Emtimer is a cowntdown timer, which is simple and high functional.
 - npm
 - yarn
 
+### Recommended
+- VSCode
+
 ### How to Build
 ```bash
 # Setup
@@ -24,8 +27,5 @@ $ yarn run dev
 $ yarn run build
 
 # If necessary, you can serve production following:
-$ yarn run serve
-
-# Following command equals `yarn run build && yarn run serve`:
-$ yarn run start
+$ npx http-server dist/
 ```

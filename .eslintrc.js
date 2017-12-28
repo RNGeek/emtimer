@@ -17,7 +17,7 @@ module.exports = {
   'settings': {
     'import/resolver': {
       'webpack': {
-        'config': 'build/webpack.base.conf.js',
+        'config': 'config/webpack.base.conf.js',
       },
     },
   },
@@ -32,5 +32,6 @@ module.exports = {
     'func-names': ['error', 'as-needed'],
     'max-len': ['off'],
     'comma-dangle': ['error', 'always-multiline'],
+    'vue/max-attributes-per-line': 'off',
   }
 }
