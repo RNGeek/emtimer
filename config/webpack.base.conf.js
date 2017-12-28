@@ -8,18 +8,18 @@ module.exports = {
     filename: 'js/[name].[hash].js',
   },
   resolve: {
-    extensions: ['.js', '.ts', '.vue', '.json']
+    extensions: ['.js', '.ts', '.vue', '.json'],
   },
   module: {
     rules: [
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
-        enforce: "pre",
+        enforce: 'pre',
         include: [config.srcPath, config.testPath],
         options: {
-          formatter: require('eslint-friendly-formatter')
-        }
+          formatter: require('eslint-friendly-formatter'),
+        },
       },
       {
         test: /\.vue$/,
@@ -30,9 +30,9 @@ module.exports = {
             video: 'src',
             source: 'src',
             img: 'src',
-            image: 'xlink:href'
-          }
-        }
+            image: 'xlink:href',
+          },
+        },
       },
       {
         test: /\.css$/,
@@ -40,14 +40,14 @@ module.exports = {
           use: {
             loader: 'css-loader',
           },
-          fallback: 'vue-style-loader'
-        })
+          fallback: 'vue-style-loader',
+        }),
       },
       {
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
-          appendTsSuffixTo: [/\.vue$/]
+          appendTsSuffixTo: [/\.vue$/],
         },
         include: [config.srcPath, config.testPath],
       },
@@ -56,30 +56,30 @@ module.exports = {
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: 'img/[name].[hash:7].[ext]'
-        }
+          name: 'img/[name].[hash:7].[ext]',
+        },
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: 'fonts/[name].[hash:7].[ext]'
-        }
+          name: 'fonts/[name].[hash:7].[ext]',
+        },
       },
       {
         test: /\.mp3(\?.*)?$/,
         loader: 'url-loader',
         query: {
           limit: 10000,
-          name: 'audio/[name].[hash:7].[ext]'
-        }
-      }
-    ]
+          name: 'audio/[name].[hash:7].[ext]',
+        },
+      },
+    ],
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: 'css/[name].[contenthash].css'
+      filename: 'css/[name].[contenthash].css',
     }),
-  ]
+  ],
 }

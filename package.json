@@ -7,7 +7,7 @@
   "repository": "RNGeek/emtimer",
   "scripts": {
     "dev": "node config/dev.js",
-    "lint": "eslint --ext .js,.vue,.ts src",
+    "lint": "eslint --ext .js,.vue,.ts .",
     "build": "node config/build.js",
     "serve": "http-server dist/ -o",
     "start": "yarn run serve",

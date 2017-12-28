@@ -17,17 +17,17 @@ const webpackConfig = merge(baseWebpackConfig, {
       './lib/service-worker.js',
       'babel-polyfill',
       'tslib',
-      './src/main.ts'
-    ]
+      './src/main.ts',
+    ],
   },
   devtool: false,
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': env,
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false
+        warnings: false,
       },
     }),
     new OptimizeCSSPlugin(),
@@ -38,15 +38,15 @@ const webpackConfig = merge(baseWebpackConfig, {
       minify: {
         removeComments: true,
         collapseWhitespace: true,
-        removeAttributeQuotes: true
+        removeAttributeQuotes: true,
       },
     }),
     new CopyWebpackPlugin([
       {
         from: config.staticPath,
         to: '.',
-        ignore: ['.*']
-      }
+        ignore: ['.*'],
+      },
     ]),
     new SWPrecacheWebpackPlugin({
       cacheId: 'emtimer',
@@ -55,7 +55,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       staticFileGlobsIgnorePatterns: [/_redirects$/],
       stripPrefix: 'dist/',
     }),
-  ]
+  ],
 })
 
 module.exports = webpackConfig

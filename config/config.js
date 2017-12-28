@@ -13,8 +13,8 @@ module.exports = {
   },
   dev: {
     env: {
-      NODE_ENV: '"development"'
+      NODE_ENV: '"development"',
     },
     port: 8080,
-  }
+  },
 }

@@ -16,11 +16,11 @@ const compiler = webpack(webpackConfig)
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
-  quiet: true
+  quiet: true,
 })
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
-  log: false
+  log: false,
 })
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', (compilation) => {
@@ -39,11 +39,11 @@ app.use(config.staticPath, express.static('./static'))
 
 const uri = 'http://localhost:' + port
 
-devMiddleware.waitUntilValid(function () {
+devMiddleware.waitUntilValid(() => {
   console.log('> Listening at ' + uri + '\n')
 })
 
-module.exports = app.listen(port, function (err) {
+module.exports = app.listen(port, (err) => {
   if (err) throw err
   opn(uri)
 })
