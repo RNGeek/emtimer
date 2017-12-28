@@ -108,7 +108,7 @@
           <mu-switch
             label="サウンドを有効化"
             v-model="sound"
-            @input="onSoundenable"
+            @change="onSoundenable"
           />
         </mu-row>
         <mu-row v-if="sound">
@@ -189,8 +189,8 @@ export default Vue.extend({
         invalid: this.$v.$invalid, // バリデーションの結果を加える
       })
     },
-    onSoundenable (): void {
-      this.$emit('soundenable', this.sound)
+    onSoundenable (newVal): void {
+      this.$emit('soundenable', newVal)
     },
   },
 })
