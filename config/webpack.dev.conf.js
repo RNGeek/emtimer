@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const config = require('./config')
@@ -22,11 +21,6 @@ module.exports = merge(baseWebpackConfig, {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new HtmlWebpackPlugin({
-      filename: config.indexPath,
-      template: 'index.html',
-      inject: true,
-    }),
     new FriendlyErrorsPlugin(),
   ],
 })

@@ -1,4 +1,5 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const config = require('./config')
 
@@ -80,6 +81,11 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
+    }),
+    new HtmlWebpackPlugin({
+      filename: config.indexPath,
+      template: 'index.html',
+      inject: true,
     }),
   ],
 }
