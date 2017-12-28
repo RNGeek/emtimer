@@ -8,14 +8,10 @@
   "scripts": {
     "dev": "node config/dev.js",
     "lint": "eslint --ext .js,.vue,.ts .",
-    "build": "node config/build.js",
-    "serve": "http-server dist/",
-    "start": "yarn run serve",
-    "prestart": "yarn run build"
+    "build": "node config/build.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "http-server": "^0.10.0",
     "keycode": "^2.1.9",
     "muse-ui": "^2.1.0",
     "tslib": "^1.8.1",

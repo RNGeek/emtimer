@@ -27,8 +27,5 @@ $ yarn run dev
 $ yarn run build
 
 # If necessary, you can serve production following:
-$ yarn run serve
-
-# Following command equals `yarn run build && yarn run serve`:
-$ yarn run start
+$ npx http-server dist/
 ```
