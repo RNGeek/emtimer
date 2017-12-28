@@ -48,7 +48,7 @@
 <script>
 /* eslint-disable camelcase */
 import Vue from 'vue'
-import Ad from './Ad.vue'
+import Ad from '../components/Ad.vue'
 import Container from '../components/Container.vue'
 import CountdownTimer from '../components/CountdownTimer.vue'
 import Config from '../components/Config.vue'

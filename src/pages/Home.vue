@@ -70,7 +70,7 @@
 import Vue from 'vue'
 import VueScrollReveal from 'vue-scroll-reveal'
 import Container from '../components/Container.vue'
-import Ad from './Ad.vue'
+import Ad from '../components/Ad.vue'
 
 Vue.use(VueScrollReveal)
 

@@ -36,7 +36,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Container from '../components/Container.vue'
-import Ad from './Ad.vue'
+import Ad from '../components/Ad.vue'
 
 export default Vue.extend({
   name: 'About',
