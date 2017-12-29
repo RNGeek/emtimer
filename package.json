@@ -9,7 +9,8 @@
     "dev": "node config/dev.js",
     "lint": "eslint --ext .js,.vue,.ts .",
     "test": "cross-env NODE_ENV=test mocha-webpack --webpack-config config/webpack.dev.conf.js test/**/*.spec.ts",
-    "build": "node config/build.js"
+    "build": "node config/build.js",
+    "prebuild": "run-s lint test"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -49,6 +50,7 @@
     "html-webpack-plugin": "^2.30.1",
     "mocha": "^4.0.1",
     "mocha-webpack": "^1.0.1",
+    "npm-run-all": "^4.1.2",
     "postcss-cssnext": "^3.0.2",
     "rimraf": "^2.6.0",
     "sw-precache-webpack-plugin": "^0.11.4",
