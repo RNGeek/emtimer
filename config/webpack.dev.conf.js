@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const nodeExternals = require('webpack-node-externals')
 
 const config = require('./config')
 const baseWebpackConfig = require('./webpack.base.conf')
@@ -24,3 +25,10 @@ module.exports = merge(baseWebpackConfig, {
     new FriendlyErrorsPlugin(),
   ],
 })
+
+if (process.env.NODE_ENV === 'test') {
+  module.exports = merge(module.exports, {
+    target: 'node',
+    externals: [nodeExternals()],
+  })
+}
