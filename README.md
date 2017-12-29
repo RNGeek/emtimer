@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
   <a href="https://emtimer.mizdra.net" title="Emtimer">
     <img width="600px" alt="Emtimer"src="https://raw.githubusercontent.com/RNGeek/emtimer/master/static/img/logo-wide.png">
   </a>
