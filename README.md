@@ -1,17 +1,15 @@
 # emtimer
 Emtimer is a cowntdown timer, which is simple and high functional.
 
-## For Developers
-
-### Requirements
+## Requirements
 - Node.js
 - npm
 - yarn
 
-### Recommended
+## Recommended
 - VSCode
 
-### How to Build
+## Setup
 ```bash
 # Setup
 $ git clone https://github.com/mizdra/emtimer.git
@@ -22,10 +20,9 @@ $ yarn install
 $ yarn run dev
 ```
 
-### Production Build
-```bash
-$ yarn run build
-
-# If necessary, you can serve production following:
-$ npx http-server dist/
-```
+## npm-scripts
+- `yarn run dev`: Start webpack-dev-server
+- `yarn run lint`: Lint project
+- `yarn run test`: Test project
+- `yarn run build`: Build for production
+  - If necessary, you can serve production: `npx http-server dist/`
