@@ -1,7 +1,21 @@
 <template>
   <div>
-    <big-duration-view :value="duration" />
-    <duration-view :value="duration" />
+    <vue-countdown
+      v-if="counting"
+      :time="duration"
+      :interval="20"
+      @countdownprogress="onCountdownProgress"
+      @countdownend="onCountdownEnd"
+    >
+      <template slot-scope="props">
+        <big-duration-view :value="parseDataToMs(props)" />
+        <duration-view class="timer" :value="parseDataToMs(props)" />
+      </template>
+    </vue-countdown>
+    <span v-else>
+      <big-duration-view :value="0" />
+      <duration-view class="timer" :value="0" />
+    </span>
   </div>
 </template>
 
@@ -15,73 +29,55 @@
 import Vue from 'vue'
 import DurationView from './DurationView.vue'
 import BigDurationView from './BigDurationView.vue'
+import VueCountdown from '@xkeshi/vue-countdown'
 
-const raf = window.requestAnimationFrame
+const canTicktack = (newSeconds: number, oldSeconds: number) => {
+  return Math.floor(newSeconds) !== Math.floor(oldSeconds)
+}
 
 export default Vue.extend({
   name: 'CountdownTimer',
   components: {
     DurationView,
     BigDurationView,
+    VueCountdown,
   },
-  data: function () {
-    return {
-      paused: true,
-      ended: true,
-      duration: 0,
-    }
+  props: {
+    counting: { type: Boolean, required: true },
+    duration: { type: Number, required: true },
+  },
+  data () {
+    return { seconds: 0 }
   },
   methods: {
-    startRAFLoop (): void {
-      const cb = (currentTime_ms, prevTime_ms) => {
-        if (this.ended) {
-          this.$emit('pause')
-          this.$emit('ended')
-        } else if (this.paused) {
-          this.$emit('pause')
-        } else { // if `this.paused` is `false`, this timer is started.
-          this.updateDuration(this.duration - (currentTime_ms - prevTime_ms))
-          raf(time_ms => cb(time_ms, currentTime_ms))
-        }
-      }
-      const initialTime_ms = window.performance.now()
-      raf(time_ms => cb(time_ms, initialTime_ms))
+    onCountdownProgress (data: any): void {
+      this.$emit('countdownprogress', data)
+      if (canTicktack(data.seconds, this.seconds)) this.$emit('ticktack')
+      this.seconds = data.seconds
     },
-    updateDuration (newDuration): void {
-      this.duration = Math.max(newDuration, 0)
-      if (this.duration === 0) {
-        if (this.paused && !this.ended) {
-          this.paused = true
-          this.ended = true
-          this.$emit('ended')
-        } else {
-          this.paused = true
-          this.ended = true
-        }
-      }
-      this.$emit('durationupdate', this.duration)
+    onCountdownEnd (): void {
+      this.$emit('countdownend')
     },
-    start (duration?: number): void {
-      if (duration === undefined) duration = this.duration
-      if (this.paused) {
-        this.paused = false
-        this.ended = false
-        this.updateDuration(duration)
-        this.startRAFLoop()
-      } else {
-        this.updateDuration(duration)
-      }
-      this.$emit('start')
-    },
-    stop (): void {
-      this.updateDuration(0)
-    },
-    pause (): void {
-      this.paused = true
+    parseDataToMs (data: any): number {
+      const MILLISECONDS_SECOND = 1000
+      const MILLISECONDS_MINUTE = 60 * MILLISECONDS_SECOND
+      const MILLISECONDS_HOUR = 60 * MILLISECONDS_MINUTE
+      const MILLISECONDS_DAY = 24 * MILLISECONDS_HOUR
+      return data.days * MILLISECONDS_DAY +
+        data.hours * MILLISECONDS_HOUR +
+        data.minutes * MILLISECONDS_MINUTE +
+        data.seconds * MILLISECONDS_SECOND
     },
   },
 })
 </script>
 
 <style scoped>
+.timer {
+  margin: 10px;
+  font-size: 8vw;
+  @media (min-width: 768px) {
+    font-size: 60px;
+  }
+}
 </style>

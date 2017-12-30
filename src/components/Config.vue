@@ -55,10 +55,10 @@
         <mu-row v-if="!infiniteLoop">
           <mu-col width="100" tablet="50" desktop="50">
             <mu-text-field
-              v-model.number="loop"
+              v-model.number="maxLoop"
               @input="onInput"
               full-width
-              :error-text="this.$v.loop.$invalid ? '0から10000000000の整数で指定して下さい.' : ''" />
+              :error-text="this.$v.maxLoop.$invalid ? '0から10000000000の整数で指定して下さい.' : ''" />
           </mu-col>
           <mu-col width="100" tablet="50" desktop="50">
             回ループする
@@ -113,7 +113,7 @@ export default Vue.extend({
       duration: { type: Number, required: true },
       waitingDuration: { type: Number, required: true },
       cuttedDuration: { type: Number, required: true },
-      loop: { type: Number, required: true },
+      maxLoop: { type: Number, required: true },
       infiniteLoop: { type: Boolean, required: true },
       soundDuration: { type: Number, required: true },
     },
@@ -128,7 +128,7 @@ export default Vue.extend({
     duration: { nonBigNumber },
     waitingDuration: { nonBigNumber },
     cuttedDuration: { nonBigNumber },
-    loop: { nonBigNumber, integer },
+    maxLoop: { nonBigNumber, integer },
     soundDuration: { nonBigNumber },
   },
   methods: {
@@ -136,6 +136,7 @@ export default Vue.extend({
       // copy $data and fire input event
       this.$emit('input', {
         ...this.$data,
+        maxLoop: this.infiniteLoop ? Infinity : this.maxLoop, // 無限ループなら最大ループ回数を Infinity にする
         invalid: this.$v.$invalid, // バリデーションの結果を加える
       })
     },

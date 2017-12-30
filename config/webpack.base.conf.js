@@ -9,6 +9,9 @@ module.exports = {
     filename: 'js/[name].[hash].js',
   },
   resolve: {
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+    },
     extensions: ['.js', '.ts', '.vue', '.json'],
   },
   module: {

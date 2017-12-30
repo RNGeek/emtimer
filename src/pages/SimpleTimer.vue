@@ -2,50 +2,37 @@
   <div>
     <ad />
     <container title="シンプルタイマー">
-      <mu-popup position="top" :overlay="false" popup-class="error-popup" :open="errorPopup">
-        <mu-paper class="paper" :z-depth="3">
-          {{ errorMessage }}
-        </mu-paper>
-      </mu-popup>
+      <vue-snotify/>
 
       <mu-card class="config-card">
         <config v-model="config" @soundenable="onSoundenable" />
       </mu-card>
 
-      <div class="output">
-        <div class="loop-view">
-          ループ回数:
-          <template v-if="state.infiniteLoop">{{ state.loopCounter }} / ∞</template>
-          <template v-else>{{ state.loopCounter }} / {{ state.loop }}</template>
-        </div>
-
-        <div class="current-duration-view">
-          <span v-if="state.mode === 'waiting'">開始まで</span>
-          <span v-else>終了まで</span>
-        </div>
-        <countdown-timer
-          class="timer"
-          ref="timer"
-          @ended="onended()"
-          @durationupdate="soundTicktack" />
-      </div>
-
+      <!-- TODO: SoundPlayerクラスをつくる -->
       <audio muted ref="ticktack" src="../audio/ticktack.mp3"/>
       <audio muted ref="ended" src="../audio/ended.mp3"/>
 
+      <div class="output">
+        <loop-view class="loop-view" :loop="state.loop" :max-loop="configInUse.maxLoop" />
+        <mode-view class="mode-view" :couting-timer-id="state.coutingTimerId" />
+        <countdown-timer
+          :counting="state.counting"
+          :duration="state.duration"
+          @ticktack="onTicktack"
+          @countdownend="onCountdownEnd"
+        />
+      </div>
+
       <footer-controller
-        :start-disabled="config.invalid"
-        v-bind="state"
+        :start-disabled="config.invalid || state.counting"
         @stop="stop"
-        @start="start"
-        @resume="resume"
-        @pause="pause" />
+        @start="start" />
 
     </container>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /* eslint-disable camelcase */
 import Vue from 'vue'
 import Ad from '../components/Ad.vue'
@@ -53,9 +40,12 @@ import Container from '../components/Container.vue'
 import CountdownTimer from '../components/CountdownTimer.vue'
 import Config from '../components/Config.vue'
 import FooterController from '../components/FooterController.vue'
-import { canTicktack } from '../lib/util'
+import DurationView from '../components/DurationView.vue'
+import LoopView from '../components/LoopView.vue'
+import ModeView from '../components/ModeView.vue'
+import 'vue-snotify'
 
-const genListener = fn => (e) => {
+const genListener = (fn: () => void) => (e: KeyboardEvent) => {
   if (e.key === ' ') { // スペースが入力された場合
     fn()
     e.preventDefault() // イベントをキャンセル
@@ -70,169 +60,133 @@ export default Vue.extend({
     Config,
     CountdownTimer,
     FooterController,
+    DurationView,
+    LoopView,
+    ModeView,
   },
   data () {
-    const dafaultConfig = {
+    const defaultConfig = {
       duration: 10 * 1000,
       waitingDuration: 0,
       cuttedDuration: 0,
-      loop: 0,
+      maxLoop: 0,
       infiniteLoop: false,
       invalid: false,
       soundDuration: 10 * 1000,
     }
     return {
-      config: dafaultConfig,
+      config: {...defaultConfig}, // 初期設定をコピー
+      configInUse: {...defaultConfig}, // 初期設定をコピー
       state: {
-        ...dafaultConfig,
-        paused: true,
-        ended: true,
-        mode: 'waiting',
-        loopCounter: 0,
-        beforeDuration: 0,
+        duration: 0,
+        coutingTimerId: 1,
+        counting: false,
+        loop: 0,
       },
-      errorPopup: false,
-      errorMessage: '',
-      keyupListener: genListener(this.start),
-      keydownListener: genListener(this.stop),
+      keyupListener: genListener(() => {}),
+      keydownListener: genListener(() => {}),
     }
-  },
-  deactivated () {
-    this.pause()
   },
   mounted () {
     // add event listener
+    this.keyupListener = genListener(this.start)
+    this.keydownListener = genListener(this.stop)
     document.addEventListener('keyup', this.keyupListener)
     document.addEventListener('keydown', this.keydownListener)
   },
   destroyed () {
-    // remote event listener
+    // remove event listener
+    this.stop()
     document.removeEventListener('keyup', this.keyupListener)
     document.removeEventListener('keydown', this.keydownListener)
   },
+  computed: {
+    isLastPhase (): boolean {
+      return (this.state.coutingTimerId === 1) && (this.state.loop === this.configInUse.maxLoop)
+    },
+  },
   methods: {
-    start () {
-      if (this.config.invalid) return
-      this.state = {
-        ...this.config,
-        loopCounter: 0,
-        mode: 'waiting',
+    // Events from footer-controller
+    start (): void {
+      if (this.config.invalid) {
+        this.$snotify.error('正しい設定を入力して下さい.', 'Error!')
+        return
       }
-      this.$refs.timer.start(this.state.waitingDuration)
-      this.updateState()
+      this.configInUse = this.config
+      this.state.counting = true
+      this.state.loop = 0
+      this.initForTimer0()
     },
-    stop () {
-      this.state.loopCounter = this.state.loop
-      this.state.infiniteLoop = false
-      this.state.mode = 'main'
-      this.$refs.timer.stop()
-      this.updateState()
+    stop (): void {
+      this.state.counting = false
     },
-    resume () {
-      this.$refs.timer.start()
-      this.updateState()
+    initForTimer0 (): void {
+      this.state.coutingTimerId = 0
+      this.state.duration = this.configInUse.waitingDuration
     },
-    pause () {
-      this.$refs.timer.pause()
-      this.updateState()
+    initForTimer1 (): void {
+      this.state.coutingTimerId = 1
+      this.state.duration = this.configInUse.duration - this.configInUse.cuttedDuration
     },
-    updateState () {
-      this.state = {
-        ...this.state,
-        paused: this.$refs.timer.paused,
-        ended: this.$refs.timer.ended,
-      }
+
+    // Events from timer
+    onTicktack (): void {
+      this.soundTicktack()
     },
-    onended () {
-      this.updateState()
-      if (this.state.mode === 'waiting') {
-        this.state.mode = 'main'
-        this.$refs.timer.start(this.state.duration - this.state.cuttedDuration)
-        this.updateState()
-      } else {
-        if (this.state.infiniteLoop || this.state.loopCounter < this.state.loop) {
-          this.state.loopCounter = this.state.loopCounter + 1
-          this.state.mode = 'waiting'
-          this.$refs.timer.start(this.state.waitingDuration)
-          this.updateState()
-        }
+    onCountdownEnd (): void {
+      this.state.counting = false
+
+      if (this.isLastPhase) {
         this.soundEnded()
+        return
       }
-    },
-    soundTicktack (duration) {
-      // サウンド機能が有効で, 残り時間が指定時間以内,
-      // かつ秒の桁が切り替わる時, 音を鳴らす
-      if (
-        duration <= this.state.soundDuration &&
-        duration !== 0 &&
-        canTicktack(duration, this.beforeDuration)
-      ) {
-        this.$refs.ticktack.play().catch(() => {
-          this.popupError('エラー: 秒針の音の再生に失敗しました.')
-        })
+
+      if (this.state.coutingTimerId === 0) {
+        this.initForTimer1()
+      } else {
+        this.soundEnded()
+        this.state.loop++
+        this.initForTimer0()
       }
-      this.beforeDuration = duration
+
+      Vue.nextTick(() => { this.state.counting = true })
     },
-    soundEnded () {
-      this.$refs.ended.play().catch(() => {
-        this.popupError('エラー: 停止音の再生に失敗しました.')
-      })
-    },
-    onSoundenable (isSoundEnabled) {
+
+    // Sound
+    onSoundenable (isSoundEnabled: boolean) {
       /*
        * 非同期APIを複数回経由するとユーザ操作を契機とするミュートの切り替えと
        * 判定されないので直接DOM APIを操作している.
        * @see https://github.com/RNGeek/emtimer/issues/8#issuecomment-351261926
        */
-      this.$refs.ticktack.muted = !isSoundEnabled
-      this.$refs.ended.muted = !isSoundEnabled
+      (this.$refs.ticktack as HTMLMediaElement).muted = !isSoundEnabled;
+      (this.$refs.ended as HTMLMediaElement).muted = !isSoundEnabled
     },
-    popupError (errorMessage) {
-      if (this.errorPopup) return // 既にポップアップが出ていたら何もしない
-      this.errorMessage = errorMessage
-      this.errorPopup = true
-      setTimeout(() => { this.errorPopup = false }, 3000)
+    soundTicktack (): void {
+      (this.$refs.ticktack as HTMLMediaElement).play().catch(() => {
+        this.$snotify.error('秒針の音の再生に失敗しました.', 'Error!')
+      })
+    },
+    soundEnded (): void {
+      (this.$refs.ended as HTMLMediaElement).play().catch(() => {
+        this.$snotify.error('停止音の再生に失敗しました.', 'Error!')
+      })
     },
   },
 })
 </script>
 
 <style scoped>
-.timer {
-  margin: 10px;
-  font-size: 8vw;
-  @media (min-width: 768px) {
-    font-size: 60px;
-  }
+body {
+  margin-bottom: 56px;
 }
 
 .output {
   margin-top: 30px;
 }
 
-.loop-view, .current-duration-view {
+.loop-view, .mode-view {
   margin-left: 10vw;
   margin-bottom: 5px;
 }
-</style>
-
-<style>
-body {
-  margin-bottom: 56px;
-}
-
-.error-popup {
-  background-color: transparent !important;
-
-  & .paper {
-    color: #880e4f;
-    text-shadow: 0px 0px 2px #fff;
-    font-weight: bold;
-    border: 1px #ccc solid;
-    background-color: #f8bbd0;
-    padding: 8px;
-    margin: 10px;
-  }
-}
-
 </style>
