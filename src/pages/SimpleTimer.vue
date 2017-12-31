@@ -8,10 +8,6 @@
         <config v-model="config" @soundenable="onSoundenable" />
       </mu-card>
 
-      <!-- TODO: SoundPlayerクラスをつくる -->
-      <audio muted ref="ticktack" src="../audio/ticktack.mp3"/>
-      <audio muted ref="ended" src="../audio/ended.mp3"/>
-
       <div class="output">
         <loop-view class="loop-view" :loop="state.loop" :max-loop="configInUse.maxLoop" />
         <mode-view class="mode-view" :couting-timer-id="state.coutingTimerId" />
@@ -43,6 +39,7 @@ import FooterController from '../components/FooterController.vue'
 import DurationView from '../components/DurationView.vue'
 import LoopView from '../components/LoopView.vue'
 import ModeView from '../components/ModeView.vue'
+import SoundEffector from '../lib/sound-effector'
 import 'vue-snotify'
 
 const genListener = (fn: () => void) => (e: KeyboardEvent) => {
@@ -83,6 +80,7 @@ export default Vue.extend({
         counting: false,
         loop: 0,
       },
+      soundEffector: new SoundEffector(),
       keyupListener: genListener(() => {}),
       keydownListener: genListener(() => {}),
     }
@@ -159,21 +157,16 @@ export default Vue.extend({
        * 判定されないので直接DOM APIを操作している.
        * @see https://github.com/RNGeek/emtimer/issues/8#issuecomment-351261926
        */
-      (this.$refs.ticktack as HTMLMediaElement).muted = !isSoundEnabled;
-      (this.$refs.ended as HTMLMediaElement).muted = !isSoundEnabled
+      this.soundEffector.muted = !isSoundEnabled
     },
     soundTicktack (): void {
-      (this.$refs.ticktack as HTMLMediaElement).play().catch(() => {
-        if (!(this.$refs.ticktack as HTMLMediaElement).muted) {
-          this.$snotify.error('秒針の音の再生に失敗しました.', 'Error!')
-        }
+      this.soundEffector.playTicktack().catch(() => {
+        this.$snotify.error('秒針の音の再生に失敗しました.', 'Error!')
       })
     },
     soundEnded (): void {
-      (this.$refs.ended as HTMLMediaElement).play().catch(() => {
-        if (!(this.$refs.ended as HTMLMediaElement).muted) {
-          this.$snotify.error('停止音の再生に失敗しました.', 'Error!')
-        }
+      this.soundEffector.playEnded().catch(() => {
+        this.$snotify.error('停止音の再生に失敗しました.', 'Error!')
       })
     },
   },
