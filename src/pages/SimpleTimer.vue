@@ -164,12 +164,16 @@ export default Vue.extend({
     },
     soundTicktack (): void {
       (this.$refs.ticktack as HTMLMediaElement).play().catch(() => {
-        this.$snotify.error('秒針の音の再生に失敗しました.', 'Error!')
+        if (!(this.$refs.ticktack as HTMLMediaElement).muted) {
+          this.$snotify.error('秒針の音の再生に失敗しました.', 'Error!')
+        }
       })
     },
     soundEnded (): void {
       (this.$refs.ended as HTMLMediaElement).play().catch(() => {
-        this.$snotify.error('停止音の再生に失敗しました.', 'Error!')
+        if (!(this.$refs.ended as HTMLMediaElement).muted) {
+          this.$snotify.error('停止音の再生に失敗しました.', 'Error!')
+        }
       })
     },
   },
