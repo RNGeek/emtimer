@@ -13,7 +13,6 @@ module.exports = merge(baseWebpackConfig, {
     app: [
       './lib/google-analysis.js',
       './lib/service-worker.js',
-      'babel-polyfill',
       'tslib',
       './src/main.ts',
     ],
