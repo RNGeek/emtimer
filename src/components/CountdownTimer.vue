@@ -8,8 +8,8 @@
       @countdownend="onCountdownEnd"
     >
       <template slot-scope="props">
-        <big-duration-view :value="parseDataToMs(props)" />
-        <duration-view class="timer" :value="parseDataToMs(props)" />
+        <big-duration-view :value="props.count" />
+        <duration-view class="timer" :value="props.count" />
       </template>
     </vue-countdown>
     <span v-else>
@@ -35,6 +35,14 @@ const canTicktack = (newSeconds: number, oldSeconds: number) => {
   return Math.floor(newSeconds) !== Math.floor(oldSeconds)
 }
 
+type Data = { // eslint-disable-line no-unused-vars
+  days: number, // eslint-disable-line no-undef
+  hours: number, // eslint-disable-line no-undef
+  minutes: number, // eslint-disable-line no-undef
+  seconds: number, // eslint-disable-line no-undef
+  count: number, // eslint-disable-line no-undef
+}
+
 export default Vue.extend({
   name: 'CountdownTimer',
   components: {
@@ -50,23 +58,13 @@ export default Vue.extend({
     return { seconds: 0 }
   },
   methods: {
-    onCountdownProgress (data: any): void {
-      this.$emit('countdownprogress', data)
-      if (canTicktack(data.seconds, this.seconds)) this.$emit('ticktack')
+    onCountdownProgress (data: Data): void {
+      this.$emit('countdownprogress', data.count)
+      if (canTicktack(data.seconds, this.seconds)) this.$emit('ticktack', data.count)
       this.seconds = data.seconds
     },
     onCountdownEnd (): void {
       this.$emit('countdownend')
-    },
-    parseDataToMs (data: any): number {
-      const MILLISECONDS_SECOND = 1000
-      const MILLISECONDS_MINUTE = 60 * MILLISECONDS_SECOND
-      const MILLISECONDS_HOUR = 60 * MILLISECONDS_MINUTE
-      const MILLISECONDS_DAY = 24 * MILLISECONDS_HOUR
-      return data.days * MILLISECONDS_DAY +
-        data.hours * MILLISECONDS_HOUR +
-        data.minutes * MILLISECONDS_MINUTE +
-        data.seconds * MILLISECONDS_SECOND
     },
   },
 })

@@ -14,7 +14,7 @@
 
 "@xkeshi/vue-countdown@mizdra/vue-countdown":
   version "0.5.0"
-  resolved "https://codeload.github.com/mizdra/vue-countdown/tar.gz/d6de21277677a9ff18fd802784133549b08ff858"
+  resolved "https://codeload.github.com/mizdra/vue-countdown/tar.gz/94edbd7d4865d5f5bbcab227e5f343f53da22de3"
 
 abbrev@1:
   version "1.1.1"
