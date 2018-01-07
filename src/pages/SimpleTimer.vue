@@ -128,8 +128,10 @@ export default Vue.extend({
     },
 
     // Events from timer
-    onTicktack (): void {
-      this.soundTicktack()
+    onTicktack (now: number): void {
+      if (now <= this.configInUse.soundDuration) {
+        this.soundTicktack()
+      }
     },
     onCountdownEnd (): void {
       this.state.counting = false
