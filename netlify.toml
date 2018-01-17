@@ -2,6 +2,6 @@
   command = "yarn run build"
   publish = "dist"
   [build.environment]
-    NODE_VERSION = "6.11.3"
-    NPM_VERSION = "5.4.1"
-    YARN_VERSION = "0.28.4"
+    NODE_VERSION = "8.9.1"
+    NPM_VERSION = "5.5.1"
+    YARN_VERSION = "1.3.2"
