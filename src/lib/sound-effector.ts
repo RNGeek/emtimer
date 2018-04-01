@@ -1,3 +1,12 @@
+/**
+ * 引数がPromiseであれば何もせず返し,
+ * PromiseでなければFulfilledなPromiseを返す.
+ */
+function promisify (obj: Promise<void> | (() => void)): Promise<void> {
+  if (obj instanceof Promise) return obj
+  return Promise.resolve()
+}
+
 export default class SoundEffector {
   private ticitack: HTMLAudioElement // eslint-disable-line no-undef
   private ended: HTMLAudioElement // eslint-disable-line no-undef
@@ -20,11 +29,15 @@ export default class SoundEffector {
 
   playTicktack (): Promise<void> {
     if (this.muted) return Promise.resolve()
-    return this.ticitack.play()
+    // MS Edgeは `HTMLAudioElement.prototype.play` で
+    // Promiseを返さないので無理やりPromise化する
+    return promisify(this.ticitack.play())
   }
 
   playEnded (): Promise<void> {
     if (this.muted) return Promise.resolve()
-    return this.ended.play()
+    // MS Edgeは `HTMLAudioElement.prototype.play` で
+    // Promiseを返さないので無理やりPromise化する
+    return promisify(this.ended.play())
   }
 }
