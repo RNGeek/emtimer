@@ -31,5 +31,8 @@ jobs:
       - name: yarn run check:prettier
         run: yarn run check:prettier
 
+      - name: yarn run check:jest
+        run: yarn run check:jest
+
       - name: yarn run build
         run: yarn run build
