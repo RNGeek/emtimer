@@ -1,19 +1,9 @@
+
 {
-  "eslint.validate": [
-    "javascript",
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    {
-      "language": "vue",
-      "autoFix": true
-    }
-  ],
-  "search.exclude": {
-    "/dist": true
-  },
-  "emmet.syntaxProfiles": {
-    "vue": "html"
+  "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+  "eslint.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   }
 }
