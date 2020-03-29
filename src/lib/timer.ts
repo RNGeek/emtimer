@@ -1,10 +1,10 @@
 import EventEmitter from 'eventemitter3';
 
 type EventTypes = {
-  onstart: [number];
-  onend: [];
-  onstop: [];
-  ontick: [number];
+  start: [number];
+  ended: [];
+  stop: [];
+  remainingdurationupdate: [number];
 };
 
 export class Timer {
@@ -28,23 +28,23 @@ export class Timer {
 
       if (remainingDuration > 0) {
         this.#rafId = requestAnimationFrame(updateDuration);
-        this.#emitter.emit('ontick', remainingDuration);
+        this.#emitter.emit('remainingdurationupdate', remainingDuration);
       } else {
         this.#rafId = null;
-        this.#emitter.emit('onend');
+        this.#emitter.emit('ended');
       }
     };
 
     this.#endTime = Date.now() + duration;
     this.#rafId = requestAnimationFrame(updateDuration);
-    this.#emitter.emit('onstart', duration);
+    this.#emitter.emit('start', duration);
   }
 
   stop() {
     if (!this.isEnded) {
       this.#endTime = 0;
       if (this.#rafId) cancelAnimationFrame(this.#rafId);
-      this.#emitter.emit('onstop');
+      this.#emitter.emit('stop');
     }
   }
 
