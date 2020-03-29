@@ -9,8 +9,10 @@
     "start": "yarn run dev",
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development",
-    "lint": "eslint --format codeframe 'src/**/*.{ts,tsx}'",
-    "prebuild": "run-s lint test"
+    "check": "run-p -l -c 'check:tsc --pretty' 'check:eslint --color' check:prettier",
+    "check:tsc": "tsc --noEmit",
+    "check:eslint": "eslint --ext .js,.ts,tsx --ignore-path .gitignore .",
+    "check:prettier": "prettier --check --ignore-path .gitignore ."
   },
   "dependencies": {
     "@material-ui/core": "^4.9.8",
