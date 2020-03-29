@@ -1,19 +1,19 @@
 {
-"eslint.validate": [
-  "javascript",
-	{
-		"language": "typescript",
-		"autoFix": true
-	},
-	{
-		"language": "vue",
-		"autoFix": true
-	}
-],
-"search.exclude": {
+  "eslint.validate": [
+    "javascript",
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "vue",
+      "autoFix": true
+    }
+  ],
+  "search.exclude": {
     "/dist": true
-},
-"emmet.syntaxProfiles": {
-  "vue": "html"
-},
+  },
+  "emmet.syntaxProfiles": {
+    "vue": "html"
+  }
 }
