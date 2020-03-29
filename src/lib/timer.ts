@@ -22,9 +22,13 @@ export class Timer {
     return this.#rafId === null;
   }
 
+  get remainingDuration(): number {
+    return Math.max(this.#endTime - Date.now(), 0);
+  }
+
   start(duration: number) {
     const updateDuration = () => {
-      const remainingDuration = this.#endTime - Date.now();
+      const remainingDuration = this.remainingDuration;
 
       if (remainingDuration > 0) {
         this.#rafId = requestAnimationFrame(updateDuration);
@@ -44,6 +48,7 @@ export class Timer {
     if (!this.isEnded) {
       this.#endTime = 0;
       if (this.#rafId) cancelAnimationFrame(this.#rafId);
+      this.#emitter.emit('remainingdurationupdate', this.remainingDuration);
       this.#emitter.emit('stop');
     }
   }
