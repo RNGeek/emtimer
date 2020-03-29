@@ -11,7 +11,7 @@ module.exports = merge(baseWebpackConfig, {
     app: [
       'webpack-hot-middleware/client?noInfo=true&reload=true',
       'tslib',
-      './src/main.ts',
+      './src/index.tsx',
     ],
   },
   devtool: '#cheap-module-eval-source-map',

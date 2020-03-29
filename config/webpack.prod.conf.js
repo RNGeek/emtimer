@@ -14,7 +14,7 @@ module.exports = merge(baseWebpackConfig, {
       './lib/google-analysis.js',
       './lib/service-worker.js',
       'tslib',
-      './src/main.ts',
+      './src/index.tsx',
     ],
   },
   devtool: false,
