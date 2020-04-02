@@ -3,7 +3,7 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     /* Basic Options */
-    "target": "esnext", // ES周りは必要に応じて babel に任せる
+    "target": "esnext", // ES周りは babel に任せる
     "lib": ["esnext", "dom"],
 
     /* Module Options */

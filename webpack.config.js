@@ -29,10 +29,7 @@ module.exports = (env, argv) => ({
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: {
-          transpileOnly: true,
-        },
+        loader: 'babel-loader',
       },
     ],
   },
