@@ -1,6 +1,18 @@
 import { Timer, EventTypes } from '../../src/lib/timer';
+import { advanceBy, advanceTo, clear } from 'jest-date-mock';
+import { enableAnimationFrameMock, disableAnimationFrameMock, nextAnimationFrame } from './jest-animation-frame-mock';
 
 describe('Timer', () => {
+  beforeEach(() => {
+    enableAnimationFrameMock();
+    advanceTo(new Date(2000, 1, 1, 0, 0, 0));
+  });
+
+  afterEach(() => {
+    disableAnimationFrameMock();
+    clear();
+  });
+
   describe('カウントダウンしていない時', () => {
     function createEndedTimer() {
       return new Timer();
@@ -53,7 +65,7 @@ describe('Timer', () => {
       test('時間が経過するにつれ，残り時間が減っていく', () => {
         const timer = createCountdowningTimer(1000);
         expect(timer.remainingDuration).toBe(1000);
-        // advanceBy(500)
+        advanceBy(500);
         expect(timer.remainingDuration).toBe(500);
       });
     });
@@ -103,7 +115,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        // advanceBy(1000);
+        advanceBy(1000);
         expect(listener.mock.calls.length).toBe(1);
       });
       test('#stop した時は ended イベントは発火しない', () => {
@@ -129,7 +141,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        // advanceBy(1000);
+        advanceBy(1000);
         expect(listener.mock.calls.length).toBe(1);
       });
     });
@@ -139,7 +151,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(1);
-        // nextTick();
+        nextAnimationFrame();
         expect(listener.mock.calls.length).toBe(2);
         timer.stop();
         expect(listener.mock.calls.length).toBe(3);
