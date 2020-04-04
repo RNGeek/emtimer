@@ -27,6 +27,7 @@ export class Timer {
   }
 
   start(duration: number) {
+    if (!this.isEnded) throw new Error('Cannot start timer. Is the timer stopped?');
     const updateDuration = () => {
       const remainingDuration = this.remainingDuration;
 
@@ -45,12 +46,11 @@ export class Timer {
   }
 
   stop() {
-    if (!this.isEnded) {
-      this.#endTime = 0;
-      if (this.#rafId) cancelAnimationFrame(this.#rafId);
-      this.#emitter.emit('remainingdurationupdate', this.remainingDuration);
-      this.#emitter.emit('stop');
-    }
+    if (this.isEnded) throw new Error('Cannot stop timer. Is the timer cowntdowning?');
+    this.#endTime = 0;
+    if (this.#rafId) cancelAnimationFrame(this.#rafId);
+    this.#emitter.emit('remainingdurationupdate', this.remainingDuration);
+    this.#emitter.emit('stop');
   }
 
   addListener<T extends keyof EventTypes>(eventName: T, handler: (...args: EventTypes[T]) => void) {
