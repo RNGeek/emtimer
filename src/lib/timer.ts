@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 
-type EventTypes = {
+export type EventTypes = {
   start: [number];
   ended: [];
   stop: [];
