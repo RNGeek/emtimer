@@ -144,7 +144,7 @@ describe('Timer', () => {
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
         timer.stop();
-        expect(listener.mock.calls.length).toBe(0);
+        expect(listener.mock.calls.length).toBe(1);
       });
       test('カウントダウンが終了しても stop イベントは発生しない', () => {
         const { timer, listener } = createTimerWithListener('stop');
@@ -152,7 +152,7 @@ describe('Timer', () => {
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
         advanceDateAndAnimationFrame(1000);
-        expect(listener.mock.calls.length).toBe(1);
+        expect(listener.mock.calls.length).toBe(0);
       });
     });
     describe(`@remainingdurationupdate`, () => {

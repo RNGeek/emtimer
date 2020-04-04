@@ -41,6 +41,7 @@ export class Timer {
     };
 
     this.#endTime = Date.now() + duration;
+    this.#emitter.emit('remainingdurationupdate', this.remainingDuration);
     this.#rafId = requestAnimationFrame(updateDuration);
     this.#emitter.emit('start', duration);
   }
