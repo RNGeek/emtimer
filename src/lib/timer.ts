@@ -4,7 +4,7 @@ export type EventTypes = {
   start: [number];
   ended: [];
   stop: [];
-  remainingdurationupdate: [number];
+  tick: [number];
 };
 
 export class Timer {
@@ -33,7 +33,7 @@ export class Timer {
 
       if (remainingDuration > 0) {
         this.#rafId = requestAnimationFrame(updateDuration);
-        this.#emitter.emit('remainingdurationupdate', remainingDuration);
+        this.#emitter.emit('tick', remainingDuration);
       } else {
         this.#rafId = null;
         this.#emitter.emit('ended');
@@ -41,7 +41,7 @@ export class Timer {
     };
 
     this.#endTime = Date.now() + duration;
-    this.#emitter.emit('remainingdurationupdate', this.remainingDuration);
+    this.#emitter.emit('tick', this.remainingDuration);
     this.#rafId = requestAnimationFrame(updateDuration);
     this.#emitter.emit('start', duration);
   }
@@ -51,7 +51,7 @@ export class Timer {
     this.#endTime = 0;
     cancelAnimationFrame(this.#rafId!);
     this.#rafId = null;
-    this.#emitter.emit('remainingdurationupdate', this.remainingDuration);
+    this.#emitter.emit('tick', this.remainingDuration);
     this.#emitter.emit('stop');
   }
 

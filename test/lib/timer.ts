@@ -155,9 +155,9 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
       });
     });
-    describe(`@remainingdurationupdate`, () => {
-      test('残り時間が変化したら remainingdurationupdate イベントが発火する', () => {
-        const { timer, listener } = createTimerWithListener('remainingdurationupdate');
+    describe(`@tick`, () => {
+      test('残り時間が変化したら tick イベントが発火する', () => {
+        const { timer, listener } = createTimerWithListener('tick');
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(1);
