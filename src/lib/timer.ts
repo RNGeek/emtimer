@@ -41,7 +41,6 @@ export class Timer {
     };
 
     this.#endTime = Date.now() + duration;
-    this.#emitter.emit('tick', this.remainingDuration);
     this.#rafId = requestAnimationFrame(updateDuration);
     this.#emitter.emit('start', duration);
   }
@@ -51,7 +50,6 @@ export class Timer {
     this.#endTime = 0;
     cancelAnimationFrame(this.#rafId!);
     this.#rafId = null;
-    this.#emitter.emit('tick', this.remainingDuration);
     this.#emitter.emit('stop');
   }
 

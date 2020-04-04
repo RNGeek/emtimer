@@ -156,15 +156,17 @@ describe('Timer', () => {
       });
     });
     describe(`@tick`, () => {
-      test('残り時間が変化したら tick イベントが発火する', () => {
+      test('カウントダウン中に `requestAnimationFrame` が呼ばれたら tick イベントが発火する', () => {
         const { timer, listener } = createTimerWithListener('tick');
         expect(listener.mock.calls.length).toBe(0);
-        timer.start(1000);
-        expect(listener.mock.calls.length).toBe(1);
         advanceAnimationFrame();
-        expect(listener.mock.calls.length).toBe(2);
+        expect(listener.mock.calls.length).toBe(0);
+        timer.start(1000);
+        expect(listener.mock.calls.length).toBe(0);
+        advanceAnimationFrame();
+        expect(listener.mock.calls.length).toBe(1);
         timer.stop();
-        expect(listener.mock.calls.length).toBe(3);
+        expect(listener.mock.calls.length).toBe(1);
       });
     });
   });
