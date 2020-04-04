@@ -1,10 +1,10 @@
-import { Timer, EventTypes } from '../../src/lib/timer';
+import { Timer, EventTypes } from './timer';
 import { advanceBy, advanceTo, clear } from 'jest-date-mock';
 import {
   enableAnimationFrameMock,
   disableAnimationFrameMock,
   advanceAnimationFrame,
-} from './jest-animation-frame-mock';
+} from '../test-util/jest-animation-frame-mock';
 
 // 日時を `duration` ms 進めつつ，`requestAnimationFrame` で登録されたコールバックを呼び出す
 function advanceDateAndAnimationFrame(duration: number) {
