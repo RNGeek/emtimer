@@ -48,7 +48,8 @@ export class Timer {
   stop() {
     if (this.isEnded) throw new Error('Cannot stop timer. Is the timer cowntdowning?');
     this.#endTime = 0;
-    if (this.#rafId) cancelAnimationFrame(this.#rafId);
+    cancelAnimationFrame(this.#rafId!);
+    this.#rafId = null;
     this.#emitter.emit('remainingdurationupdate', this.remainingDuration);
     this.#emitter.emit('stop');
   }

@@ -1,6 +1,16 @@
 import { Timer, EventTypes } from '../../src/lib/timer';
 import { advanceBy, advanceTo, clear } from 'jest-date-mock';
-import { enableAnimationFrameMock, disableAnimationFrameMock, nextAnimationFrame } from './jest-animation-frame-mock';
+import {
+  enableAnimationFrameMock,
+  disableAnimationFrameMock,
+  advanceAnimationFrame,
+} from './jest-animation-frame-mock';
+
+// 日時を `duration` ms 進めつつ，`requestAnimationFrame` で登録されたコールバックを呼び出す
+function advanceDateAndAnimationFrame(duration: number) {
+  advanceBy(duration);
+  advanceAnimationFrame();
+}
 
 describe('Timer', () => {
   beforeEach(() => {
@@ -65,7 +75,7 @@ describe('Timer', () => {
       test('時間が経過するにつれ，残り時間が減っていく', () => {
         const timer = createCountdowningTimer(1000);
         expect(timer.remainingDuration).toBe(1000);
-        advanceBy(500);
+        advanceDateAndAnimationFrame(500);
         expect(timer.remainingDuration).toBe(500);
       });
     });
@@ -115,7 +125,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        advanceBy(1000);
+        advanceDateAndAnimationFrame(1000);
         expect(listener.mock.calls.length).toBe(1);
       });
       test('#stop した時は ended イベントは発火しない', () => {
@@ -141,7 +151,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        advanceBy(1000);
+        advanceDateAndAnimationFrame(1000);
         expect(listener.mock.calls.length).toBe(1);
       });
     });
@@ -151,7 +161,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(1);
-        nextAnimationFrame();
+        advanceAnimationFrame();
         expect(listener.mock.calls.length).toBe(2);
         timer.stop();
         expect(listener.mock.calls.length).toBe(3);
