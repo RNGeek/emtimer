@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { TimeController, DateTimeController } from './timer/time-controller';
+import { TimeController, DateTimeController, PerformanceTimeController } from './timer/time-controller';
 import { TickController, AnimationFrameTickController } from './timer/tick-controller';
 
 export type EventTypes = {
@@ -28,7 +28,7 @@ export class Timer {
   #timerId: number | null;
 
   constructor(
-    timeController: TimeController = new DateTimeController(),
+    timeController: TimeController = new PerformanceTimeController(),
     tickController: TickController = new AnimationFrameTickController(),
   ) {
     this.#emitter = new EventEmitter();

@@ -10,6 +10,13 @@ export class DateTimeController implements TimeController {
   }
 }
 
+/** Performance API を用いて時刻を制御するコントローラ */
+export class PerformanceTimeController implements TimeController {
+  getTime() {
+    return performance.now();
+  }
+}
+
 /** テスト用のコントローラ */
 export class TestableTimeController implements TimeController {
   #now = 0;
