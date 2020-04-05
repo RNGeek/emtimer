@@ -6,9 +6,8 @@ import { Timer } from './lib/timer';
 
 export type AppProps = {};
 
-const timer = new Timer();
-
 function useTimer() {
+  const [timer] = useState(new Timer());
   const [remainingDuration, setRemainingDuration] = useState(timer.remainingDuration);
   const [isEnded, setIsEnded] = useState(timer.isEnded);
 
