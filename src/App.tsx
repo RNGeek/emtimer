@@ -1,20 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+import { TimerCard } from './component/TimeCard';
 
 export type AppProps = {};
 
 export function App(_props: AppProps) {
-  const [count, setCount] = useState(0);
-  const handleClick = useCallback(() => {
-    setCount(count + 1);
-  }, [count]);
-
   return (
-    <Container maxWidth="sm">
-      <Button variant="contained" color="primary" onClick={handleClick}>
-        {count}
-      </Button>
+    <Container maxWidth="lg">
+      <TimerCard title={'カップラーメンができるまで'} duration={3 * 60 * 1000} />
     </Container>
   );
 }
