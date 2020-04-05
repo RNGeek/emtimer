@@ -1,4 +1,6 @@
 import EventEmitter from 'eventemitter3';
+import { TimeController, DateTimeController } from './timer/time-controller';
+import { TickController, AnimationFrameTickController } from './timer/tick-controller';
 
 export type EventTypes = {
   start: [number];
@@ -9,21 +11,28 @@ export type EventTypes = {
 
 export class Timer {
   #emitter: EventEmitter<EventTypes>;
+  #timeController: TimeController;
+  #tickController: TickController;
   #endTime: number;
-  #rafId: number | null;
+  #timerId: number | null;
 
-  constructor() {
+  constructor(
+    timeController: TimeController = new DateTimeController(),
+    tickController: TickController = new AnimationFrameTickController(),
+  ) {
     this.#emitter = new EventEmitter();
+    this.#timeController = timeController;
+    this.#tickController = tickController;
     this.#endTime = 0;
-    this.#rafId = null;
+    this.#timerId = null;
   }
 
   get isEnded(): boolean {
-    return this.#rafId === null;
+    return this.#timerId === null;
   }
 
   get remainingDuration(): number {
-    return Math.max(this.#endTime - Date.now(), 0);
+    return Math.max(this.#endTime - this.#timeController.getTime(), 0);
   }
 
   start(duration: number) {
@@ -32,24 +41,24 @@ export class Timer {
       const remainingDuration = this.remainingDuration;
 
       if (remainingDuration > 0) {
-        this.#rafId = requestAnimationFrame(updateDuration);
+        this.#timerId = this.#tickController.requestTick(updateDuration);
         this.#emitter.emit('tick', remainingDuration);
       } else {
-        this.#rafId = null;
+        this.#timerId = null;
         this.#emitter.emit('ended');
       }
     };
 
-    this.#endTime = Date.now() + duration;
-    this.#rafId = requestAnimationFrame(updateDuration);
+    this.#endTime = this.#timeController.getTime() + duration;
+    this.#timerId = this.#tickController.requestTick(updateDuration);
     this.#emitter.emit('start', duration);
   }
 
   stop() {
     if (this.isEnded) throw new Error('Cannot stop timer. Is the timer cowntdowning?');
     this.#endTime = 0;
-    cancelAnimationFrame(this.#rafId!);
-    this.#rafId = null;
+    this.#tickController.cancelTick(this.#timerId!);
+    this.#timerId = null;
     this.#emitter.emit('stop');
   }
 

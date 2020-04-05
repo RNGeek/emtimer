@@ -1,51 +1,50 @@
 import { Timer, EventTypes } from './timer';
-import { advanceBy, advanceTo, clear } from 'jest-date-mock';
-import {
-  enableAnimationFrameMock,
-  disableAnimationFrameMock,
-  advanceAnimationFrame,
-} from '../test-util/jest-animation-frame-mock';
+import { TestableTimeController } from './timer/time-controller';
+import { TestableTickController } from './timer/tick-controller';
 
-// 日時を `duration` ms 進めつつ，`requestAnimationFrame` で登録されたコールバックを呼び出す
-function advanceDateAndAnimationFrame(duration: number) {
-  advanceBy(duration);
-  advanceAnimationFrame();
+function createTimer() {
+  const timeController = new TestableTimeController();
+  const tickController = new TestableTickController(timeController);
+  const timer = new Timer(timeController, tickController);
+  return { timeController, tickController, timer };
+}
+
+function createCountdowningTimer(duration = 1000) {
+  const { timeController, tickController, timer } = createTimer();
+  timer.start(duration);
+  return { timeController, tickController, timer };
+}
+
+function createTimerWithListener(event: keyof EventTypes) {
+  const { timeController, tickController, timer } = createTimer();
+  const listener = jest.fn();
+  timer.addListener(event, listener);
+  return { timeController, tickController, timer, listener };
 }
 
 describe('Timer', () => {
-  beforeEach(() => {
-    enableAnimationFrameMock();
-    advanceTo(new Date(2000, 1, 1, 0, 0, 0));
-  });
-
-  afterEach(() => {
-    disableAnimationFrameMock();
-    clear();
-  });
-
   describe('カウントダウンしていない時', () => {
-    function createEndedTimer() {
-      return new Timer();
-    }
     describe('#isEnded', () => {
       test('カウントダウン中ではない', () => {
-        expect(createEndedTimer().isEnded).toBe(true);
+        const { timer } = createTimer();
+        expect(timer.isEnded).toBe(true);
       });
     });
     describe('#remainingDuration', () => {
       test('残り時間は0', () => {
-        expect(createEndedTimer().remainingDuration).toBe(0);
+        const { timer } = createTimer();
+        expect(timer.remainingDuration).toBe(0);
       });
     });
     describe('#start', () => {
       test('カウントダウンを開始できる', () => {
-        const timer = createEndedTimer();
+        const { timer } = createTimer();
         timer.start(1000);
         expect(timer.isEnded).toBe(false);
         expect(timer.remainingDuration).toBe(1000);
       });
       test('durationが0でもカウントダウンを開始できる', () => {
-        const timer = createEndedTimer();
+        const { timer } = createTimer();
         timer.start(0);
         expect(timer.isEnded).toBe(false);
         expect(timer.remainingDuration).toBe(0);
@@ -53,48 +52,46 @@ describe('Timer', () => {
     });
     describe('#stop', () => {
       test('例外が発生する', () => {
+        const { timer } = createTimer();
         expect(() => {
-          createEndedTimer().stop();
+          timer.stop();
         }).toThrow();
       });
     });
   });
 
   describe('カウントダウン中', () => {
-    function createCountdowningTimer(duration = 1000) {
-      const timer = new Timer();
-      timer.start(duration);
-      return timer;
-    }
     describe('#isEnded', () => {
       test('カウントダウン中である', () => {
-        expect(createCountdowningTimer().isEnded).toBe(false);
+        const { timer } = createCountdowningTimer();
+        expect(timer.isEnded).toBe(false);
       });
     });
     describe('#remainingDuration', () => {
       test('時間が経過するにつれ，残り時間が減っていく', () => {
-        const timer = createCountdowningTimer(1000);
+        const { timer, timeController } = createCountdowningTimer(1000);
         expect(timer.remainingDuration).toBe(1000);
-        advanceDateAndAnimationFrame(500);
+        timeController.advanceTimeBy(500);
         expect(timer.remainingDuration).toBe(500);
       });
     });
     describe('#start', () => {
       test('例外が発生する', () => {
+        const { timer } = createCountdowningTimer(1000);
         expect(() => {
-          createCountdowningTimer().start(1000);
+          timer.start(1000);
         }).toThrow();
       });
     });
     describe('#stop', () => {
       test('カウントダウンを開始できる', () => {
-        const timer = createCountdowningTimer(1000);
+        const { timer } = createCountdowningTimer(1000);
         expect(timer.isEnded).toBe(false);
         timer.stop();
         expect(timer.isEnded).toBe(true);
       });
       test('durationが0でもカウントダウン中なら #stop できる', () => {
-        const timer = createCountdowningTimer(0);
+        const { timer } = createCountdowningTimer(0);
         expect(timer.isEnded).toBe(false);
         timer.stop();
         expect(timer.isEnded).toBe(true);
@@ -103,12 +100,6 @@ describe('Timer', () => {
   });
 
   describe('#addListener', () => {
-    function createTimerWithListener(event: keyof EventTypes) {
-      const timer = new Timer();
-      const listener = jest.fn();
-      timer.addListener(event, listener);
-      return { timer, listener };
-    }
     describe(`@start`, () => {
       test('#start が呼び出されたら start イベントが発火する', () => {
         const { timer, listener } = createTimerWithListener('start');
@@ -121,11 +112,13 @@ describe('Timer', () => {
     });
     describe(`@ended`, () => {
       test('カウントダウンが終了したら ended イベントが発火する', () => {
-        const { timer, listener } = createTimerWithListener('ended');
+        const { timer, listener, timeController, tickController } = createTimerWithListener('ended');
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        advanceDateAndAnimationFrame(1000);
+        timeController.advanceTimeBy(1000);
+        expect(listener.mock.calls.length).toBe(0);
+        tickController.advanceAnimationFrame();
         expect(listener.mock.calls.length).toBe(1);
       });
       test('#stop した時は ended イベントは発火しない', () => {
@@ -147,25 +140,29 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(1);
       });
       test('カウントダウンが終了しても stop イベントは発生しない', () => {
-        const { timer, listener } = createTimerWithListener('stop');
+        const { timer, listener, timeController, tickController } = createTimerWithListener('stop');
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        advanceDateAndAnimationFrame(1000);
+        timeController.advanceTimeBy(1000);
+        expect(listener.mock.calls.length).toBe(0);
+        tickController.advanceAnimationFrame();
         expect(listener.mock.calls.length).toBe(0);
       });
     });
     describe(`@tick`, () => {
-      test('カウントダウン中に `requestAnimationFrame` が呼ばれたら tick イベントが発火する', () => {
-        const { timer, listener } = createTimerWithListener('tick');
+      test('カウントダウン中に `requestAnimationFrame` などが呼ばれたら tick イベントが発火する', () => {
+        const { timer, listener, tickController } = createTimerWithListener('tick');
         expect(listener.mock.calls.length).toBe(0);
-        advanceAnimationFrame();
+        tickController.advanceAnimationFrame();
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        advanceAnimationFrame();
+        tickController.advanceAnimationFrame();
         expect(listener.mock.calls.length).toBe(1);
         timer.stop();
+        expect(listener.mock.calls.length).toBe(1);
+        tickController.advanceAnimationFrame();
         expect(listener.mock.calls.length).toBe(1);
       });
     });
