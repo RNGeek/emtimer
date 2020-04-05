@@ -28,7 +28,7 @@ export class TestableTickController implements TickController {
   cancelTick(tickId: number): void {
     this.#cbQueue.splice(tickId, 1);
   }
-  advanceAnimationFrame() {
+  advanceTick() {
     this.#cbQueue.forEach((cb) => cb(this.#timeController.getTime()));
     this.#cbQueue.length = 0;
   }

@@ -118,7 +118,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timeController.advanceTimeBy(1000);
         expect(listener.mock.calls.length).toBe(0);
-        tickController.advanceAnimationFrame();
+        tickController.advanceTick();
         expect(listener.mock.calls.length).toBe(1);
       });
       test('#stop した時は ended イベントは発火しない', () => {
@@ -146,7 +146,7 @@ describe('Timer', () => {
         expect(listener.mock.calls.length).toBe(0);
         timeController.advanceTimeBy(1000);
         expect(listener.mock.calls.length).toBe(0);
-        tickController.advanceAnimationFrame();
+        tickController.advanceTick();
         expect(listener.mock.calls.length).toBe(0);
       });
     });
@@ -154,15 +154,15 @@ describe('Timer', () => {
       test('カウントダウン中に `requestAnimationFrame` などが呼ばれたら tick イベントが発火する', () => {
         const { timer, listener, tickController } = createTimerWithListener('tick');
         expect(listener.mock.calls.length).toBe(0);
-        tickController.advanceAnimationFrame();
+        tickController.advanceTick();
         expect(listener.mock.calls.length).toBe(0);
         timer.start(1000);
         expect(listener.mock.calls.length).toBe(0);
-        tickController.advanceAnimationFrame();
+        tickController.advanceTick();
         expect(listener.mock.calls.length).toBe(1);
         timer.stop();
         expect(listener.mock.calls.length).toBe(1);
-        tickController.advanceAnimationFrame();
+        tickController.advanceTick();
         expect(listener.mock.calls.length).toBe(1);
       });
     });
