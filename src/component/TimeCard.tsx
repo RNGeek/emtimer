@@ -3,6 +3,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { DurationView } from './DurationView';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -27,7 +28,9 @@ export function TimerCard({ title, duration }: TimerCardProps) {
     <Card>
       <CardContent>
         <Typography className={classes.title}>{title}</Typography>
-        <Typography className={classes.time}>{duration} ms</Typography>
+        <div className={classes.time}>
+          <DurationView value={duration} />
+        </div>
       </CardContent>
     </Card>
   );
