@@ -1,13 +1,16 @@
+/** 時刻を制御するコントローラ */
 export interface TimeController {
   getTime(): number;
 }
 
+/** Date API を用いて時刻を制御するコントローラ */
 export class DateTimeController implements TimeController {
   getTime() {
     return Date.now();
   }
 }
 
+/** テスト用のコントローラ */
 export class TestableTimeController implements TimeController {
   #now = 0;
   getTime() {

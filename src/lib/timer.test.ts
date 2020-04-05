@@ -151,7 +151,7 @@ describe('Timer', () => {
       });
     });
     describe(`@tick`, () => {
-      test('カウントダウン中に `requestAnimationFrame` などが呼ばれたら tick イベントが発火する', () => {
+      test('カウントダウン中にタイマーが更新されたら tick イベントが発火する', () => {
         const { timer, listener, tickController } = createTimerWithListener('tick');
         expect(listener.mock.calls.length).toBe(0);
         tickController.advanceTick();

@@ -1,10 +1,14 @@
 import { TimeController } from './time-controller';
 
+/** タイマーの更新タイミングを制御するコントローラ */
 export interface TickController {
+  /** 次のタイマー更新時にコールバックを呼び出すよう予約する */
   requestTick(cb: (timestamp: number) => void): number;
+  /** コールバックの呼び出し予約をキャンセルする */
   cancelTick(tickId: number): void;
 }
 
+/** AnimationFrame APIを使ってタイマーの更新タイミングを制御するコントローラ */
 export class AnimationFrameTickController implements TickController {
   requestTick(cb: (timestamp: number) => void): number {
     return requestAnimationFrame(cb);
@@ -14,6 +18,7 @@ export class AnimationFrameTickController implements TickController {
   }
 }
 
+/** テスト向けのコントローラ */
 export class TestableTickController implements TickController {
   #cbQueue: FrameRequestCallback[] = [];
   #timeController: TimeController;
@@ -28,6 +33,7 @@ export class TestableTickController implements TickController {
   cancelTick(tickId: number): void {
     this.#cbQueue.splice(tickId, 1);
   }
+  /** タイマーを更新し，予約されたコールバックを呼び出す */
   advanceTick() {
     this.#cbQueue.forEach((cb) => cb(this.#timeController.getTime()));
     this.#cbQueue.length = 0;
