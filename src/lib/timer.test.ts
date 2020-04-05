@@ -69,9 +69,11 @@ describe('Timer', () => {
     });
     describe('#remainingDuration', () => {
       test('時間が経過するにつれ，残り時間が減っていく', () => {
-        const { timer, timeController } = createCountdowningTimer(1000);
+        const { timer, timeController, tickController } = createCountdowningTimer(1000);
         expect(timer.remainingDuration).toBe(1000);
         timeController.advanceTimeBy(500);
+        expect(timer.remainingDuration).toBe(1000);
+        tickController.advanceTick();
         expect(timer.remainingDuration).toBe(500);
       });
     });

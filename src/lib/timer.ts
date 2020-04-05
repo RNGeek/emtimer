@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { TimeController, DateTimeController, PerformanceTimeController } from './timer/time-controller';
+import { TimeController, PerformanceTimeController } from './timer/time-controller';
 import { TickController, AnimationFrameTickController } from './timer/tick-controller';
 
 export type EventTypes = {
@@ -24,6 +24,7 @@ export class Timer {
   #emitter: EventEmitter<EventTypes>;
   #timeController: TimeController;
   #tickController: TickController;
+  #currentTime: number;
   #endTime: number;
   #timerId: number | null;
 
@@ -34,6 +35,7 @@ export class Timer {
     this.#emitter = new EventEmitter();
     this.#timeController = timeController;
     this.#tickController = tickController;
+    this.#currentTime = 0;
     this.#endTime = 0;
     this.#timerId = null;
   }
@@ -43,9 +45,9 @@ export class Timer {
     return this.#timerId === null;
   }
 
-  /** 残り時間 */
+  /** 残り時間. 値は `tick` イベントに合わせて更新される. */
   get remainingDuration(): number {
-    return Math.max(this.#endTime - this.#timeController.getTime(), 0);
+    return Math.max(this.#endTime - this.#currentTime, 0);
   }
 
   /**
@@ -55,12 +57,11 @@ export class Timer {
    */
   start(duration: number) {
     if (!this.isEnded) throw new Error('Cannot start timer. Is the timer stopped?');
-    const updateDuration = () => {
-      const remainingDuration = this.remainingDuration;
-
-      if (remainingDuration > 0) {
+    const updateDuration = (timestamp: number) => {
+      this.#currentTime = timestamp;
+      if (this.remainingDuration > 0) {
         this.#timerId = this.#tickController.requestTick(updateDuration);
-        this.#emitter.emit('tick', remainingDuration);
+        this.#emitter.emit('tick', this.remainingDuration);
       } else {
         this.#timerId = null;
         this.#emitter.emit('ended');
@@ -78,9 +79,10 @@ export class Timer {
    */
   stop() {
     if (this.isEnded) throw new Error('Cannot stop timer. Is the timer cowntdowning?');
+    this.#currentTime = 0;
     this.#endTime = 0;
-    this.#tickController.cancelTick(this.#timerId!);
     this.#timerId = null;
+    this.#tickController.cancelTick(this.#timerId!);
     this.#emitter.emit('stop');
   }
 
