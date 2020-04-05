@@ -19,6 +19,8 @@ export type EventTypes = {
   tick: [number];
 };
 
+export type UnsubscribeFn = () => void;
+
 /** 高FPSで動作するよう設計されたカウントダウンタイマー */
 export class Timer {
   #emitter: EventEmitter<EventTypes>;
@@ -89,7 +91,10 @@ export class Timer {
   /**
    * イベントリスナを登録する.
    */
-  addListener<T extends keyof EventTypes>(eventName: T, handler: (...args: EventTypes[T]) => void) {
+  addListener<T extends keyof EventTypes>(eventName: T, handler: (...args: EventTypes[T]) => void): UnsubscribeFn {
     this.#emitter.addListener(eventName, handler);
+    return () => {
+      this.#emitter.removeListener(eventName, handler);
+    };
   }
 }

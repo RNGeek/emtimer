@@ -13,28 +13,28 @@ function useTimer() {
   const [isEnded, setIsEnded] = useState(timer.isEnded);
 
   useEffect(() => {
-    const cb = timer.addListener('tick', (remainingDuration) => {
+    const unsubscribe = timer.addListener('tick', (remainingDuration) => {
       setRemainingDuration(remainingDuration);
     });
-    // return cb;
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
-    const cb1 = timer.addListener('ended', () => {
+    const unsubscribe1 = timer.addListener('ended', () => {
       setIsEnded(timer.isEnded);
     });
-    const cb2 = timer.addListener('stop', () => {
+    const unsubscribe2 = timer.addListener('stop', () => {
       setIsEnded(timer.isEnded);
       setRemainingDuration(timer.remainingDuration);
     });
-    const cb3 = timer.addListener('start', () => {
+    const unsubscribe3 = timer.addListener('start', () => {
       setIsEnded(timer.isEnded);
     });
-    // return () => {
-    //   cb1();
-    //   cb2();
-    //   cb3();
-    // };
+    return () => {
+      unsubscribe1();
+      unsubscribe2();
+      unsubscribe3();
+    };
   }, []);
 
   const start = useCallback((duration) => {
