@@ -1,9 +1,8 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
-
-export type TimerStatus = 'countdowning' | 'stopped';
+import { ChainedTimer, ChainedTimerStatus } from '../lib/chained-timer';
 
 export type UseChainedTimerResult = {
-  status: TimerStatus;
+  status: ChainedTimerStatus;
   lapRemains: number[];
   currentLapIndex: number;
   start: () => void;
@@ -11,7 +10,7 @@ export type UseChainedTimerResult = {
 };
 
 type ChainedTimerState = {
-  status: TimerStatus;
+  status: ChainedTimerStatus;
   lapRemains: number[];
   currentLapIndex: number;
 };

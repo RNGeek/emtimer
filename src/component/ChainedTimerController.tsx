@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { TimerStatus } from '../hook/use-chained-timer';
+import { ChainedTimerStatus } from '../lib/chained-timer';
 
 export type ChainedTimerControllerProps = {
-  status: TimerStatus;
+  status: ChainedTimerStatus;
   onStart: () => void;
   onStop: () => void;
 };
