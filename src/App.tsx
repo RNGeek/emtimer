@@ -1,21 +1,25 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Container from '@material-ui/core/Container';
-import { TimerCard } from './component/TimeCard';
-import { TimerController } from './component/TimerController';
-import { useTimer } from './hook/use-timer';
+import { useChainedTimer } from './hook/use-chained-timer';
+import { ChainedTimerDisplay } from './component/ChainedTimerDisplay';
+import { ChainedTimerController } from './component/ChainedTimerController';
 
 export type AppProps = {};
 
+const lapConfigs = [
+  { title: 'お湯が沸くまで', duration: 1 * 60 * 1000 },
+  { title: 'カップラーメンができるまで', duration: 3 * 60 * 1000 },
+  { title: 'お昼休みが終わるまで', duration: 30 * 60 * 1000 },
+];
+const lapDurations = lapConfigs.map((lapConfig) => lapConfig.duration);
+
 export function App(_props: AppProps) {
-  const { remainingDuration, isEnded, start, stop } = useTimer();
-  const handleStart = useCallback(() => {
-    start(3 * 60 * 1000);
-  }, [start]);
+  const { lapRemains, currentLapIndex, status, start, stop } = useChainedTimer(lapDurations);
 
   return (
     <Container maxWidth="lg">
-      <TimerCard title={'カップラーメンができるまで'} duration={remainingDuration} />
-      <TimerController isEnded={isEnded} onStart={handleStart} onStop={stop} />
+      <ChainedTimerDisplay lapConfigs={lapConfigs} lapRemains={lapRemains} currentLapIndex={currentLapIndex} />
+      <ChainedTimerController status={status} onStart={start} onStop={stop} />
     </Container>
   );
 }
