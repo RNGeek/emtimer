@@ -35,7 +35,9 @@ export class TestableTickController implements TickController {
   }
   /** タイマーを更新し，予約されたコールバックを呼び出す */
   advanceTick() {
-    this.#cbQueue.forEach((cb) => cb(this.#timeController.getTime()));
-    this.#cbQueue.length = 0;
+    // NOTE: コールバック内で `requestTick` を呼び出す可能性があるので, キューを空にしてからコールバックを呼び出す
+    const oldCbQueue = [...this.#cbQueue];
+    this.#cbQueue = [];
+    oldCbQueue.forEach((cb) => cb(this.#timeController.getTime()));
   }
 }
