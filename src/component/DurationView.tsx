@@ -3,6 +3,9 @@ import { formatDuration } from '../lib/duration';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
+  container: {
+    fontFamily: 'monospace',
+  },
   unit: {
     fontSize: '0.4em',
   },
@@ -16,7 +19,7 @@ export function DurationView({ value }: DurationViewProps) {
   const classes = useStyles();
   const { days, hours, minutes, seconds, cs } = formatDuration(value);
   return (
-    <div>
+    <div className={classes.container}>
       {days > 0 && (
         <>
           <span>{days}</span>

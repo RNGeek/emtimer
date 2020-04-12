@@ -3,7 +3,7 @@ import { ChainedTimer, ChainedTimerStatus } from '../lib/chained-timer';
 
 export type UseChainedTimerResult = {
   status: ChainedTimerStatus;
-  lapRemains: number[];
+  currentLapRemain: number;
   currentLapIndex: number;
   start: () => void;
   stop: () => void;
@@ -11,21 +11,21 @@ export type UseChainedTimerResult = {
 
 type ChainedTimerState = {
   status: ChainedTimerStatus;
-  lapRemains: number[];
+  currentLapRemain: number;
   currentLapIndex: number;
 };
 
 export function useChainedTimer(lapDurations: number[]): UseChainedTimerResult {
   const timer = useMemo(() => new ChainedTimer(lapDurations), [lapDurations]);
   const [state, setState] = useState<ChainedTimerState>({
-    status: 'stopped',
-    lapRemains: [],
-    currentLapIndex: 0,
+    status: timer.status,
+    currentLapRemain: timer.currentLapRemain,
+    currentLapIndex: timer.currentLapIndex,
   });
   const syncStateWithTimer = useCallback(() => {
     setState({
       status: timer.status,
-      lapRemains: timer.lapRemains,
+      currentLapRemain: timer.currentLapRemain,
       currentLapIndex: timer.currentLapIndex,
     });
   }, [timer]);
@@ -40,12 +40,8 @@ export function useChainedTimer(lapDurations: number[]): UseChainedTimerResult {
   }, [syncStateWithTimer, timer]);
 
   useEffect(() => {
-    const unsubscribe1 = timer.addListener('tick', syncStateWithTimer);
-    const unsubscribe2 = timer.addListener('ended', syncStateWithTimer);
-    return () => {
-      unsubscribe1();
-      unsubscribe2();
-    };
+    const unsubscribe = timer.addListener('tick', syncStateWithTimer);
+    return unsubscribe;
   }, [syncStateWithTimer, timer]);
 
   return { ...state, start, stop };
