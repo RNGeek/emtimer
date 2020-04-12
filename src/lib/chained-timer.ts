@@ -58,6 +58,7 @@ export class ChainedTimer {
     timeController: TimeController = new PerformanceTimeController(),
     tickController: TickController = new AnimationFrameTickController(),
   ) {
+    if (lapDurations.length == 0) throw new Error('インスタンスを作成するには少なくとも 1 つのラップが必要です.');
     this.#lapDurations = lapDurations;
     this.#emitter = new EventEmitter();
     this.#timeController = timeController;
@@ -73,7 +74,7 @@ export class ChainedTimer {
   /** カウントダウンを開始する. */
   start() {
     const now = this.#timeController.getTime();
-    if (this.status === 'countdowning') throw new Error('Cannot start timer. Is the timer stopped?');
+    if (this.status === 'countdowning') throw new Error('カウントダウン中は ChainedTimer#start を呼び出せません.');
 
     const updateStateBy = (currentTime: number) => {
       const lastLapIndex = this.#lapDurations.length - 1;
