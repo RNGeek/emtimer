@@ -2,7 +2,11 @@ import EventEmitter from 'eventemitter3';
 import { TimeController, PerformanceTimeController } from './timer/time-controller';
 import { TickController, AnimationFrameTickController } from './timer/tick-controller';
 
-const START_TIME_FOR_STOPPED = 0;
+const INITIAL_STATUS = 'stopped';
+const INITIAL_START_TIME = 0;
+const INITIAL_CURRENT_LAP_INDEX = 0;
+// const INITIAL_CURRENT_LAP_REMAIN = 0;
+const INITIAL_TIMER_ID = null;
 
 export type ChainedTimerStatus = 'countdowning' | 'stopped';
 
@@ -59,11 +63,11 @@ export class ChainedTimer {
     this.#timeController = timeController;
     this.#tickController = tickController;
 
-    this.status = 'stopped';
-    this.#startTime = START_TIME_FOR_STOPPED;
-    this.currentLapIndex = lapDurations.length - 1;
-    this.currentLapRemain = 0;
-    this.#timerId = null;
+    this.status = INITIAL_STATUS;
+    this.#startTime = INITIAL_START_TIME;
+    this.currentLapIndex = INITIAL_CURRENT_LAP_INDEX;
+    this.currentLapRemain = lapDurations[0];
+    this.#timerId = INITIAL_TIMER_ID;
   }
 
   /** カウントダウンを開始する. */
@@ -79,12 +83,12 @@ export class ChainedTimer {
 
       if (currentLapIndex === lastLapIndex && currentLapRemain === 0) {
         this.status = 'stopped';
-        this.#startTime = START_TIME_FOR_STOPPED;
+        // this.#startTime = this.#startTime;
         this.currentLapIndex = lastLapIndex;
         this.currentLapRemain = currentLapRemain;
       } else {
         this.status = 'countdowning';
-        this.#startTime = this.#startTime;
+        // this.#startTime = this.#startTime;
         this.currentLapIndex = currentLapIndex;
         this.currentLapRemain = currentLapRemain;
       }
@@ -108,16 +112,15 @@ export class ChainedTimer {
     this.#timerId = this.#tickController.requestTick(updateDuration);
   }
 
-  /** カウントダウンを強制的に停止する. これにより, 各ラップの残り時間が全て `0` となり, `tick` イベントの呼び出しも停止する. */
-  stop() {
-    if (this.status === 'stopped') throw new Error('Cannot stop timer. Is the timer cowntdowning?');
+  /** カウントダウンを強制的に停止し, 初期状態に戻す. これにより, `tick` イベントの呼び出しが停止する. */
+  reset() {
+    if (this.#timerId) this.#tickController.cancelTick(this.#timerId);
 
-    this.status = 'stopped';
-    this.#startTime = START_TIME_FOR_STOPPED;
-    this.currentLapIndex = this.#lapDurations.length - 1;
-    this.currentLapRemain = 0;
-    this.#tickController.cancelTick(this.#timerId!);
-    this.#timerId = null;
+    this.status = INITIAL_STATUS;
+    this.#startTime = INITIAL_START_TIME;
+    this.currentLapIndex = INITIAL_CURRENT_LAP_INDEX;
+    this.currentLapRemain = this.#lapDurations[0];
+    this.#timerId = INITIAL_TIMER_ID;
   }
 
   /**

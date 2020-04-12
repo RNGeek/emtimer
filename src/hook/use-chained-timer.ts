@@ -6,7 +6,7 @@ export type UseChainedTimerResult = {
   currentLapRemain: number;
   currentLapIndex: number;
   start: () => void;
-  stop: () => void;
+  reset: () => void;
 };
 
 type ChainedTimerState = {
@@ -34,8 +34,8 @@ export function useChainedTimer(lapDurations: number[]): UseChainedTimerResult {
     timer.start();
     syncStateWithTimer();
   }, [syncStateWithTimer, timer]);
-  const stop = useCallback(() => {
-    timer.stop();
+  const reset = useCallback(() => {
+    timer.reset();
     syncStateWithTimer();
   }, [syncStateWithTimer, timer]);
 
@@ -44,5 +44,5 @@ export function useChainedTimer(lapDurations: number[]): UseChainedTimerResult {
     return unsubscribe;
   }, [syncStateWithTimer, timer]);
 
-  return { ...state, start, stop };
+  return { ...state, start, reset };
 }
