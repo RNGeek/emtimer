@@ -12,9 +12,7 @@ function createTimer(lapDurations: number[]) {
 }
 
 function createStartedTimer(lapDurations: number[]) {
-  const { timeController, tickController, timer } = createTimer(lapDurations);
-  const listener = jest.fn();
-  timer.addListener('tick', listener);
+  const { timeController, tickController, timer, listener } = createTimer(lapDurations);
   timer.start();
   return { timeController, tickController, timer, listener };
 }
