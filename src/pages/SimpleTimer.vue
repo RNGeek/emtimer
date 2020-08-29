@@ -41,7 +41,7 @@ import LoopView from '../components/LoopView.vue'
 import ModeView from '../components/ModeView.vue'
 import SoundEffector from '../lib/sound-effector'
 import 'vue-snotify'
-import { INITIAL_CONFIG, INTIAL_STATE } from '../lib/memory'
+import { INITIAL_CONFIG, INTIAL_STATE, appStateManager } from '../lib/memory'
 
 const genListener = (fn: () => void) => (e: KeyboardEvent) => {
   if (e.key === ' ') { // スペースが入力された場合
@@ -88,6 +88,14 @@ export default Vue.extend({
   computed: {
     isLastPhase (): boolean {
       return (this.state.coutingTimerId === 1) && (this.state.loop === this.configInUse.maxLoop)
+    },
+  },
+  watch: {
+    configInUse (newConfigInUse): void {
+      appStateManager.updateState({ configInUse: newConfigInUse })
+    },
+    state (newState): void {
+      appStateManager.updateState({ state: newState })
     },
   },
   methods: {
