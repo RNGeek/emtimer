@@ -1,4 +1,5 @@
 import * as Bowser from 'bowser'
+import { v4 as uuidv4 } from 'uuid'
 
 export const INITIAL_CONFIG = {
   duration: 10 * 1000,
@@ -21,8 +22,17 @@ type DeepPartial < T > = {
   [P in keyof T]?: DeepPartial<T[P]>;
 }
 
+type EeportEntry = {
+  // ドキュメントが load されてから unload されるまでの期間に発生した entry を紐付けるための id
+  contextId: string,
+  // メモリ使用量
+  memoryMeasurement: MemoryMeasurement,
+  // ブラウザやOSに関する情報
+  bowser: Bowser.Parser.ParsedResult,
+} & AppState // アプリケーションの状態
+
 function measurementInterval () {
-  const MEAN_INTERVAL_IN_MS = 5 * 60 * 1000 // 5 分
+  const MEAN_INTERVAL_IN_MS = 1 * 60 * 1000 // 5 分
   return -Math.log(Math.random()) * MEAN_INTERVAL_IN_MS
 }
 
@@ -77,7 +87,8 @@ class MemoryMeasurementScheduler {
       // 呼び出した 10 秒後にGCを実行し、Promise が resolve される実装になっている。
       const memoryMeasurement = await performance.measureMemory()
       const appState = appStateManager.getCurrentState()
-      const reportEntry = {
+      const reportEntry: EeportEntry = {
+        contextId: uuidv4(),
         memoryMeasurement,
         bowser: this.bower,
         ...appState,
