@@ -23,6 +23,9 @@ module.exports = {
   },
   // add your custom rules here
   'rules': {
+    'no-undef': 'off',
+    'no-unused-vars': 'off',
+    'no-use-before-define': 'off',
     'import/extensions': ['error', 'always', {
       'js': 'never',
       'ts': 'never',

@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "@xkeshi/vue-countdown": "mizdra/vue-countdown",
+    "bowser": "^2.10.0",
     "keycode": "^2.1.9",
     "muse-ui": "^2.1.0",
     "tslib": "^1.8.1",
     "typescript": "^2.6.2",
+    "uuid": "^8.3.0",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
     "vue-snotify": "^3.0.4",

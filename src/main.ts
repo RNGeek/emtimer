@@ -9,6 +9,9 @@ import 'muse-ui/dist/muse-ui.css'
 import 'vue-snotify/styles/material.css'
 import router from './router'
 import App from './App.vue'
+import { memoryMeasurementScheduler } from './lib/memory'
+
+memoryMeasurementScheduler.start()
 
 Vue.use(VueRouter)
 Vue.use(MuseUI)
