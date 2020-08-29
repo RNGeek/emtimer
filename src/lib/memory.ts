@@ -1,3 +1,5 @@
+import * as Bowser from 'bowser'
+
 export const INITIAL_CONFIG = {
   duration: 10 * 1000,
   waitingDuration: 0,
@@ -58,10 +60,12 @@ class AppStateManager {
 export const appStateManager = new AppStateManager()
 
 class MemoryMeasurementScheduler {
-  appStateManager: AppStateManager
+  appStateManager: AppStateManager;
+  bower: Bowser.Parser.ParsedResult;
 
   constructor (appStateManager: AppStateManager) {
     this.appStateManager = appStateManager
+    this.bower = Bowser.parse(window.navigator.userAgent)
   }
 
   private async measureAndReportMemory () {
@@ -73,7 +77,11 @@ class MemoryMeasurementScheduler {
       // 呼び出した 10 秒後にGCを実行し、Promise が resolve される実装になっている。
       const memoryMeasurement = await performance.measureMemory()
       const appState = appStateManager.getCurrentState()
-      const reportEntry = { memoryMeasurement, ...appState }
+      const reportEntry = {
+        memoryMeasurement,
+        bowser: this.bower,
+        ...appState,
+      }
       console.log(reportEntry) // TODO: send entry
     } catch (error) {
       if (error instanceof DOMException &&
