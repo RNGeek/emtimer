@@ -23,8 +23,18 @@ type DeepPartial < T > = {
 }
 
 type EeportEntry = {
-  // ドキュメントが load されてから unload されるまでの期間に発生した entry を紐付けるための id
+  // git の commit hash
+  revisionId: string,
+  // process.env.NODE_ENV
+  env: string,
+  // context ごとにユニークな id。
+  // ここでの context とは、ページにアクセスしてから unload イベントが発行されドキュメントのインスタンスが破棄されるまでの期間を指している。
+  // この id が無いと entry を紐付けて測定結果を分析することが困難なため、entry に含めている。
   contextId: string,
+  // entry が生成された時刻
+  timestamp: number,
+  // context が生まれてからの経過時間
+  elapsedTimeSinceContextCreated: number,
   // メモリ使用量
   memoryMeasurement: MemoryMeasurement,
   // ブラウザやOSに関する情報
@@ -72,10 +82,12 @@ export const appStateManager = new AppStateManager()
 class MemoryMeasurementScheduler {
   appStateManager: AppStateManager;
   bower: Bowser.Parser.ParsedResult;
+  timeOfContextCreated: number;
 
   constructor (appStateManager: AppStateManager) {
     this.appStateManager = appStateManager
     this.bower = Bowser.parse(window.navigator.userAgent)
+    this.timeOfContextCreated = Date.now()
   }
 
   private async measureAndReportMemory () {
@@ -87,8 +99,13 @@ class MemoryMeasurementScheduler {
       // 呼び出した 10 秒後にGCを実行し、Promise が resolve される実装になっている。
       const memoryMeasurement = await performance.measureMemory()
       const appState = appStateManager.getCurrentState()
+      const timestamp = Date.now()
       const reportEntry: EeportEntry = {
+        revisionId: __REVISION_ID__,
+        env: process.env.NODE_ENV || 'development',
         contextId: uuidv4(),
+        timestamp: timestamp,
+        elapsedTimeSinceContextCreated: timestamp - this.timeOfContextCreated,
         memoryMeasurement,
         bowser: this.bower,
         ...appState,

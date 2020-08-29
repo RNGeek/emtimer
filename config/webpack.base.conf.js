@@ -1,7 +1,13 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { DefinePlugin } = require('webpack')
 
 const config = require('./config')
+
+const revisionId = require('child_process')
+  .execSync('git rev-parse --short HEAD')
+  .toString()
+  .trim()
 
 module.exports = {
   output: {
@@ -80,6 +86,9 @@ module.exports = {
       filename: config.indexPath,
       template: 'index.html',
       inject: true,
+    }),
+    new DefinePlugin({
+      __REVISION_ID__: JSON.stringify(revisionId),
     }),
   ],
 }
