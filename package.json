@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@xkeshi/vue-countdown": "mizdra/vue-countdown",
+    "bowser": "^2.10.0",
     "keycode": "^2.1.9",
     "muse-ui": "^2.1.0",
     "tslib": "^1.8.1",
