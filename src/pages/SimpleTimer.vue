@@ -41,6 +41,7 @@ import LoopView from '../components/LoopView.vue'
 import ModeView from '../components/ModeView.vue'
 import SoundEffector from '../lib/sound-effector'
 import 'vue-snotify'
+import { INITIAL_CONFIG, INTIAL_STATE } from '../lib/memory'
 
 const genListener = (fn: () => void) => (e: KeyboardEvent) => {
   if (e.key === ' ') { // スペースが入力された場合
@@ -62,24 +63,10 @@ export default Vue.extend({
     ModeView,
   },
   data () {
-    const defaultConfig = {
-      duration: 10 * 1000,
-      waitingDuration: 0,
-      cuttedDuration: 0,
-      maxLoop: 0,
-      infiniteLoop: false,
-      invalid: false,
-      soundDuration: 10 * 1000,
-    }
     return {
-      config: {...defaultConfig}, // 初期設定をコピー
-      configInUse: {...defaultConfig}, // 初期設定をコピー
-      state: {
-        duration: 0,
-        coutingTimerId: 1,
-        counting: false,
-        loop: 0,
-      },
+      config: {...INITIAL_CONFIG}, // 初期設定をコピー
+      configInUse: {...INITIAL_CONFIG}, // 初期設定をコピー
+      state: { ...INTIAL_STATE }, // 初期設定をコピー
       soundEffector: new SoundEffector(),
       keyupListener: genListener(() => {}),
       keydownListener: genListener(() => {}),

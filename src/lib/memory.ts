@@ -1,10 +1,28 @@
+export const INITIAL_CONFIG = {
+  duration: 10 * 1000,
+  waitingDuration: 0,
+  cuttedDuration: 0,
+  maxLoop: 0,
+  infiniteLoop: false,
+  invalid: false,
+  soundDuration: 10 * 1000,
+}
+
+export const INTIAL_STATE = {
+  duration: 0,
+  coutingTimerId: 1,
+  counting: false,
+  loop: 0,
+}
+
 function measurementInterval () {
   const MEAN_INTERVAL_IN_MS = 5 * 60 * 1000 // 5 分
   return -Math.log(Math.random()) * MEAN_INTERVAL_IN_MS
 }
 
 type AppState = {
-  status: 'initial' | 'countdowning' | 'ended';
+  configInUse: typeof INITIAL_CONFIG,
+  state: typeof INTIAL_STATE;
 }
 
 // メモリの測定結果と合わせて送信したいアプリケーションの状態を管理するクラス
@@ -12,7 +30,8 @@ class AppStateManager {
   private currentState: AppState;
   constructor () {
     this.currentState = {
-      status: 'initial',
+      configInUse: { ...INITIAL_CONFIG },
+      state: { ...INTIAL_STATE },
     }
   }
   updateState (newState: Partial<AppState>) {
