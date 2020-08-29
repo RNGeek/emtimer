@@ -15,6 +15,10 @@ export const INTIAL_STATE = {
   loop: 0,
 }
 
+type DeepPartial < T > = {
+  [P in keyof T]?: DeepPartial<T[P]>;
+}
+
 function measurementInterval () {
   const MEAN_INTERVAL_IN_MS = 5 * 60 * 1000 // 5 分
   return -Math.log(Math.random()) * MEAN_INTERVAL_IN_MS
@@ -34,10 +38,16 @@ class AppStateManager {
       state: { ...INTIAL_STATE },
     }
   }
-  updateState (newState: Partial<AppState>) {
+  updateState (newState: DeepPartial<AppState>) {
     this.currentState = {
-      ...this.currentState,
-      ...newState,
+      configInUse: {
+        ...this.currentState.configInUse,
+        ...newState.configInUse,
+      },
+      state: {
+        ...this.currentState.state,
+        ...newState.state,
+      },
     }
   }
   getCurrentState (): AppState {
