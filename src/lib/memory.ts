@@ -93,6 +93,8 @@ class MeasureMemoryManager {
   startMeasurementScheduler () {
     if (!performance.measureMemory) return
 
+    console.log('start measurement scheduler')
+
     const scheduleMeasurement = () => {
       const interval = measurementInterval()
       console.log('Scheduling memory measurement in ' + Math.round(interval / 1000) + ' seconds.')
@@ -101,6 +103,7 @@ class MeasureMemoryManager {
         scheduleMeasurement()
       }, interval)
     }
+    scheduleMeasurement()
   }
 }
 
