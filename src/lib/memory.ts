@@ -57,7 +57,7 @@ class AppStateManager {
 
 export const appStateManager = new AppStateManager()
 
-class MeasureMemoryManager {
+class MemoryMeasurementScheduler {
   appStateManager: AppStateManager
 
   constructor (appStateManager: AppStateManager) {
@@ -90,7 +90,7 @@ class MeasureMemoryManager {
   // ただし素朴に 5 分おきに測定するとページにアクセスしてから 0 〜 5分経過した際のデータが集計されず、
   // データに偏りが発生してしまう。そこで、ここではポアソン分布を利用して測定のタイミングを分散させ、
   // どの経過時間においても同じ確率でメモリ使用量の測定が実行されるようにしている。
-  startMeasurementScheduler () {
+  start () {
     if (!performance.measureMemory) return
 
     console.log('start measurement scheduler')
@@ -107,4 +107,4 @@ class MeasureMemoryManager {
   }
 }
 
-export const measureMemoryManager = new MeasureMemoryManager(appStateManager)
+export const memoryMeasurementScheduler = new MemoryMeasurementScheduler(appStateManager)
