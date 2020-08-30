@@ -72,25 +72,23 @@ module.exports = (env, argv) => ({
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 10000,
-          name: 'img/[name].[hash:7].[ext]',
+          esModule: false,
         },
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 10000,
-          name: 'fonts/[name].[hash:7].[ext]',
         },
       },
       {
         test: /\.mp3(\?.*)?$/,
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 10000,
-          name: 'audio/[name].[hash:7].[ext]',
         },
       },
     ],
