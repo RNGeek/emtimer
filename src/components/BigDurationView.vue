@@ -61,11 +61,13 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="postcss" scoped>
+<style>
 :root {
   --circle-size: 50px;
 }
+</style>
 
+<style lang="postcss" scoped>
 .view {
   width: 100%;
   position: relative;
