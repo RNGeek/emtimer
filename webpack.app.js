@@ -34,6 +34,12 @@ module.exports = (env, argv) => ({
   devServer: {
     contentBase: distPath,
     historyApiFallback: true,
+    proxy: {
+      '/.netlify': {
+        target: 'http://localhost:9000',
+        pathRewrite: { '^/.netlify/functions': '' },
+      },
+    },
   },
 
   module: {
