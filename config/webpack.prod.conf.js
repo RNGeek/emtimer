@@ -22,13 +22,14 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env,
     }),
-    new CopyWebpackPlugin([
-      {
-        from: config.staticPath,
-        to: '.',
-        ignore: ['.*'],
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: config.staticPath,
+          to: '.',
+        },
+      ],
+    }),
     new SWPrecacheWebpackPlugin({
       cacheId: 'emtimer',
       filename: 'service-worker.js',
