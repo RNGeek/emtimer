@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { DefinePlugin } = require('webpack')
 
@@ -37,12 +37,13 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          use: {
-            loader: 'css-loader',
-          },
-          fallback: 'vue-style-loader',
-        }),
+        // ref: https://vue-loader.vuejs.org/guide/extract-css.html#webpack-4
+        use: [
+          process.env.NODE_ENV !== 'production'
+            ? 'vue-style-loader'
+            : MiniCssExtractPlugin.loader,
+          'css-loader',
+        ]
       },
       {
         test: /\.ts$/,
@@ -79,7 +80,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
     }),
     new HtmlWebpackPlugin({
