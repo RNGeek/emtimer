@@ -1,7 +1,11 @@
 <template>
   <div class="view">
-    <template v-if="days > 0"><span class="dights">{{ days }}</span><span class="unit">日</span></template>
-    <template v-if="hours > 0"><span class="dights">{{ hours }}</span><span class="unit">時間</span></template>
+    <template v-if="days > 0">
+      <span class="dights">{{ days }}</span><span class="unit">日</span>
+    </template>
+    <template v-if="hours > 0">
+      <span class="dights">{{ hours }}</span><span class="unit">時間</span>
+    </template>
     <span class="dights">{{ minutes | pad }}</span><span class="unit">分</span>
     <span class="dights">{{ seconds | pad }}</span><span class="unit">秒</span>
     <span class="dights">{{ cs | pad }}</span>
@@ -37,7 +41,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .view {
   text-align: center;
 }

@@ -3,7 +3,7 @@
     class="view"
     :style="{ background: bgColor, transitionDuration: duration }"
   >
-    <div class="line"/>
+    <div class="line" />
     <div
       class="circle"
       :style="{ right: right }"
@@ -61,11 +61,13 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style>
 :root {
   --circle-size: 50px;
 }
+</style>
 
+<style lang="postcss" scoped>
 .view {
   width: 100%;
   position: relative;

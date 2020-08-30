@@ -1,3 +1,6 @@
+import ticitackURL from '../audio/ticktack.mp3'
+import endedURL from '../audio/ended.mp3'
+
 /**
  * 引数がPromiseであれば何もせず返し,
  * PromiseでなければFulfilledなPromiseを返す.
@@ -12,8 +15,8 @@ export default class SoundEffector {
   private ended: HTMLAudioElement // eslint-disable-line no-undef
 
   constructor () {
-    this.ticitack = new Audio(require('../audio/ticktack.mp3'))
-    this.ended = new Audio(require('../audio/ended.mp3'))
+    this.ticitack = new Audio(ticitackURL)
+    this.ended = new Audio(endedURL)
     this.ticitack.muted = true
     this.ended.muted = true
   }

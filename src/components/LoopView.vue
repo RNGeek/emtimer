@@ -1,8 +1,12 @@
 <template>
   <div>
     ループ回数:
-    <template v-if="isInfiniteLoop">{{ loop }} / ∞</template>
-    <template v-else>{{ loop }} / {{ maxLoop }}</template>
+    <template v-if="isInfiniteLoop">
+      {{ loop }} / ∞
+    </template>
+    <template v-else>
+      {{ loop }} / {{ maxLoop }}
+    </template>
   </div>
 </template>
 

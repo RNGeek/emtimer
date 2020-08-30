@@ -60,6 +60,7 @@ class AppStateManager {
       state: { ...INTIAL_STATE },
     }
   }
+
   updateState (newState: DeepPartial<AppState>) {
     this.currentState = {
       configInUse: {
@@ -72,6 +73,7 @@ class AppStateManager {
       },
     }
   }
+
   getCurrentState (): AppState {
     return this.currentState
   }

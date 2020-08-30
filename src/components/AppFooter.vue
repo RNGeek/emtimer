@@ -13,7 +13,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .footer {
   background-color: #f9f9f9;
   text-align: center;

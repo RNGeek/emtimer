@@ -37,7 +37,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .controller {
   position: fixed;
   bottom: 0;

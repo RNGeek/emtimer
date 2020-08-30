@@ -7,5 +7,5 @@ export const nonBigNumber = between(0, 10000000000)
 // 整数であることを保証するバリデーションルール
 export const integer = withParams(
   { type: 'integer' },
-  (value: string) => /^[+-]?[0-9]+$/.test(value)
+  (value: string) => /^[+-]?[0-9]+$/.test(value),
 )

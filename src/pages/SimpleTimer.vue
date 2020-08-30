@@ -2,7 +2,7 @@
   <div>
     <ad />
     <container title="シンプルタイマー">
-      <vue-snotify/>
+      <vue-snotify />
 
       <mu-card class="config-card">
         <config v-model="config" @soundenable="onSoundenable" />
@@ -22,8 +22,8 @@
       <footer-controller
         :start-disabled="config.invalid || state.counting"
         @stop="stop"
-        @start="start" />
-
+        @start="start"
+      />
     </container>
   </div>
 </template>
@@ -36,7 +36,6 @@ import Container from '../components/Container.vue'
 import CountdownTimer from '../components/CountdownTimer.vue'
 import Config from '../components/Config.vue'
 import FooterController from '../components/FooterController.vue'
-import DurationView from '../components/DurationView.vue'
 import LoopView from '../components/LoopView.vue'
 import ModeView from '../components/ModeView.vue'
 import SoundEffector from '../lib/sound-effector'
@@ -58,32 +57,18 @@ export default Vue.extend({
     Config,
     CountdownTimer,
     FooterController,
-    DurationView,
     LoopView,
     ModeView,
   },
   data () {
     return {
-      config: {...INITIAL_CONFIG}, // 初期設定をコピー
-      configInUse: {...INITIAL_CONFIG}, // 初期設定をコピー
+      config: { ...INITIAL_CONFIG }, // 初期設定をコピー
+      configInUse: { ...INITIAL_CONFIG }, // 初期設定をコピー
       state: { ...INTIAL_STATE }, // 初期設定をコピー
       soundEffector: new SoundEffector(),
       keyupListener: genListener(() => {}),
       keydownListener: genListener(() => {}),
     }
-  },
-  mounted () {
-    // add event listener
-    this.keyupListener = genListener(this.start)
-    this.keydownListener = genListener(this.stop)
-    document.addEventListener('keyup', this.keyupListener)
-    document.addEventListener('keydown', this.keydownListener)
-  },
-  destroyed () {
-    // remove event listener
-    this.stop()
-    document.removeEventListener('keyup', this.keyupListener)
-    document.removeEventListener('keydown', this.keydownListener)
   },
   computed: {
     isLastPhase (): boolean {
@@ -97,6 +82,19 @@ export default Vue.extend({
     state (newState): void {
       appStateManager.updateState({ state: newState })
     },
+  },
+  mounted () {
+    // add event listener
+    this.keyupListener = genListener(this.start)
+    this.keydownListener = genListener(this.stop)
+    document.addEventListener('keyup', this.keyupListener)
+    document.addEventListener('keydown', this.keydownListener)
+  },
+  destroyed () {
+    // remove event listener
+    this.stop()
+    document.removeEventListener('keyup', this.keyupListener)
+    document.removeEventListener('keydown', this.keydownListener)
   },
   methods: {
     // Events from footer-controller
@@ -157,12 +155,14 @@ export default Vue.extend({
       this.soundEffector.muted = !isSoundEnabled
     },
     soundTicktack (): void {
-      this.soundEffector.playTicktack().catch(() => {
+      this.soundEffector.playTicktack().catch((e) => {
+        console.error(e)
         this.$snotify.error('秒針の音の再生に失敗しました.', 'Error!')
       })
     },
     soundEnded (): void {
-      this.soundEffector.playEnded().catch(() => {
+      this.soundEffector.playEnded().catch((e) => {
+        console.error(e)
         this.$snotify.error('停止音の再生に失敗しました.', 'Error!')
       })
     },
@@ -170,7 +170,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 body {
   margin-bottom: 56px;
 }

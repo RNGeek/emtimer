@@ -3,15 +3,16 @@
     <mu-flexbox>
       <mu-flexbox-item>
         <mu-text-field
-          hint-text="0"
           v-model.number="stateNumber"
+          hint-text="0"
           :error-text="stateErrorText"
           v-bind="$attrs"
+          full-width
           @input="emitInput"
-          full-width />
+        />
       </mu-flexbox-item>
       <mu-flexbox-item basis="5em" grow="0">
-        <unit-select v-model="stateUnit" @input="emitInput" full-width />
+        <unit-select v-model="stateUnit" full-width @input="emitInput" />
       </mu-flexbox-item>
     </mu-flexbox>
   </div>
