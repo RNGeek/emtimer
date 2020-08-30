@@ -83,7 +83,7 @@ module.exports = (env, argv) => ({
         },
       },
       {
-        test: /\.mp3(\?.*)?$/,
+        test: /\.mp3$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -125,7 +125,6 @@ module.exports = (env, argv) => ({
       cacheId: 'emtimer',
       filename: 'service-worker.js',
       staticFileGlobsIgnorePatterns: [/_redirects$/],
-      stripPrefix: 'dist/',
     }),
   ],
 })
