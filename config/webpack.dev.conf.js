@@ -9,7 +9,6 @@ const baseWebpackConfig = require('./webpack.base.conf')
 module.exports = merge(baseWebpackConfig, {
   entry: {
     app: [
-      'webpack-hot-middleware/client?noInfo=true&reload=true',
       'tslib',
       './src/main.ts',
     ],
@@ -19,7 +18,6 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': config.dev.env,
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new FriendlyErrorsPlugin(),
   ],
