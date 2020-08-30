@@ -22,6 +22,7 @@ module.exports = (env, argv) => ({
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
+          transpileOnly: true,
           configFile: 'tsconfig.serverless.json',
         },
         include: [srcPath],

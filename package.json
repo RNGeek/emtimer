@@ -6,16 +6,19 @@
   "private": true,
   "repository": "RNGeek/emtimer",
   "scripts": {
-    "dev": "run-p dev:frontend dev:serverless",
+    "dev": "run-p -l -c dev:frontend dev:serverless",
     "dev:frontend": "webpack-dev-server --mode development --config webpack.frontend.js",
     "dev:serverless": "run-p dev:serverless:webpack dev:serverless:serve",
     "dev:serverless:webpack": "webpack --watch --mode development --config webpack.serverless.js",
     "dev:serverless:serve": "netlify-lambda serve . --static",
     "lint": "eslint --ext .js,.vue,.ts .",
+    "typecheck": "run-p -l -c typecheck:*",
+    "typecheck:frontend": "tsc -p tsconfig.frontend.json --noEmit",
+    "typecheck:serverless": "tsc -p tsconfig.serverless.json --noEmit",
     "build": "run-s build:frontend build:serverless",
     "build:frontend": "webpack --mode production --config webpack.frontend.js",
     "build:serverless": "webpack --mode production --config webpack.serverless.js",
-    "prebuild": "run-s lint"
+    "prebuild": "run-s typecheck lint"
   },
   "dependencies": {
     "@xkeshi/vue-countdown": "mizdra/vue-countdown",
