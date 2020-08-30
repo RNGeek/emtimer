@@ -36,7 +36,6 @@ import Container from '../components/Container.vue'
 import CountdownTimer from '../components/CountdownTimer.vue'
 import Config from '../components/Config.vue'
 import FooterController from '../components/FooterController.vue'
-import DurationView from '../components/DurationView.vue'
 import LoopView from '../components/LoopView.vue'
 import ModeView from '../components/ModeView.vue'
 import SoundEffector from '../lib/sound-effector'
@@ -58,7 +57,6 @@ export default Vue.extend({
     Config,
     CountdownTimer,
     FooterController,
-    DurationView,
     LoopView,
     ModeView,
   },
