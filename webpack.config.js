@@ -1,26 +1,36 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { resolve } = require('path')
 const { DefinePlugin } = require('webpack')
+const { execSync } = require('child_process')
 
-const config = require('./config')
+const rootPath = resolve(__dirname, '.')
+const libPath = resolve(__dirname, 'lib')
+const staticPath = resolve(__dirname, 'static')
+const srcPath = resolve(__dirname, 'src')
+const distPath = resolve(__dirname, 'dist')
 
-const revisionId = require('child_process')
-  .execSync('git rev-parse --short HEAD')
-  .toString()
-  .trim()
+const revisionId = execSync('git rev-parse --short HEAD').toString().trim()
 
-module.exports = {
+module.exports = (env, argv) => ({
+  entry: {
+    app: [
+      resolve(libPath, './google-analysis.js'),
+      resolve(libPath, './service-worker.js'),
+      'tslib',
+      resolve(srcPath, './main.ts'),
+    ],
+  },
   output: {
-    path: config.distPath,
+    path: distPath,
     filename: 'js/[name].[hash].js',
   },
-  resolve: {
-    alias: {
-      vue$: 'vue/dist/vue.esm.js',
-    },
-    extensions: ['.js', '.ts', '.vue', '.json'],
-  },
+  devtool: argv.mode === 'development' ? 'inline-source-map' : false,
+
   module: {
     rules: [
       {
@@ -52,7 +62,7 @@ module.exports = {
         options: {
           appendTsSuffixTo: [/\.vue$/],
         },
-        include: [config.srcPath, config.testPath],
+        include: [srcPath],
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -80,18 +90,40 @@ module.exports = {
       },
     ],
   },
+
+  resolve: {
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+    },
+    extensions: ['.js', '.ts', '.tsx', '.vue', '.json'],
+  },
+
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
     }),
-    new HtmlWebpackPlugin({
-      filename: config.indexPath,
-      template: 'index.html',
-      inject: true,
-    }),
     new DefinePlugin({
       __REVISION_ID__: JSON.stringify(revisionId),
     }),
+    new HtmlWebpackPlugin({
+      filename: resolve(distPath, './index.html'),
+      template: resolve(rootPath, './index.html'),
+      inject: true,
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: staticPath,
+          to: '.',
+        },
+      ],
+    }),
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'emtimer',
+      filename: 'service-worker.js',
+      staticFileGlobsIgnorePatterns: [/_redirects$/],
+      stripPrefix: 'dist/',
+    }),
   ],
-}
+})
