@@ -32,6 +32,7 @@ module.exports = (env, argv) => ({
   devtool: argv.mode === 'development' ? 'inline-source-map' : false,
 
   devServer: {
+    contentBase: distPath,
     historyApiFallback: true,
   },
 
@@ -105,7 +106,8 @@ module.exports = (env, argv) => ({
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css',
+      filename: '[name].css',
+      chunkFilename: '[id].css',
     }),
     new DefinePlugin({
       __REVISION_ID__: JSON.stringify(revisionId),
