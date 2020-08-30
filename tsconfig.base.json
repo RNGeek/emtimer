@@ -1,0 +1,37 @@
+{
+  // "include": ["src/**/*"], // 継承先で上書きする
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    /* Basic Options */
+    // "target": "es5", // 継承先で上書きする
+    // "module": "es2015", // 継承先で上書きする
+    "moduleResolution": "node",
+    // "lib": ["esnext", "dom"], // 継承先で上書きする
+    "declaration": false,
+    "sourceMap": true,
+    // "outDir": "./dist",
+    "removeComments": true,
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "pretty": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+
+    /* Module Resolution Options */
+    "allowSyntheticDefaultImports": true,
+    "locale": "ja"
+  },
+}

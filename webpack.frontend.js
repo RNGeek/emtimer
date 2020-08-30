@@ -11,8 +11,8 @@ const { execSync } = require('child_process')
 const rootPath = resolve(__dirname, '.')
 const libPath = resolve(__dirname, 'lib')
 const staticPath = resolve(__dirname, 'static')
-const srcPath = resolve(__dirname, 'src/app')
-const distPath = resolve(__dirname, 'dist/app')
+const srcPath = resolve(__dirname, 'src/frontend')
+const distPath = resolve(__dirname, 'dist/frontend')
 
 const revisionId = execSync('git rev-parse --short HEAD').toString().trim()
 
@@ -34,6 +34,12 @@ module.exports = (env, argv) => ({
   devServer: {
     contentBase: distPath,
     historyApiFallback: true,
+    proxy: {
+      '/.netlify': {
+        target: 'http://localhost:9000',
+        pathRewrite: { '^/.netlify/functions': '' },
+      },
+    },
   },
 
   module: {
@@ -63,6 +69,8 @@ module.exports = (env, argv) => ({
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
+          transpileOnly: true,
+          configFile: 'tsconfig.frontend.json',
           appendTsSuffixTo: [/\.vue$/],
         },
         include: [srcPath],

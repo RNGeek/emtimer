@@ -6,10 +6,19 @@
   "private": true,
   "repository": "RNGeek/emtimer",
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
+    "dev": "run-p -l -c dev:frontend dev:serverless",
+    "dev:frontend": "webpack-dev-server --mode development --config webpack.frontend.js",
+    "dev:serverless": "run-p dev:serverless:webpack dev:serverless:serve",
+    "dev:serverless:webpack": "webpack --watch --mode development --config webpack.serverless.js",
+    "dev:serverless:serve": "netlify-lambda serve . --static",
     "lint": "eslint --ext .js,.vue,.ts .",
-    "build": "webpack --mode production",
-    "prebuild": "run-s lint"
+    "typecheck": "run-p -l -c typecheck:*",
+    "typecheck:frontend": "tsc -p tsconfig.frontend.json --noEmit",
+    "typecheck:serverless": "tsc -p tsconfig.serverless.json --noEmit",
+    "build": "run-s build:frontend build:serverless",
+    "build:frontend": "webpack --mode production --config webpack.frontend.js",
+    "build:serverless": "webpack --mode production --config webpack.serverless.js",
+    "prebuild": "run-s typecheck lint"
   },
   "dependencies": {
     "@xkeshi/vue-countdown": "mizdra/vue-countdown",
@@ -25,6 +34,8 @@
     "vuelidate": "^0.5.0"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.61",
+    "@types/node": "^14.6.2",
     "@typescript-eslint/parser": "^3.10.1",
     "autoprefixer": "^9.8.6",
     "copy-webpack-plugin": "^6.0.4",
@@ -40,6 +51,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "mini-css-extract-plugin": "^0.11.0",
+    "netlify-lambda": "^2.0.1",
     "npm-run-all": "^4.1.2",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
