@@ -3,7 +3,7 @@
     class="view"
     :style="{ background: bgColor, transitionDuration: duration }"
   >
-    <div class="line"/>
+    <div class="line" />
     <div
       class="circle"
       :style="{ right: right }"

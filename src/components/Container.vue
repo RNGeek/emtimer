@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <h1 v-if="title !== ''" class="title">{{ title }}</h1>
+    <h1 v-if="title !== ''" class="title">
+      {{ title }}
+    </h1>
     <slot />
   </div>
 </template>

@@ -15,7 +15,7 @@ memoryMeasurementScheduler.start()
 
 Vue.use(VueRouter)
 Vue.use(MuseUI)
-Vue.use(Snotify, {toast: {position: SnotifyPosition.rightTop}})
+Vue.use(Snotify, { toast: { position: SnotifyPosition.rightTop } })
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -44,7 +44,7 @@ module.exports = {
             ? 'vue-style-loader'
             : MiniCssExtractPlugin.loader,
           'css-loader',
-        ]
+        ],
       },
       {
         test: /\.ts$/,

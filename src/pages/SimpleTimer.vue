@@ -2,7 +2,7 @@
   <div>
     <ad />
     <container title="シンプルタイマー">
-      <vue-snotify/>
+      <vue-snotify />
 
       <mu-card class="config-card">
         <config v-model="config" @soundenable="onSoundenable" />
@@ -22,8 +22,8 @@
       <footer-controller
         :start-disabled="config.invalid || state.counting"
         @stop="stop"
-        @start="start" />
-
+        @start="start"
+      />
     </container>
   </div>
 </template>
@@ -64,26 +64,13 @@ export default Vue.extend({
   },
   data () {
     return {
-      config: {...INITIAL_CONFIG}, // 初期設定をコピー
-      configInUse: {...INITIAL_CONFIG}, // 初期設定をコピー
+      config: { ...INITIAL_CONFIG }, // 初期設定をコピー
+      configInUse: { ...INITIAL_CONFIG }, // 初期設定をコピー
       state: { ...INTIAL_STATE }, // 初期設定をコピー
       soundEffector: new SoundEffector(),
       keyupListener: genListener(() => {}),
       keydownListener: genListener(() => {}),
     }
-  },
-  mounted () {
-    // add event listener
-    this.keyupListener = genListener(this.start)
-    this.keydownListener = genListener(this.stop)
-    document.addEventListener('keyup', this.keyupListener)
-    document.addEventListener('keydown', this.keydownListener)
-  },
-  destroyed () {
-    // remove event listener
-    this.stop()
-    document.removeEventListener('keyup', this.keyupListener)
-    document.removeEventListener('keydown', this.keydownListener)
   },
   computed: {
     isLastPhase (): boolean {
@@ -97,6 +84,19 @@ export default Vue.extend({
     state (newState): void {
       appStateManager.updateState({ state: newState })
     },
+  },
+  mounted () {
+    // add event listener
+    this.keyupListener = genListener(this.start)
+    this.keydownListener = genListener(this.stop)
+    document.addEventListener('keyup', this.keyupListener)
+    document.addEventListener('keydown', this.keydownListener)
+  },
+  destroyed () {
+    // remove event listener
+    this.stop()
+    document.removeEventListener('keyup', this.keyupListener)
+    document.removeEventListener('keydown', this.keydownListener)
   },
   methods: {
     // Events from footer-controller

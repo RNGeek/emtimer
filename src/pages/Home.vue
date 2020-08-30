@@ -3,8 +3,10 @@
     <div class="header">
       <container>
         <div>
-          <img class="logo" alt="Emtimerのロゴ" width="256px" height="256px" src="../img/logo.svg" >
-          <div class="title">Emtimer</div>
+          <img class="logo" alt="Emtimerのロゴ" width="256px" height="256px" src="../img/logo.svg">
+          <div class="title">
+            Emtimer
+          </div>
         </div>
         <div class="description">
           乱数勢のための<br>
@@ -26,7 +28,6 @@
               Adobe Flashを使っておりません. Adobe Flashサポート終了後も安心してお使い頂けます.
             </p>
           </section>
-
         </mu-col>
         <mu-col class="feature" width="100" tablet="100" desktop="33">
           <section>
@@ -42,7 +43,7 @@
             <h2>オープンソース</h2>
             <p>
               このツールのソースコードは <a href="https://github.com/mizdra/emtimer" target="_blank">
-              Github上でオープンソースとして公開</a>されており, どなたでも自由に複製・変更・再配布することができます.
+                Github上でオープンソースとして公開</a>されており, どなたでも自由に複製・変更・再配布することができます.
               Githubの機能を利用すれば作成者に機能追加やバグ修正の要望を送ったり, ユーザ自身が新機能を追加するコードを書き,
               それを本ツールに取り込むよう申請することもできます.
             </p>

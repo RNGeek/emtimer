@@ -14,21 +14,21 @@ module.exports = {
     browser: true,
   },
   // check if imports actually resolve
-  'settings': {
+  settings: {
     'import/resolver': {
-      'webpack': {
-        'config': 'config/webpack.base.conf.js',
+      webpack: {
+        config: 'config/webpack.base.conf.js',
       },
     },
   },
   // add your custom rules here
-  'rules': {
+  rules: {
     'no-undef': 'off',
     'no-unused-vars': 'off',
     'no-use-before-define': 'off',
     'import/extensions': ['error', 'always', {
-      'js': 'never',
-      'ts': 'never',
+      js: 'never',
+      ts: 'never',
       'd.ts': 'never',
     }],
     'object-shorthand': ['off', 'properties'],
@@ -36,5 +36,5 @@ module.exports = {
     'max-len': ['off'],
     'comma-dangle': ['error', 'always-multiline'],
     'vue/max-attributes-per-line': 'off',
-  }
+  },
 }
