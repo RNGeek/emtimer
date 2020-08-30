@@ -95,10 +95,19 @@
  * 変更後の設定にはバリデーションの結果も含まれる.
  */
 
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 import { validationMixin } from 'vuelidate'
 import DurationInput from './DurationInput.vue'
 import { nonBigNumber, integer } from '../lib/rules'
+
+type ComplexValue = {
+  duration: number,
+  waitingDuration: number,
+  cuttedDuration: number,
+  maxLoop: number,
+  infiniteLoop: boolean,
+  soundDuration: number,
+}
 
 export default Vue.extend({
   name: 'Config',
@@ -108,14 +117,8 @@ export default Vue.extend({
   mixins: [validationMixin],
   props: {
     value: {
-      type: Object,
+      type: Object as PropType<ComplexValue>,
       required: true,
-      duration: { type: Number, required: true },
-      waitingDuration: { type: Number, required: true },
-      cuttedDuration: { type: Number, required: true },
-      maxLoop: { type: Number, required: true },
-      infiniteLoop: { type: Boolean, required: true },
-      soundDuration: { type: Number, required: true },
     },
   },
   data () {
