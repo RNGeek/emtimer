@@ -1,8 +1,8 @@
 const { resolve } = require('path')
 
 const rootPath = resolve(__dirname, '.')
-const srcPath = resolve(__dirname, 'src/server')
-const distPath = resolve(__dirname, 'dist/server')
+const srcPath = resolve(__dirname, 'src/serverless')
+const distPath = resolve(__dirname, 'dist/serverless')
 
 module.exports = (env, argv) => ({
   entry: {
@@ -22,7 +22,7 @@ module.exports = (env, argv) => ({
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
-          configFile: 'tsconfig.server.json',
+          configFile: 'tsconfig.serverless.json',
         },
         include: [srcPath],
       },

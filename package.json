@@ -6,15 +6,15 @@
   "private": true,
   "repository": "RNGeek/emtimer",
   "scripts": {
-    "dev": "run-p dev:app dev:server",
-    "dev:app": "webpack-dev-server --mode development --config webpack.app.js",
-    "dev:server": "run-p dev:server:webpack dev:server:serve",
-    "dev:server:webpack": "webpack --watch --mode development --config webpack.server.js",
-    "dev:server:serve": "netlify-lambda serve . --static",
+    "dev": "run-p dev:frontend dev:serverless",
+    "dev:frontend": "webpack-dev-server --mode development --config webpack.frontend.js",
+    "dev:serverless": "run-p dev:serverless:webpack dev:serverless:serve",
+    "dev:serverless:webpack": "webpack --watch --mode development --config webpack.serverless.js",
+    "dev:serverless:serve": "netlify-lambda serve . --static",
     "lint": "eslint --ext .js,.vue,.ts .",
-    "build": "run-s build:app build:server",
-    "build:app": "webpack --mode production --config webpack.app.js",
-    "build:server": "webpack --mode production --config webpack.server.js",
+    "build": "run-s build:frontend build:serverless",
+    "build:frontend": "webpack --mode production --config webpack.frontend.js",
+    "build:serverless": "webpack --mode production --config webpack.serverless.js",
     "prebuild": "run-s lint"
   },
   "dependencies": {
