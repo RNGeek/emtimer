@@ -2,11 +2,10 @@
 // https://jp.vuejs.org/v2/guide/typescript.html
 // https://github.com/mizdra/ts-skeleton/blob/e5f2149613eecf1d65336878dabdbb644e467cbf/tsconfig.json
 {
-  "extends": "./tsconfig.base.json",
-  "include": ["src/serverless/**/*"],
+  "include": ["src/frontend/**/*"],
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
-    "lib": ["esnext"],
+    "module": "es2015",
+    "lib": ["esnext", "dom"],
   },
 }

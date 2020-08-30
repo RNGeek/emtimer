@@ -69,6 +69,7 @@ module.exports = (env, argv) => ({
         test: /\.ts$/,
         loader: 'ts-loader',
         options: {
+          configFile: 'tsconfig.frontend.json',
           appendTsSuffixTo: [/\.vue$/],
         },
         include: [srcPath],
