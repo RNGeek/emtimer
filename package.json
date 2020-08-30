@@ -9,7 +9,7 @@
     "dev": "webpack-dev-server --config config/webpack.dev.conf.js",
     "lint": "eslint --ext .js,.vue,.ts .",
     "test": "cross-env NODE_ENV=test mocha-webpack --webpack-config config/webpack.dev.conf.js test/**/*.spec.ts",
-    "build": "node config/build.js",
+    "build": "webpack --config config/webpack.prod.conf.js",
     "prebuild": "run-s lint test"
   },
   "dependencies": {
