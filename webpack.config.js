@@ -54,7 +54,7 @@ module.exports = (env, argv) => ({
         test: /\.css$/,
         // ref: https://vue-loader.vuejs.org/guide/extract-css.html#webpack-4
         use: [
-          process.env.NODE_ENV !== 'production'
+          argv.mode !== 'production'
             ? 'vue-style-loader'
             : MiniCssExtractPlugin.loader,
           'css-loader',
