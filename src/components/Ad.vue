@@ -40,7 +40,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .paper {
   margin: 30px 0;
 }

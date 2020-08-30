@@ -52,12 +52,13 @@ module.exports = (env, argv) => ({
         },
       },
       {
-        test: /\.css$/,
+        test: /\.(css|postcss)$/,
         // ref: https://vue-loader.vuejs.org/guide/extract-css.html#webpack-4
         use: [
           argv.mode !== 'production'
             ? 'vue-style-loader'
             : MiniCssExtractPlugin.loader,
+          'style-loader',
           'css-loader',
           'postcss-loader',
         ],

@@ -61,7 +61,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 :root {
   --circle-size: 50px;
 }

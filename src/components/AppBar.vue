@@ -58,7 +58,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .mu-appbar {
   background-color: #009688;
 }

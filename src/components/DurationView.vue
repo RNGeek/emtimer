@@ -41,7 +41,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 .view {
   text-align: center;
 }

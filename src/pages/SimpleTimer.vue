@@ -168,7 +168,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 body {
   margin-bottom: 56px;
 }
