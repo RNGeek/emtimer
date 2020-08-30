@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^3.10.1",
-    "autoprefixer": "^7.1.3",
+    "autoprefixer": "^9.8.6",
     "copy-webpack-plugin": "^6.0.4",
     "css-loader": "^4.2.2",
     "eslint": "^7.7.0",
@@ -42,6 +42,8 @@
     "mini-css-extract-plugin": "^0.11.0",
     "npm-run-all": "^4.1.2",
     "postcss-cssnext": "^3.1.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
     "sw-precache-webpack-plugin": "^1.0.0",
     "ts-loader": "^8.0.3",
     "url-loader": "^4.1.0",
@@ -56,10 +58,5 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
-  },
-  "browserlist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  }
 }

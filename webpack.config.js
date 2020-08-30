@@ -59,6 +59,7 @@ module.exports = (env, argv) => ({
             ? 'vue-style-loader'
             : MiniCssExtractPlugin.loader,
           'css-loader',
+          'postcss-loader',
         ],
       },
       {
