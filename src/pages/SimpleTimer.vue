@@ -155,12 +155,14 @@ export default Vue.extend({
       this.soundEffector.muted = !isSoundEnabled
     },
     soundTicktack (): void {
-      this.soundEffector.playTicktack().catch(() => {
+      this.soundEffector.playTicktack().catch((e) => {
+        console.error(e)
         this.$snotify.error('秒針の音の再生に失敗しました.', 'Error!')
       })
     },
     soundEnded (): void {
-      this.soundEffector.playEnded().catch(() => {
+      this.soundEffector.playEnded().catch((e) => {
+        console.error(e)
         this.$snotify.error('停止音の再生に失敗しました.', 'Error!')
       })
     },
