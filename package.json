@@ -6,7 +6,7 @@
   "private": true,
   "repository": "RNGeek/emtimer",
   "scripts": {
-    "dev": "node config/dev.js",
+    "dev": "webpack-dev-server --config config/webpack.dev.conf.js",
     "lint": "eslint --ext .js,.vue,.ts .",
     "test": "cross-env NODE_ENV=test mocha-webpack --webpack-config config/webpack.dev.conf.js test/**/*.spec.ts",
     "build": "node config/build.js",
