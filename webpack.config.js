@@ -11,8 +11,8 @@ const { execSync } = require('child_process')
 const rootPath = resolve(__dirname, '.')
 const libPath = resolve(__dirname, 'lib')
 const staticPath = resolve(__dirname, 'static')
-const srcPath = resolve(__dirname, 'src')
-const distPath = resolve(__dirname, 'dist')
+const srcPath = resolve(__dirname, 'src/app')
+const distPath = resolve(__dirname, 'dist/app')
 
 const revisionId = execSync('git rev-parse --short HEAD').toString().trim()
 
