@@ -8,9 +8,11 @@ const bigqueryClient = new BigQuery({
 const dataset = bigqueryClient.dataset('user_dataset')
 const table = dataset.table('memory_measurement')
 
-async function insertMemoryMeasurement (data: string) {
+async function insertMemoryMeasurement (data: any) {
   return new Promise((resolve, reject) => {
-    table.insert(data, (err, apiResponse) => {
+    table.insert([{
+      json: data,
+    }], (err, apiResponse) => {
       if (err) {
         return reject(err)
       }
@@ -33,7 +35,7 @@ export const handler: APIGatewayProxyHandler = async (
   }
   const data = JSON.parse(event.body)
   console.log(data)
-  await insertMemoryMeasurement(event.body)
+  await insertMemoryMeasurement(data)
   return {
     statusCode: 200,
     body: 'success',
