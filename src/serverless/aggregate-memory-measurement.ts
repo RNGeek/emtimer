@@ -2,7 +2,10 @@ import { APIGatewayProxyHandler } from 'aws-lambda'
 import { BigQuery } from '@google-cloud/bigquery'
 
 const bigqueryClient = new BigQuery({
-  credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON ?? '{}'),
+  credentials: {
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: (process.env.GOOGLE_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+  },
   projectId: process.env.GOOGLE_CLOUD_PROJECT,
 })
 const dataset = bigqueryClient.dataset('user_dataset')
