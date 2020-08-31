@@ -112,7 +112,14 @@ class MemoryMeasurementScheduler {
         bowser: this.bower,
         ...appState,
       }
-      console.log(reportEntry) // TODO: send entry
+      console.log('memory-measurement', reportEntry)
+      await fetch('/.netlify/functions/aggregate-memory-measurement', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reportEntry),
+      })
     } catch (error) {
       if (error instanceof DOMException &&
           error.name === 'SecurityError') {

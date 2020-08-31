@@ -6,9 +6,8 @@ const distPath = resolve(__dirname, 'dist/serverless')
 
 module.exports = (env, argv) => ({
   entry: {
-    hello: [
-      resolve(srcPath, './hello.ts'),
-    ],
+    hello: resolve(srcPath, './hello.ts'),
+    'aggregate-memory-measurement': resolve(srcPath, 'aggregate-memory-measurement.ts'),
   },
   output: {
     path: distPath,
