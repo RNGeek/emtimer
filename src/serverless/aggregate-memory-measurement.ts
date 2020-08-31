@@ -10,10 +10,9 @@ const table = dataset.table('memory_measurement')
 
 async function insertMemoryMeasurement (data: any) {
   return new Promise((resolve, reject) => {
-    table.insert([{
-      json: data,
-    }], (err, apiResponse) => {
+    table.insert([data], (err, apiResponse) => {
       if (err) {
+        console.log(JSON.stringify(err))
         return reject(err)
       }
       resolve(apiResponse)
