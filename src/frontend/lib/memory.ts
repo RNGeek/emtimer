@@ -32,7 +32,7 @@ type EeportEntry = {
   // この id が無いと entry を紐付けて測定結果を分析することが困難なため、entry に含めている。
   contextId: string,
   // entry が生成された時刻
-  timestamp: number,
+  timestamp: string,
   // context が生まれてからの経過時間
   elapsedTimeSinceContextCreated: number,
   // メモリ使用量
@@ -101,13 +101,13 @@ class MemoryMeasurementScheduler {
       // 呼び出した 10 秒後にGCを実行し、Promise が resolve される実装になっている。
       const memoryMeasurement = await performance.measureMemory()
       const appState = appStateManager.getCurrentState()
-      const timestamp = Date.now()
+      const timestamp = new Date()
       const reportEntry: EeportEntry = {
         revisionId: __REVISION_ID__,
         env: process.env.NODE_ENV || 'development',
         contextId: uuidv4(),
-        timestamp: timestamp,
-        elapsedTimeSinceContextCreated: timestamp - this.timeOfContextCreated,
+        timestamp: timestamp.toISOString(),
+        elapsedTimeSinceContextCreated: timestamp.getTime() - this.timeOfContextCreated,
         memoryMeasurement,
         bowser: this.bower,
         ...appState,
