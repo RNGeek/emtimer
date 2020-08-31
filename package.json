@@ -21,6 +21,7 @@
     "prebuild": "run-s typecheck lint"
   },
   "dependencies": {
+    "@google-cloud/bigquery": "^5.2.0",
     "@xkeshi/vue-countdown": "mizdra/vue-countdown",
     "bowser": "^2.10.0",
     "keycode": "^2.1.9",
