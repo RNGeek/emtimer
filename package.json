@@ -24,6 +24,7 @@
     "@google-cloud/bigquery": "^5.2.0",
     "@xkeshi/vue-countdown": "mizdra/vue-countdown",
     "bowser": "^2.10.0",
+    "dotenv": "^8.2.0",
     "keycode": "^2.1.9",
     "muse-ui": "^2.1.0",
     "tslib": "^1.8.1",

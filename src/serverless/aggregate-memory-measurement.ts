@@ -1,5 +1,8 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'
 import { BigQuery } from '@google-cloud/bigquery'
+import { config } from 'dotenv'
+
+config({ debug: process.env.NODE_ENV !== 'production' }) // load `/.env`
 
 const bigqueryClient = new BigQuery({
   credentials: {
