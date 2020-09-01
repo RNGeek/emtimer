@@ -42,7 +42,7 @@ type EeportEntry = {
 } & AppState // アプリケーションの状態
 
 function measurementInterval () {
-  const MEAN_INTERVAL_IN_MS = 1 * 60 * 1000 // 5 分
+  const MEAN_INTERVAL_IN_MS = 5 * 60 * 1000 // 5 分
   return -Math.log(Math.random()) * MEAN_INTERVAL_IN_MS
 }
 
