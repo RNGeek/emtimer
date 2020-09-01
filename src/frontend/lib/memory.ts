@@ -27,12 +27,16 @@ type EeportEntry = {
   revisionId: string,
   // process.env.NODE_ENV
   env: string,
+  // location.origin
+  origin: string,
+  // location.pathname
+  pathname: string,
   // context ごとにユニークな id。
   // ここでの context とは、ページにアクセスしてから unload イベントが発行されドキュメントのインスタンスが破棄されるまでの期間を指している。
   // この id が無いと entry を紐付けて測定結果を分析することが困難なため、entry に含めている。
   contextId: string,
   // entry が生成された時刻
-  timestamp: number,
+  timestamp: string,
   // context が生まれてからの経過時間
   elapsedTimeSinceContextCreated: number,
   // メモリ使用量
@@ -42,7 +46,7 @@ type EeportEntry = {
 } & AppState // アプリケーションの状態
 
 function measurementInterval () {
-  const MEAN_INTERVAL_IN_MS = 1 * 60 * 1000 // 5 分
+  const MEAN_INTERVAL_IN_MS = 5 * 60 * 1000 // 5 分
   return -Math.log(Math.random()) * MEAN_INTERVAL_IN_MS
 }
 
@@ -101,18 +105,27 @@ class MemoryMeasurementScheduler {
       // 呼び出した 10 秒後にGCを実行し、Promise が resolve される実装になっている。
       const memoryMeasurement = await performance.measureMemory()
       const appState = appStateManager.getCurrentState()
-      const timestamp = Date.now()
+      const timestamp = new Date()
       const reportEntry: EeportEntry = {
         revisionId: __REVISION_ID__,
         env: process.env.NODE_ENV || 'development',
+        origin: location.origin,
+        pathname: location.pathname,
         contextId: uuidv4(),
-        timestamp: timestamp,
-        elapsedTimeSinceContextCreated: timestamp - this.timeOfContextCreated,
+        timestamp: timestamp.toISOString(),
+        elapsedTimeSinceContextCreated: timestamp.getTime() - this.timeOfContextCreated,
         memoryMeasurement,
         bowser: this.bower,
         ...appState,
       }
-      console.log(reportEntry) // TODO: send entry
+      console.log('memory-measurement', reportEntry)
+      await fetch('/.netlify/functions/aggregate-memory-measurement', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reportEntry),
+      })
     } catch (error) {
       if (error instanceof DOMException &&
           error.name === 'SecurityError') {

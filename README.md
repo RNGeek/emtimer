@@ -20,6 +20,9 @@ Emtimer is a cowntdown timer, which is simple and high functional.
 # Setup
 $ git clone https://github.com/mizdra/emtimer.git
 $ cd emtimer
+$ cp .example.env .env
+# Edit .env for your environment
+$ vim .env
 $ yarn install
 
 # Start webpack-dev-server

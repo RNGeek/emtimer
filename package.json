@@ -21,8 +21,10 @@
     "prebuild": "run-s typecheck lint"
   },
   "dependencies": {
+    "@google-cloud/bigquery": "^5.2.0",
     "@xkeshi/vue-countdown": "mizdra/vue-countdown",
     "bowser": "^2.10.0",
+    "dotenv": "^8.2.0",
     "keycode": "^2.1.9",
     "muse-ui": "^2.1.0",
     "tslib": "^1.8.1",
@@ -63,7 +65,8 @@
     "vue-template-compiler": "^2.6.12",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-node-externals": "^2.5.2"
   },
   "engines": {
     "node": ">= 4.0.0",

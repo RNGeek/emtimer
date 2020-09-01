@@ -1,0 +1,225 @@
+[
+  {
+    "name": "configInUse",
+    "type": "RECORD",
+    "mode": "REQUIRED",
+    "fields": [
+      {
+        "name": "duration",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "waitingDuration",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "cuttedDuration",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "maxLoop",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "infiniteLoop",
+        "type": "BOOLEAN",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "invalid",
+        "type": "BOOLEAN",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "soundDuration",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      }
+    ]
+  },
+  {
+    "name": "state",
+    "type": "RECORD",
+    "mode": "REQUIRED",
+    "fields": [
+      {
+        "name": "duration",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "coutingTimerId",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "counting",
+        "type": "BOOLEAN",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "loop",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      }
+    ]
+  },
+  {
+    "name": "revisionId",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "env",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "origin",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "pathname",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "contextId",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "elapsedTimeSinceContextCreated",
+    "type": "INTEGER",
+    "mode": "REQUIRED"
+  },
+  {
+    "name": "memoryMeasurement",
+    "type": "RECORD",
+    "mode": "REQUIRED",
+    "fields": [
+      {
+        "name": "bytes",
+        "type": "INTEGER",
+        "mode": "REQUIRED"
+      },
+      {
+        "name": "breakdown",
+        "type": "RECORD",
+        "mode": "REPEATED",
+        "fields": [
+          {
+            "name": "bytes",
+            "type": "INTEGER",
+            "mode": "REQUIRED"
+          },
+          {
+            "name": "attribution",
+            "type": "STRING",
+            "mode": "REPEATED"
+          },
+          {
+            "name": "userAgentSpecificTypes",
+            "type": "STRING",
+            "mode": "REPEATED"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "bowser",
+    "type": "RECORD",
+    "mode": "REQUIRED",
+    "fields": [
+      {
+        "name": "browser",
+        "type": "RECORD",
+        "mode": "REQUIRED",
+        "fields": [
+          {
+            "name": "name",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          },
+          {
+            "name": "version",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          }
+        ]
+      },
+      {
+        "name": "os",
+        "type": "RECORD",
+        "mode": "REQUIRED",
+        "fields": [
+          {
+            "name": "versionName",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          },
+          {
+            "name": "name",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          },
+          {
+            "name": "version",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          }
+        ]
+      },
+      {
+        "name": "platform",
+        "type": "RECORD",
+        "mode": "REQUIRED",
+        "fields": [
+          {
+            "name": "type",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          },
+          {
+            "name": "vendor",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          },
+          {
+            "name": "model",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          }
+        ]
+      },
+      {
+        "name": "engine",
+        "type": "RECORD",
+        "mode": "REQUIRED",
+        "fields": [
+          {
+            "name": "name",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          },
+          {
+            "name": "version",
+            "type": "STRING",
+            "mode": "NULLABLE"
+          }
+        ]
+      }
+    ]
+  }
+]
