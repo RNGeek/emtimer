@@ -27,6 +27,10 @@ type EeportEntry = {
   revisionId: string,
   // process.env.NODE_ENV
   env: string,
+  // location.origin
+  origin: string,
+  // location.pathname
+  pathname: string,
   // context ごとにユニークな id。
   // ここでの context とは、ページにアクセスしてから unload イベントが発行されドキュメントのインスタンスが破棄されるまでの期間を指している。
   // この id が無いと entry を紐付けて測定結果を分析することが困難なため、entry に含めている。
@@ -105,6 +109,8 @@ class MemoryMeasurementScheduler {
       const reportEntry: EeportEntry = {
         revisionId: __REVISION_ID__,
         env: process.env.NODE_ENV || 'development',
+        origin: location.origin,
+        pathname: location.pathname,
         contextId: uuidv4(),
         timestamp: timestamp.toISOString(),
         elapsedTimeSinceContextCreated: timestamp.getTime() - this.timeOfContextCreated,
