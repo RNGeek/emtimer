@@ -78,13 +78,21 @@ export default Vue.extend({
   watch: {
     configInUse: {
       handler (newConfigInUse): void {
-        appStateManager.updateState({ configInUse: newConfigInUse })
+        appStateManager.updateState({
+          // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
+          // これでは集計上不都合なので、pure なオブジェクトに変換してから渡すようにしている。
+          configInUse: JSON.parse(JSON.stringify(newConfigInUse)),
+        })
       },
       deep: true,
     },
     state: {
       handler (newState): void {
-        appStateManager.updateState({ state: newState })
+        appStateManager.updateState({
+          // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
+          // これでは集計上不都合なので、pure なオブジェクトに変換してから渡すようにしている。
+          state: JSON.parse(JSON.stringify(newState)),
+        })
       },
       deep: true,
     },
