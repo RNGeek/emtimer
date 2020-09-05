@@ -76,7 +76,9 @@ class AppStateManager {
   }
 
   updateState (newState: DeepPartial<AppState>) {
-    this.currentState = {
+    // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
+    // これでは集計上不都合なので、ここで一度 pure なオブジェクトに変換している。
+    this.currentState = JSON.parse(JSON.stringify({
       configInUse: {
         ...this.currentState.configInUse,
         ...newState.configInUse,
@@ -89,7 +91,7 @@ class AppStateManager {
       },
       countdownId: newState.countdownId ?? this.currentState.countdownId,
       count: newState.count ?? this.currentState.count,
-    }
+    }))
   }
 
   getCurrentState (): AppState {
