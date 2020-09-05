@@ -18,6 +18,8 @@ export const INTIAL_STATE = {
   loop: 0,
 }
 
+export const INITIAL_COUNT = INTIAL_STATE.duration
+
 type DeepPartial < T > = {
   [P in keyof T]?: DeepPartial<T[P]>;
 }
@@ -53,6 +55,7 @@ function measurementInterval () {
 type AppState = {
   configInUse: typeof INITIAL_CONFIG,
   state: typeof INTIAL_STATE;
+  count: typeof INITIAL_COUNT;
 }
 
 // メモリの測定結果と合わせて送信したいアプリケーションの状態を管理するクラス
@@ -62,6 +65,7 @@ class AppStateManager {
     this.currentState = {
       configInUse: { ...INITIAL_CONFIG },
       state: { ...INTIAL_STATE },
+      count: INITIAL_COUNT,
     }
   }
 
@@ -75,6 +79,7 @@ class AppStateManager {
         ...this.currentState.state,
         ...newState.state,
       },
+      count: newState.count ?? this.currentState.count,
     }
   }
 

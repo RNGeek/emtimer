@@ -15,6 +15,7 @@
           :counting="state.counting"
           :duration="state.duration"
           @ticktack="onTicktack"
+          @countdownprogress="onCountdownprogress"
           @countdownend="onCountdownEnd"
         />
       </div>
@@ -76,11 +77,25 @@ export default Vue.extend({
     },
   },
   watch: {
-    configInUse (newConfigInUse): void {
-      appStateManager.updateState({ configInUse: newConfigInUse })
+    configInUse: {
+      handler (newConfigInUse): void {
+        appStateManager.updateState({
+          // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
+          // これでは集計上不都合なので、pure なオブジェクトに変換してから渡すようにしている。
+          configInUse: JSON.parse(JSON.stringify(newConfigInUse)),
+        })
+      },
+      deep: true,
     },
-    state (newState): void {
-      appStateManager.updateState({ state: newState })
+    state: {
+      handler (newState): void {
+        appStateManager.updateState({
+          // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
+          // これでは集計上不都合なので、pure なオブジェクトに変換してから渡すようにしている。
+          state: JSON.parse(JSON.stringify(newState)),
+        })
+      },
+      deep: true,
     },
   },
   mounted () {
@@ -125,6 +140,11 @@ export default Vue.extend({
       if (now <= this.configInUse.soundDuration) {
         this.soundTicktack()
       }
+    },
+    onCountdownprogress (count): void {
+      appStateManager.updateState({
+        count,
+      })
     },
     onCountdownEnd (): void {
       this.state.counting = false
