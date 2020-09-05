@@ -80,6 +80,8 @@ class AppStateManager {
       configInUse: {
         ...this.currentState.configInUse,
         ...newState.configInUse,
+        // Infinity は JSON に変換できないので -1 として扱う
+        maxLoop: newState.configInUse?.maxLoop === Infinity ? -1 : (newState.configInUse?.maxLoop ?? this.currentState.configInUse.maxLoop),
       },
       state: {
         ...this.currentState.state,
