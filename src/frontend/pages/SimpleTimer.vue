@@ -76,11 +76,17 @@ export default Vue.extend({
     },
   },
   watch: {
-    configInUse (newConfigInUse): void {
-      appStateManager.updateState({ configInUse: newConfigInUse })
+    configInUse: {
+      handler (newConfigInUse): void {
+        appStateManager.updateState({ configInUse: newConfigInUse })
+      },
+      deep: true,
     },
-    state (newState): void {
-      appStateManager.updateState({ state: newState })
+    state: {
+      handler (newState): void {
+        appStateManager.updateState({ state: newState })
+      },
+      deep: true,
     },
   },
   mounted () {
