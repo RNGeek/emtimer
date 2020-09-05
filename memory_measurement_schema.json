@@ -38,6 +38,11 @@
         "name": "soundDuration",
         "type": "INTEGER",
         "mode": "REQUIRED"
+      },
+      {
+        "name": "sound",
+        "type": "BOOLEAN",
+        "mode": "REQUIRED"
       }
     ]
   },

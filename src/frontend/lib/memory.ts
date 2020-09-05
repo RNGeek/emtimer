@@ -9,6 +9,7 @@ export const INITIAL_CONFIG = {
   infiniteLoop: false,
   invalid: false,
   soundDuration: 10 * 1000,
+  sound: false,
 }
 
 export const INTIAL_STATE = {
