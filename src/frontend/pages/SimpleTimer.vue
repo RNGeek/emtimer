@@ -15,6 +15,7 @@
           :counting="state.counting"
           :duration="state.duration"
           @ticktack="onTicktack"
+          @countdownprogress="onCountdownprogress"
           @countdownend="onCountdownEnd"
         />
       </div>
@@ -139,6 +140,11 @@ export default Vue.extend({
       if (now <= this.configInUse.soundDuration) {
         this.soundTicktack()
       }
+    },
+    onCountdownprogress (count): void {
+      appStateManager.updateState({
+        count,
+      })
     },
     onCountdownEnd (): void {
       this.state.counting = false
