@@ -69,6 +69,11 @@
     ]
   },
   {
+    "name": "count",
+    "type": "INTEGER",
+    "mode": "REQUIRED"
+  },
+  {
     "name": "revisionId",
     "type": "STRING",
     "mode": "REQUIRED"
