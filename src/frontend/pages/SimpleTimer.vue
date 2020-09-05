@@ -81,9 +81,7 @@ export default Vue.extend({
     configInUse: {
       handler (newConfigInUse): void {
         appStateManager.updateState({
-          // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
-          // これでは集計上不都合なので、pure なオブジェクトに変換してから渡すようにしている。
-          configInUse: JSON.parse(JSON.stringify(newConfigInUse)),
+          configInUse: newConfigInUse,
         })
       },
       deep: true,
@@ -91,9 +89,7 @@ export default Vue.extend({
     state: {
       handler (newState): void {
         appStateManager.updateState({
-          // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
-          // これでは集計上不都合なので、pure なオブジェクトに変換してから渡すようにしている。
-          state: JSON.parse(JSON.stringify(newState)),
+          state: newState,
         })
       },
       deep: true,
@@ -144,9 +140,7 @@ export default Vue.extend({
       }
     },
     onCountdownprogress (count): void {
-      appStateManager.updateState({
-        count,
-      })
+      appStateManager.updateState({ count })
     },
     onCountdownEnd (): void {
       this.state.counting = false

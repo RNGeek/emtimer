@@ -76,10 +76,14 @@ class AppStateManager {
   }
 
   updateState (newState: DeepPartial<AppState>) {
-    this.currentState = {
+    // NOTE: Vue の data は getter を使って構成されているので、プロパティにアクセスするタイミングによって値が変わってしまう。
+    // これでは集計上不都合なので、ここで一度 pure なオブジェクトに変換している。
+    this.currentState = JSON.parse(JSON.stringify({
       configInUse: {
         ...this.currentState.configInUse,
         ...newState.configInUse,
+        // Infinity は JSON に変換できないので -1 として扱う
+        maxLoop: newState.configInUse?.maxLoop === Infinity ? -1 : (newState.configInUse?.maxLoop ?? this.currentState.configInUse.maxLoop),
       },
       state: {
         ...this.currentState.state,
@@ -87,7 +91,7 @@ class AppStateManager {
       },
       countdownId: newState.countdownId ?? this.currentState.countdownId,
       count: newState.count ?? this.currentState.count,
-    }
+    }))
   }
 
   getCurrentState (): AppState {
@@ -160,7 +164,7 @@ class MemoryMeasurementScheduler {
 
     const scheduleMeasurement = () => {
       const interval = measurementInterval()
-      console.log('Scheduling memory measurement in ' + Math.round(interval / 1000) + ' seconds.')
+      console.log(`Scheduling memory measurement in ${Math.round(interval / 1000)} seconds (${new Date(Date.now() + interval).toLocaleString()}).`)
       window.setTimeout(() => {
         this.measureAndReportMemory()
         scheduleMeasurement()
