@@ -100,6 +100,7 @@ class AppStateManager {
 }
 
 export const appStateManager = new AppStateManager()
+const CONTEXT_ID = uuidv4()
 
 class MemoryMeasurementScheduler {
   appStateManager: AppStateManager;
@@ -127,7 +128,7 @@ class MemoryMeasurementScheduler {
         env: process.env.NODE_ENV || 'development',
         origin: location.origin,
         pathname: location.pathname,
-        contextId: uuidv4(),
+        contextId: CONTEXT_ID,
         timestamp: timestamp.toISOString(),
         elapsedTimeSinceContextCreated: timestamp.getTime() - this.timeOfContextCreated,
         memoryMeasurement,
