@@ -164,7 +164,7 @@ class MemoryMeasurementScheduler {
 
     const scheduleMeasurement = () => {
       const interval = measurementInterval()
-      console.log('Scheduling memory measurement in ' + Math.round(interval / 1000) + ' seconds.')
+      console.log(`Scheduling memory measurement in ${Math.round(interval / 1000)} seconds (${new Date(Date.now() + interval).toLocaleString()}).`)
       window.setTimeout(() => {
         this.measureAndReportMemory()
         scheduleMeasurement()
