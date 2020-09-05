@@ -74,6 +74,11 @@
     "mode": "REQUIRED"
   },
   {
+    "name": "countdownId",
+    "type": "STRING",
+    "mode": "REQUIRED"
+  },
+  {
     "name": "revisionId",
     "type": "STRING",
     "mode": "REQUIRED"
