@@ -55,7 +55,11 @@ function measurementInterval () {
 type AppState = {
   configInUse: typeof INITIAL_CONFIG,
   state: typeof INTIAL_STATE;
+  // カウントダウンタイマーの残り時間
   count: typeof INITIAL_COUNT;
+  // カウントダウン開始時に毎回生成される uuid
+  // 1回目のカウントダウンと2回目のカウントダウンの entry を区別するために用いられる。
+  countdownId: string;
 }
 
 // メモリの測定結果と合わせて送信したいアプリケーションの状態を管理するクラス
@@ -66,6 +70,7 @@ class AppStateManager {
       configInUse: { ...INITIAL_CONFIG },
       state: { ...INTIAL_STATE },
       count: INITIAL_COUNT,
+      countdownId: uuidv4(),
     }
   }
 
@@ -79,6 +84,7 @@ class AppStateManager {
         ...this.currentState.state,
         ...newState.state,
       },
+      countdownId: newState.countdownId ?? this.currentState.countdownId,
       count: newState.count ?? this.currentState.count,
     }
   }
