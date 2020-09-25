@@ -11,7 +11,10 @@ import router from './router'
 import App from './App.vue'
 import { memoryMeasurementScheduler } from './lib/memory'
 
-memoryMeasurementScheduler.start()
+// 全ユーザのメモリ使用量を集計してしまうと、データが大量に送信されてしまい、
+// Netlify Functions の無料枠を食いつぶしてしまうので、30% のセッションを対象に
+// メモリ集計を ON にする
+if (Math.random() < 0.3) memoryMeasurementScheduler.start()
 
 Vue.use(VueRouter)
 Vue.use(MuseUI)
