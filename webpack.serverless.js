@@ -9,7 +9,8 @@ module.exports = (env, argv) => ({
   target: 'node',
   externals: [nodeExternals()],
   entry: {
-    'aggregate-memory-measurement': resolve(srcPath, 'aggregate-memory-measurement.ts'),
+    // Netlify Functions の quota を食いつぶしそうなので一時的に rename している
+    '_aggregate-memory-measurement': resolve(srcPath, 'aggregate-memory-measurement.ts'),
   },
   output: {
     path: distPath,
