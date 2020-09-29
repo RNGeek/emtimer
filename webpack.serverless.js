@@ -9,7 +9,7 @@ module.exports = (env, argv) => ({
   target: 'node',
   externals: [nodeExternals()],
   entry: {
-    'aggregate-memory-measurement': resolve(srcPath, 'aggregate-memory-measurement.ts'),
+    '_aggregate-memory-measurement': resolve(srcPath, '_aggregate-memory-measurement.ts'),
   },
   output: {
     path: distPath,
