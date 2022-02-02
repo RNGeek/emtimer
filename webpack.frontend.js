@@ -32,7 +32,9 @@ module.exports = (env, argv) => ({
   devtool: argv.mode === 'development' ? 'inline-source-map' : false,
 
   devServer: {
-    contentBase: distPath,
+    static: {
+      directory: distPath,
+    },
     historyApiFallback: true,
     proxy: {
       '/.netlify': {
