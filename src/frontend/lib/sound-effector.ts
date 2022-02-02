@@ -32,6 +32,13 @@ export default class SoundEffector {
 
   playTicktack (): Promise<void> {
     if (this.muted) return Promise.resolve()
+    // オーディオの再生が完了すると、通常 `HTMLAudioElement.prototype.currentTime` が 0 に戻るはずであるが、
+    // ブラウザによってはタイミング攻撃対策で `HTMLAudioElement.prototype.currentTime` が 0 に誤差を加えた値になる。
+    // その結果、音源ファイルの再生が途中から始まり、チクタク音が聞こえないことがある。
+    // ref: https://developer.mozilla.org/ja/docs/Web/API/HTMLMediaElement/currentTime#reduced_time_precision
+    //
+    // そこでここでは load を呼び出し、再生を開始する前に `HTMLAudioElement.prototype.currentTime` を強制的に 0 に戻している。
+    this.ticitack.load()
     // MS Edgeは `HTMLAudioElement.prototype.play` で
     // Promiseを返さないので無理やりPromise化する
     return promisify(this.ticitack.play())
@@ -39,6 +46,7 @@ export default class SoundEffector {
 
   playEnded (): Promise<void> {
     if (this.muted) return Promise.resolve()
+    this.ended.load()
     // MS Edgeは `HTMLAudioElement.prototype.play` で
     // Promiseを返さないので無理やりPromise化する
     return promisify(this.ended.play())
