@@ -4,6 +4,8 @@
       <mu-flexbox-item>
         <mu-text-field
           v-model.number="stateNumber"
+          type="number"
+          min="0"
           hint-text="0"
           :error-text="stateErrorText"
           v-bind="$attrs"

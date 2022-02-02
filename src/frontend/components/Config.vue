@@ -58,6 +58,9 @@
           <mu-col width="100" tablet="50" desktop="50">
             <mu-text-field
               v-model.number="maxLoop"
+              type="number"
+              min="0"
+              max="10000000000"
               full-width
               :error-text="this.$v.maxLoop.$invalid ? '0から10000000000の整数で指定して下さい.' : ''"
               @input="onInput"
