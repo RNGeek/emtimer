@@ -134,6 +134,9 @@ module.exports = (env, argv) => ({
       cacheId: 'emtimer',
       swDest: resolve(distPath, './service-worker.js'),
       exclude: [/_redirects$/],
+      // 一旦巨大なチャンクでもキャッシュできるように上限を引き上げる
+      // TODO: チャンクを分割して上限の上書きをやめる
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
     }),
   ],
 })
