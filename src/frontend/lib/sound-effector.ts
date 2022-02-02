@@ -32,7 +32,7 @@ export default class SoundEffector {
 
   playTicktack (): Promise<void> {
     if (this.muted) return Promise.resolve()
-    this.ticitack.currentTime = 0
+    this.ticitack.load()
     console.log(this.ticitack.currentTime)
     // MS Edgeは `HTMLAudioElement.prototype.play` で
     // Promiseを返さないので無理やりPromise化する
@@ -41,7 +41,7 @@ export default class SoundEffector {
 
   playEnded (): Promise<void> {
     if (this.muted) return Promise.resolve()
-    this.ended.currentTime = 0
+    this.ended.load()
     console.log(this.ended.currentTime)
     // MS Edgeは `HTMLAudioElement.prototype.play` で
     // Promiseを返さないので無理やりPromise化する
