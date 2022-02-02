@@ -3,6 +3,6 @@
   publish = "dist/frontend"
   functions = "dist/serverless"
   [build.environment]
-    NODE_VERSION = "14.5.0"
-    NPM_VERSION = "6.14.5"
-    YARN_VERSION = "1.22.4"
+    NODE_VERSION = "16.13.2"
+    NPM_VERSION = "8.4.0"
+    YARN_VERSION = "1.22.15"
