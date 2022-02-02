@@ -1,6 +1,5 @@
-const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const { GenerateSW } = require('workbox-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -131,10 +130,10 @@ module.exports = (env, argv) => ({
         },
       ],
     }),
-    new SWPrecacheWebpackPlugin({
+    new GenerateSW({
       cacheId: 'emtimer',
-      filename: 'service-worker.js',
-      staticFileGlobsIgnorePatterns: [/_redirects$/],
+      swDest: resolve(distPath, './service-worker.js'),
+      exclude: [/_redirects$/],
     }),
   ],
 })

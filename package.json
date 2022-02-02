@@ -57,7 +57,6 @@
     "npm-run-all": "^4.1.2",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.3.0",
-    "sw-precache-webpack-plugin": "^1.0.0",
     "ts-loader": "^9.2.6",
     "url-loader": "^4.1.1",
     "vue-eslint-parser": "^7.1.0",
@@ -66,7 +65,8 @@
     "webpack": "^5.68.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "workbox-webpack-plugin": "^6.4.2"
   },
   "engines": {
     "node": ">= 4.0.0",
