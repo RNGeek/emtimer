@@ -1,5 +1,4 @@
 import * as Bowser from 'bowser'
-import { v4 as uuidv4 } from 'uuid'
 
 export const INITIAL_CONFIG = {
   duration: 10 * 1000,
@@ -71,7 +70,7 @@ class AppStateManager {
       configInUse: { ...INITIAL_CONFIG },
       state: { ...INTIAL_STATE },
       count: INITIAL_COUNT,
-      countdownId: uuidv4(),
+      countdownId: crypto.randomUUID(),
     }
   }
 
@@ -100,7 +99,7 @@ class AppStateManager {
 }
 
 export const appStateManager = new AppStateManager()
-const CONTEXT_ID = uuidv4()
+const CONTEXT_ID = crypto.randomUUID()
 
 class MemoryMeasurementScheduler {
   appStateManager: AppStateManager;

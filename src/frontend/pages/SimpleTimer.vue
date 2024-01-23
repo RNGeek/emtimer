@@ -42,7 +42,6 @@ import ModeView from '../components/ModeView.vue'
 import SoundEffector from '../lib/sound-effector'
 import 'vue-snotify'
 import { INITIAL_CONFIG, INTIAL_STATE, appStateManager } from '../lib/memory'
-import { v4 as uuidv4 } from 'uuid'
 
 const genListener = (fn: () => void) => (e: KeyboardEvent) => {
   if (e.key === ' ') { // スペースが入力された場合
@@ -119,7 +118,7 @@ export default Vue.extend({
       this.state.counting = true
       this.state.loop = 0
       this.initForTimer0()
-      appStateManager.updateState({ countdownId: uuidv4() })
+      appStateManager.updateState({ countdownId: crypto.randomUUID() })
     },
     stop (): void {
       this.state.counting = false
